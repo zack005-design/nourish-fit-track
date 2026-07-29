@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nutrition &amp; Sleep</string>
+    <string name="home_title_today_summary">Today\'s Summary</string>
+    <string name="home_section_nutrition">Nutrition</string>
+    <string name="home_empty_meals">No meals logged today</string>
+    <string name="home_section_sleep">Sleep</string>
+    <string name="home_empty_sleep">No sleep logged today</string>
+    <string name="home_action_add_food">Add Food</string>
+    <string name="home_action_log_sleep">Log Sleep</string>
+    <string name="home_section_todays_meals">Today\'s Meals</string>
+    <string name="food_log_title">Today\'s Food Log</string>
+    <string name="food_log_empty_title">No entries yet today</string>
+    <string name="food_log_empty_message">Tap + to add your first meal</string>
+    <string name="food_log_add_content_description">Add food</string>
+    <string name="food_log_edit_content_description">Edit</string>
+    <string name="food_log_delete_content_description">Delete</string>
+    <string name="food_entry_add_title">Add Food Entry</string>
+    <string name="food_entry_edit_title">Edit Food Entry</string>
+    <string name="food_entry_back_content_description">Back</string>
+    <string name="food_entry_name_label">Food Name</string>
+    <string name="food_entry_calories_label">Calories</string>
+    <string name="food_entry_protein_label">Protein (g)</string>
+    <string name="food_entry_carbs_label">Carbs (g)</string>
+    <string name="food_entry_fat_label">Fat (g)</string>
+    <string name="food_entry_meal_type_label">Meal Type</string>
+    <string name="food_entry_save_action">Save Entry</string>
+    <string name="sleep_log_title">Sleep Log</string>
+    <string name="sleep_log_empty_title">No sleep entries yet</string>
+    <string name="sleep_log_empty_message">Tap + to log your sleep</string>
+    <string name="sleep_log_add_content_description">Log sleep</string>
+    <string name="sleep_log_edit_content_description">Edit</string>
+    <string name="sleep_log_delete_content_description">Delete</string>
+    <string name="sleep_entry_add_title">Log Sleep</string>
+    <string name="sleep_entry_edit_title">Edit Sleep</string>
+    <string name="sleep_entry_back_content_description">Back</string>
+    <string name="sleep_entry_time_label">Sleep Time</string>
+    <string name="sleep_entry_bedtime_label">Bedtime</string>
+    <string name="sleep_entry_wake_time_label">Wake Time</string>
+    <string name="sleep_entry_notes_label">Notes (optional)</string>
+    <string name="sleep_entry_save_action">Save Sleep Entry</string>
+    <string name="sleep_entry_quality_label">Sleep Quality: %1$d/5</string>
+</resources>
