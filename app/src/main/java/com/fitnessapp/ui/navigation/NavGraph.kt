@@ -210,7 +210,8 @@ fun FitnessNavGraph(
                     foodRepository = foodRepository,
                     waterRepository = waterRepository,
                     sleepRepository = sleepRepository,
-                    settingsRepository = settingsRepository
+                    settingsRepository = settingsRepository,
+                    stepsRepository = stepsRepository
                 )
             }
 

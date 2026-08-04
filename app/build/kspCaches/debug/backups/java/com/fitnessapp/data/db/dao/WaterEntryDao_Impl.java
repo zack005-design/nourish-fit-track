@@ -37,6 +37,8 @@ public final class WaterEntryDao_Impl implements WaterEntryDao {
 
   private final EntityDeletionOrUpdateAdapter<WaterEntry> __updateAdapterOfWaterEntry;
 
+  private final SharedSQLiteStatement __preparedStmtOfDeleteForDateRange;
+
   private final SharedSQLiteStatement __preparedStmtOfClearAll;
 
   public WaterEntryDao_Impl(@NonNull final RoomDatabase __db) {
@@ -87,6 +89,14 @@ public final class WaterEntryDao_Impl implements WaterEntryDao {
         statement.bindLong(5, entity.getId());
       }
     };
+    this.__preparedStmtOfDeleteForDateRange = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM water_entries WHERE dateMillis >= ? AND dateMillis <= ?";
+        return _query;
+      }
+    };
     this.__preparedStmtOfClearAll = new SharedSQLiteStatement(__db) {
       @Override
       @NonNull
@@ -135,6 +145,27 @@ public final class WaterEntryDao_Impl implements WaterEntryDao {
       return _total;
     } finally {
       __db.endTransaction();
+    }
+  }
+
+  @Override
+  public void deleteForDateRange(final long startOfDay, final long endOfDay) {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteForDateRange.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, startOfDay);
+    _argIndex = 2;
+    _stmt.bindLong(_argIndex, endOfDay);
+    try {
+      __db.beginTransaction();
+      try {
+        _stmt.executeUpdateDelete();
+        __db.setTransactionSuccessful();
+      } finally {
+        __db.endTransaction();
+      }
+    } finally {
+      __preparedStmtOfDeleteForDateRange.release(_stmt);
     }
   }
 

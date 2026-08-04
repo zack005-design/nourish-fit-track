@@ -3,10 +3,13 @@ package com.fitnessapp.ui.screens.analytics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.fitnessapp.ai.AiCoachReport
+import com.fitnessapp.ai.HealthIntelligenceEngine
 import com.fitnessapp.data.db.entity.UserGoals
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
+import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.charts.BarChartItem
 import com.fitnessapp.ui.components.charts.DonutSlice
@@ -43,7 +46,8 @@ class AnalyticsViewModel(
     private val foodRepository: FoodRepository,
     private val waterRepository: WaterRepository,
     private val sleepRepository: SleepRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val stepsRepository: StepsRepository
 ) : ViewModel() {
 
     private val _selectedPeriodIndex = MutableStateFlow(0)
@@ -88,7 +92,6 @@ class AnalyticsViewModel(
         val activeFoodDays = recentFood.map { DateUtils.startOfDayMillis(it.dateMillis) }.distinct().size.coerceAtLeast(1)
         val avgCalorieIntake = if (recentFood.isNotEmpty()) totalCaloriesSum / activeFoodDays else 0
 
-        // 7-day daily calorie line points (actual user values per day)
         val todayStart = DateUtils.todayStartMillis()
         val calorieLinePoints = (6 downTo 0).map { daysAgo ->
             val dayStart = DateUtils.startOfDayMillis(todayStart - daysAgo * 24 * 60 * 60 * 1000L)
@@ -116,7 +119,6 @@ class AnalyticsViewModel(
         val activeWaterDays = recentWater.map { DateUtils.startOfDayMillis(it.dateMillis) }.distinct().size.coerceAtLeast(1)
         val avgWaterL = if (recentWater.isNotEmpty()) totalWaterSum / activeWaterDays else 0f
 
-        // 7-day daily water bar items (actual user values)
         val waterBarItems = (6 downTo 0).map { daysAgo ->
             val dayStart = DateUtils.startOfDayMillis(todayStart - daysAgo * 24 * 60 * 60 * 1000L)
             val dayEnd = dayStart + 24 * 60 * 60 * 1000L - 1
@@ -125,7 +127,6 @@ class AnalyticsViewModel(
             BarChartItem(label, dayWaterL)
         }
 
-        // 7-day daily sleep bar items (actual user values)
         val totalSleepHoursSum = recentSleep.sumOf { ((it.endMillis - it.startMillis) / (1000 * 60 * 60f)).toDouble() }.toFloat()
         val activeSleepDays = recentSleep.map { DateUtils.startOfDayMillis(it.dateMillis) }.distinct().size.coerceAtLeast(1)
         val avgSleepHours = if (recentSleep.isNotEmpty()) totalSleepHoursSum / activeSleepDays else 0f
@@ -168,15 +169,43 @@ class AnalyticsViewModel(
         initialValue = AnalyticsUiState()
     )
 
+    // ── AI Coach State (Whoop / Google Health style deep insights) ────────────
+
+    val aiCoachState: StateFlow<AiCoachReport> = combine(
+        foodRepository.getAllEntries(),
+        waterRepository.getAllWaterEntries(),
+        sleepRepository.getAllEntries(),
+        stepsRepository.getAllStepsEntries(),
+        settingsRepository.userGoals
+    ) { foodEntries, waterEntries, sleepEntries, stepsEntries, goals ->
+        val todayStart = DateUtils.todayStartMillis()
+        val todaySteps = stepsEntries.filter { it.dateMillis >= todayStart }
+            .maxByOrNull { it.count }?.count ?: 0
+        HealthIntelligenceEngine.buildReportWithSteps(
+            foodEntries = foodEntries,
+            waterEntries = waterEntries,
+            sleepEntries = sleepEntries,
+            goals = goals,
+            todaySteps = todaySteps
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = AiCoachReport()
+    )
+
     class Factory(
         private val foodRepository: FoodRepository,
         private val waterRepository: WaterRepository,
         private val sleepRepository: SleepRepository,
-        private val settingsRepository: SettingsRepository
+        private val settingsRepository: SettingsRepository,
+        private val stepsRepository: StepsRepository
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AnalyticsViewModel(foodRepository, waterRepository, sleepRepository, settingsRepository) as T
+            return AnalyticsViewModel(
+                foodRepository, waterRepository, sleepRepository, settingsRepository, stepsRepository
+            ) as T
         }
     }
 }

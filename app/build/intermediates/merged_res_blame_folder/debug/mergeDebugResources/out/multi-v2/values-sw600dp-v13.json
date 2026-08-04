@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.fitnessapp-mergeDebugResources-62:/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "com.fitnessapp-mergeDebugResources-64:/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\0f949fa4abfae6b07e9f5b9d4d14cfc7\\transformed\\appcompat-1.1.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
+                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\58b4ee7201048af10aa97731ae83c372\\transformed\\appcompat-1.1.0\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

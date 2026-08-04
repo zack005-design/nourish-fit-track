@@ -40,5 +40,10 @@
     <string name="sleep_log_empty_message">Tap + to log your sleep</string>
     <string name="sleep_log_empty_title">No sleep entries yet</string>
     <string name="sleep_log_title">Sleep Log</string>
-    <style name="Theme.FitnessApp" parent="android:Theme.Material.Light.NoActionBar"/>
+    <style name="Theme.FitnessApp" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#0B0E14</item>
+        <item name="android:colorBackground">#0B0E14</item>
+        <item name="android:statusBarColor">#0B0E14</item>
+        <item name="android:navigationBarColor">#0B0E14</item>
+    </style>
 </resources>

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.fitnessapp-mergeDebugResources-62:/values-is/values-is.xml",
+            "outputFile": "com.fitnessapp-mergeDebugResources-64:/values-is/values-is.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\9b1d92f1e4bef982b3d302b2b5789009\\transformed\\core-1.12.0\\res\\values-is\\values-is.xml",
+                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\b4348aa3e23ea92a09cd48123161dc99\\transformed\\core-1.12.0\\res\\values-is\\values-is.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,41 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\72f627f5cd5596619537c36bb29f5da8\\transformed\\ui-release\\res\\values-is\\values-is.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,196,277,376,475,560,640,735,824,906,974,1042,1120,1203,1273,1350,1418",
-                        "endColumns": "90,80,98,98,84,79,94,88,81,67,67,77,82,69,76,67,119",
-                        "endOffsets": "191,272,371,470,555,635,730,819,901,969,1037,1115,1198,1268,1345,1413,1533"
-                    },
-                    "to": {
-                        "startLines": "36,37,38,39,40,41,42,99,100,101,102,103,104,106,108,109,110",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3496,3587,3668,3767,3866,3951,4031,10201,10290,10372,10440,10508,10586,10749,10920,10997,11065",
-                        "endColumns": "90,80,98,98,84,79,94,88,81,67,67,77,82,69,76,67,119",
-                        "endOffsets": "3582,3663,3762,3861,3946,4026,4121,10285,10367,10435,10503,10581,10664,10814,10992,11060,11180"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\08336da56f033d03d5496519bf01a7a0\\transformed\\foundation-release\\res\\values-is\\values-is.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,142",
-                        "endColumns": "86,86",
-                        "endOffsets": "137,224"
-                    },
-                    "to": {
-                        "startLines": "111,112",
-                        "startColumns": "4,4",
-                        "startOffsets": "11185,11272",
-                        "endColumns": "86,86",
-                        "endOffsets": "11267,11354"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\d3804b92e2be92b1e0b44466e5bc357d\\transformed\\material3-release\\res\\values-is\\values-is.xml",
+                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\cb96f4c4c819e71e4488ae40fead4a61\\transformed\\material3-release\\res\\values-is\\values-is.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -72,7 +38,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\0f949fa4abfae6b07e9f5b9d4d14cfc7\\transformed\\appcompat-1.1.0\\res\\values-is\\values-is.xml",
+                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\b7820f0c0a617f1a3b2c45248068d596\\transformed\\foundation-release\\res\\values-is\\values-is.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,142",
+                        "endColumns": "86,86",
+                        "endOffsets": "137,224"
+                    },
+                    "to": {
+                        "startLines": "111,112",
+                        "startColumns": "4,4",
+                        "startOffsets": "11185,11272",
+                        "endColumns": "86,86",
+                        "endOffsets": "11267,11354"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\eae44f3c2a227493538f6365334406a2\\transformed\\ui-release\\res\\values-is\\values-is.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,196,277,376,475,560,640,735,824,906,974,1042,1120,1203,1273,1350,1418",
+                        "endColumns": "90,80,98,98,84,79,94,88,81,67,67,77,82,69,76,67,119",
+                        "endOffsets": "191,272,371,470,555,635,730,819,901,969,1037,1115,1198,1268,1345,1413,1533"
+                    },
+                    "to": {
+                        "startLines": "36,37,38,39,40,41,42,99,100,101,102,103,104,106,108,109,110",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3496,3587,3668,3767,3866,3951,4031,10201,10290,10372,10440,10508,10586,10749,10920,10997,11065",
+                        "endColumns": "90,80,98,98,84,79,94,88,81,67,67,77,82,69,76,67,119",
+                        "endOffsets": "3582,3663,3762,3861,3946,4026,4121,10285,10367,10435,10503,10581,10664,10814,10992,11060,11180"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\58b4ee7201048af10aa97731ae83c372\\transformed\\appcompat-1.1.0\\res\\values-is\\values-is.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

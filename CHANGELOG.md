@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.7] - 2026-08-04
+
+- **AI Coach Tab**: Added "AI Coach" segment in Analytics screen (4th tab with AutoAwesome icon), powered by `HealthIntelligenceEngine` — a Whoop/Google Health-style on-device analytics engine.
+- **Daily Wellness Score**: Full 0–100 wellness ring with Nutrition, Hydration, Sleep, and Activity sub-scores and yesterday delta indicator.
+- **Personalized Insight Cards**: Up to 8 contextual, severity-color-coded insight cards (CRITICAL/WARNING/POSITIVE/INFO) covering sleep debt, protein gaps, hydration streaks, calorie surplus, and fiber deficiency.
+- **Today's Action Plan**: 3 prioritized, concrete action items computed from current day metrics.
+- **7-Day AI Summary**: Paragraph-length weekly analysis mirroring Google Health's weekly digest.
+- **AnalyticsViewModel**: Added `aiCoachState: StateFlow<AiCoachReport>` combining all repositories (food, water, sleep, steps, settings).
+
 ## [1.1.6] - 2026-08-04
 
 - **Animated Splash Screen**: Implemented brand dark theme (`#0B0E14` window background in `themes.xml`) and Jetpack Compose animated splash screen (`SplashScreen.kt`) with glowing pulse emblem, title entrance, and smooth 1.2-second transition into `HomeScreen`.
