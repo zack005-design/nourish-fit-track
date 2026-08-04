@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- Internet (needed for barcode lookup & network features) -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -103,6 +104,20 @@
             android:name="com.fitnessapp.util.ReminderReceiver"
             android:exported="false" />
 
+        <!-- Auto-start Step Tracking Service on device boot -->
+        <receiver
+            android:name="com.fitnessapp.service.BootCompletedReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Hardware Step Counter Foreground Service -->
+        <service
+            android:name="com.fitnessapp.service.StepTrackingService"
+            android:enabled="true"
+            android:exported="false" />
         <service
             android:name="androidx.health.platform.client.impl.sdkservice.HealthDataSdkService"
             android:enabled="true"

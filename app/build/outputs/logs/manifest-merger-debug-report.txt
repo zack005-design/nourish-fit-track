@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-87:12
-INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-87:12
-INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-87:12
-INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-87:12
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-103:12
+INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-103:12
+INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-103:12
+INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:2:1-103:12
 MERGED from [androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.camera:camera-video:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\a760f72556323da04362f372b9ae1c3a\transformed\camera-video-1.4.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.camera:camera-view:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4b3128871f1d517d7ed114121200200\transformed\camera-view-1.4.1\AndroidManifest.xml:2:1-7:12
@@ -138,33 +138,37 @@ uses-permission#android.permission.WAKE_LOCK
 ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:17:5-67
 	android:name
 		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:17:22-65
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:18:5-80
+	android:name
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:18:22-78
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:20:5-66
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:21:5-66
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:26:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:26:5-67
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:20:22-64
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:21:22-64
 queries
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:23:5-31:15
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:24:5-32:15
 package#com.google.android.apps.healthdata
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:24:9-69
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:9-69
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:24:18-67
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:18-67
 intent#action:name:android.health.connect.action.HEALTH_CONNECT_SETTINGS
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:9-27:18
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:26:9-28:18
 action#android.health.connect.action.HEALTH_CONNECT_SETTINGS
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:26:13-92
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:27:13-92
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:26:21-89
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:27:21-89
 intent#action:name:androidx.health.ACTION_HEALTH_CONNECT_SETTINGS
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:28:9-30:18
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:29:9-31:18
 action#androidx.health.ACTION_HEALTH_CONNECT_SETTINGS
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:29:13-85
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:30:13-85
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:29:21-82
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:30:21-82
 application
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:33:5-85:19
-INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:33:5-85:19
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:34:5-101:19
+INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:34:5-101:19
 MERGED from [androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:23:5-34:19
@@ -196,83 +200,103 @@ MERGED from [com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:39:9-35
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:40:9-35
 	android:label
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:38:9-32
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:39:9-32
 	android:roundIcon
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:37:9-50
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:38:9-50
 	android:icon
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:36:9-45
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:37:9-45
 	android:allowBackup
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:36:9-35
+	android:theme
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:41:9-48
+	android:name
 		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:35:9-35
-	android:theme
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:40:9-48
-	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:34:9-35
 activity#com.fitnessapp.MainActivity
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:41:9-49:20
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:42:9-50:20
 	android:exported
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:43:13-36
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:44:13-36
 	android:theme
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:44:13-52
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:45:13-52
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:42:13-41
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:43:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:45:13-48:29
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:46:13-49:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:46:17-69
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:47:17-69
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:46:25-66
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:47:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:47:17-77
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:48:17-77
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:47:27-74
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:48:27-74
 activity-alias#com.fitnessapp.ViewPermissionUsageActivity
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:56:9-65:26
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:57:9-66:26
 	android:exported
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:58:13-36
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:59:13-36
 	android:targetActivity
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:59:13-51
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:60:13-51
 	android:permission
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:60:13-80
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:61:13-80
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:57:13-56
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:58:13-56
 intent-filter#action:name:android.intent.action.VIEW_PERMISSION_USAGE+category:name:android.intent.category.HEALTH_PERMISSIONS
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:61:13-64:29
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:62:13-65:29
 action#android.intent.action.VIEW_PERMISSION_USAGE
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:62:17-86
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:63:17-86
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:62:25-83
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:63:25-83
 category#android.intent.category.HEALTH_PERMISSIONS
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:63:17-87
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:64:17-87
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:63:27-84
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:64:27-84
 receiver#com.fitnessapp.widget.NourishAppWidget
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:68:9-78:20
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:69:9-79:20
 	android:label
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:71:13-50
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:72:13-50
 	android:exported
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:70:13-36
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:71:13-36
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:69:13-52
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:70:13-52
 intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:72:13-74:29
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:73:13-75:29
 action#android.appwidget.action.APPWIDGET_UPDATE
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:73:17-84
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:74:17-84
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:73:25-81
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:74:25-81
 meta-data#android.appwidget.provider
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:75:13-77:63
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:76:13-78:63
 	android:resource
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:77:17-60
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:78:17-60
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:76:17-58
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:77:17-58
 receiver#com.fitnessapp.util.ReminderReceiver
-ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:81:9-83:40
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:82:9-84:40
 	android:exported
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:83:13-37
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:84:13-37
 	android:name
-		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:82:13-50
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:83:13-50
+receiver#com.fitnessapp.service.BootCompletedReceiver
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:87:9-93:20
+	android:exported
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:89:13-36
+	android:name
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:88:13-58
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:90:13-92:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:91:17-79
+	android:name
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:91:25-76
+service#com.fitnessapp.service.StepTrackingService
+ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:96:9-99:40
+	android:enabled
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:98:13-35
+	android:exported
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:99:13-37
+	android:name
+		ADDED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:97:13-56
 uses-sdk
 INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml

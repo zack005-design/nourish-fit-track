@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1] - 2026-08-04
+- **Cleaned Wearable Dependencies**: Removed wearable-specific telemetry readers (`HeartRateRecord`, `readWearableSteps`, `readWearableSleep`) from `HealthConnectManager.kt`.
+- **Connected Analytics Screen**: Added Quick Action "Analytics" chip in `HomeScreen.kt` to make `AnalyticsScreen` accessible via `NavGraph`.
+- **Health Data Export (JSON/CSV)**: Added JSON & CSV log exporter in `SettingsViewModel.kt` and `SettingsScreen.kt`.
+- **Hardware Step Counter Service Boot Receiver**: Created `BootCompletedReceiver.kt` to auto-start `StepTrackingService` on device boot completion (`ACTION_BOOT_COMPLETED`).
+- **Interactive AI Action Plan**: Made AI Action Plan items interactive with visual completion state toggles in `AiScreen.kt`.
+
 ## [1.5.0] - 2026-08-04
 - **OpenFoodFacts Live API Search**: Integrated live REST API food product search in `AddFoodScreen.kt`. Search any packaged food or barcode, fetch live nutrition info (Calories, Protein, Carbs, Fat, Brand), select items, and save directly to local Room DB food log.
 - **Biometric & Wearable Sync**: Enhanced `HealthConnectManager.kt` with bi-directional wearable sync capabilities (`StepsRecord`, `SleepSessionRecord`, `HeartRateRecord`). Enables reading smartwatch telemetry (Galaxy Watch, Apple Watch, Pixel Watch, Oura via Health Connect) into app database.

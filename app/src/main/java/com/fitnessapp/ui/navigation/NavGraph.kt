@@ -268,7 +268,8 @@ fun FitnessNavGraph(
                     onNavigateToSettings = { navController.navigate(Screen.More.route) },
                     onNavigateToAddFood = { navController.navigate(Screen.AddFood.route) },
                     onNavigateToAddSleep = { navController.navigate(Screen.AddSleep.route) },
-                    onNavigateToAi = { navController.navigate(Screen.Ai.route) }
+                    onNavigateToAi = { navController.navigate(Screen.Ai.route) },
+                    onNavigateToAnalytics = { navController.navigate(Screen.Analytics.route) }
                 )
             }
 

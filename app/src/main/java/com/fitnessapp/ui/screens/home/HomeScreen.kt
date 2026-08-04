@@ -105,6 +105,7 @@ fun HomeScreen(
     onNavigateToAddFood: () -> Unit = {},
     onNavigateToAddSleep: () -> Unit = {},
     onNavigateToAi: () -> Unit = {},
+    onNavigateToAnalytics: () -> Unit = {},
     viewModel: HomeViewModel = viewModel(
 
         factory = HomeViewModel.Factory(
@@ -365,6 +366,26 @@ fun HomeScreen(
                         Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(4.dp))
                         Text("AI Hub", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(38.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(AccentBlue.copy(alpha = 0.15f))
+                        .border(1.dp, AccentBlue.copy(alpha = 0.4f), RoundedCornerShape(12.dp))
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onNavigateToAnalytics()
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(imageVector = Icons.Default.Spa, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("Analytics", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                     }
                 }
             }

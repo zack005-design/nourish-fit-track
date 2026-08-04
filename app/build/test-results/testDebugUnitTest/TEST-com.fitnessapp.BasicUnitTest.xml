@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.BasicUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T16:58:44.844Z" hostname="USER_05" time="0.009">
+<testsuite name="com.fitnessapp.BasicUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:32:00.324Z" hostname="USER_05" time="0.0">
   <properties/>
-  <testcase name="addition_isCorrect" classname="com.fitnessapp.BasicUnitTest" time="0.003"/>
+  <testcase name="addition_isCorrect" classname="com.fitnessapp.BasicUnitTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

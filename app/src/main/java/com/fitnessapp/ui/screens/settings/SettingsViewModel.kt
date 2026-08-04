@@ -13,6 +13,8 @@ import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.util.DateUtils
 import com.fitnessapp.util.HealthConnectManager
+import org.json.JSONArray
+import org.json.JSONObject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -120,6 +122,69 @@ class SettingsViewModel(
             sleepRepository.clearAll()
             stepsRepository.clearAll()
             onCleared()
+        }
+    }
+
+    /**
+     * Exports local Room DB health logs to JSON or CSV formatted string.
+     */
+    fun exportHealthData(format: String = "json", onExported: (String) -> Unit) {
+        viewModelScope.launch {
+            val foods = foodRepository.getAllEntries().firstOrNull() ?: emptyList()
+            val waters = waterRepository.getAllWaterEntries().firstOrNull() ?: emptyList()
+            val sleeps = sleepRepository.getAllEntries().firstOrNull() ?: emptyList()
+
+            val result = if (format.lowercase() == "csv") {
+                val sb = StringBuilder()
+                sb.append("--- FOOD LOGS ---\n")
+                sb.append("DateMillis,Name,Calories,ProteinGrams,CarbsGrams,FatGrams,MealType\n")
+                foods.forEach { f -> sb.append("${f.dateMillis},\"${f.name}\",${f.calories},${f.proteinGrams},${f.carbsGrams},${f.fatGrams},${f.mealType}\n") }
+                sb.append("\n--- WATER LOGS ---\n")
+                sb.append("DateMillis,AmountMl\n")
+                waters.forEach { w -> sb.append("${w.dateMillis},${w.amountMl}\n") }
+                sb.append("\n--- SLEEP LOGS ---\n")
+                sb.append("StartMillis,EndMillis,QualityScore,Notes\n")
+                sleeps.forEach { s -> sb.append("${s.startMillis},${s.endMillis},${s.quality},\"${s.notes}\"\n") }
+                sb.toString()
+            } else {
+                val json = JSONObject()
+                val foodArray = JSONArray()
+                foods.forEach { f ->
+                    foodArray.put(JSONObject().apply {
+                        put("id", f.id)
+                        put("name", f.name)
+                        put("calories", f.calories)
+                        put("proteinGrams", f.proteinGrams)
+                        put("carbsGrams", f.carbsGrams)
+                        put("fatGrams", f.fatGrams)
+                        put("mealType", f.mealType)
+                        put("dateMillis", f.dateMillis)
+                    })
+                }
+                val waterArray = JSONArray()
+                waters.forEach { w ->
+                    waterArray.put(JSONObject().apply {
+                        put("id", w.id)
+                        put("amountMl", w.amountMl)
+                        put("dateMillis", w.dateMillis)
+                    })
+                }
+                val sleepArray = JSONArray()
+                sleeps.forEach { s ->
+                    sleepArray.put(JSONObject().apply {
+                        put("id", s.id)
+                        put("startMillis", s.startMillis)
+                        put("endMillis", s.endMillis)
+                        put("quality", s.quality)
+                        put("notes", s.notes)
+                    })
+                }
+                json.put("foodLogs", foodArray)
+                json.put("waterLogs", waterArray)
+                json.put("sleepLogs", sleepArray)
+                json.toString(2)
+            }
+            onExported(result)
         }
     }
 
