@@ -326,13 +326,6 @@ fun FoodLogScreen(
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary
                     )
-                    Text(
-                        text = "+ Log Meal",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AccentGreen,
-                        modifier = Modifier.clickable { onAddClick() }
-                    )
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))

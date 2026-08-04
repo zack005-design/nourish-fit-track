@@ -168,7 +168,7 @@ fun HomeScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Premium Hero Header
+            // Clean Overview Header
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -176,51 +176,12 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickable { showDatePicker = true }
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(42.dp)
-                            .clip(CircleShape)
-                            .background(AccentOrange.copy(alpha = 0.18f))
-                            .border(1.5.dp, AccentOrange.copy(alpha = 0.5f), CircleShape),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_launcher),
-                            contentDescription = "Nourish Logo",
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clip(CircleShape)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Column {
-                        Text(
-                            text = "Daily Overview",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = TextSecondary
-                        )
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = formattedDate,
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = TextPrimary
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Icon(
-                                imageVector = Icons.Default.CalendarToday,
-                                contentDescription = "Change Date",
-                                tint = AccentGreen,
-                                modifier = Modifier.size(14.dp)
-                            )
-                        }
-                    }
-                }
+                Text(
+                    text = "Daily Overview",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = TextPrimary
+                )
 
                 // Streak pill badge + Health Connect status
                 Row(

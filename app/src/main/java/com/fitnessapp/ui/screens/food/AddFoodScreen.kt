@@ -392,7 +392,7 @@ fun AddFoodScreen(
                         }
                     },
                     modifier = Modifier.weight(1f),
-                    placeholder = { Text("Search food or Kerala dishes...", color = TextTertiary) },
+                    placeholder = { Text("Search food, dish, or barcode (e.g. 8901058852317)...", color = TextTertiary, fontSize = 12.sp) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,

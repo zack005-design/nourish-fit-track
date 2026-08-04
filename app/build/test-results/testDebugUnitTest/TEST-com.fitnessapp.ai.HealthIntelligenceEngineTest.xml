@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ai.HealthIntelligenceEngineTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:43:34.495Z" hostname="USER_05" time="0.033">
+<testsuite name="com.fitnessapp.ai.HealthIntelligenceEngineTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:50:02.453Z" hostname="USER_05" time="0.029">
   <properties/>
-  <testcase name="buildReport calculates correct score with logged food water and sleep" classname="com.fitnessapp.ai.HealthIntelligenceEngineTest" time="0.03"/>
+  <testcase name="buildReport calculates correct score with logged food water and sleep" classname="com.fitnessapp.ai.HealthIntelligenceEngineTest" time="0.026"/>
   <testcase name="buildReport returns default report when no data logged" classname="com.fitnessapp.ai.HealthIntelligenceEngineTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
