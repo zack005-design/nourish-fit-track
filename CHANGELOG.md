@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.1] - 2026-08-04
+
+- **Gradle JDK Path Formatting**: Updated `org.gradle.java.home` path to use forward slashes (`C:/Users/aniru/.gradle/jdks/jetbrains_s_r_o_-21-amd64-windows.2`), aligning with registered IDE Java 21 JDK table entries and preventing Kotlin DSL build script semantic analysis warnings.
+
 ## [1.2.0] - 2026-08-04
 
 - **Dedicated AI Bottom Tab**: Added new **AI** bottom navigation tab (`AiScreen.kt`), consolidating all AI capabilities (Camera AI Meal Scanner, Health Intelligence Engine, Daily Wellness Score, Contextual Insights, Today's Action Plan, 7-Day Digest, and Interactive Advice).
