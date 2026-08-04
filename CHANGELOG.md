@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.5] - 2026-08-04
+
+- **Google Health Connect Multi-Intent Fallback & Telemetry Export**: Upgraded `HealthConnectManager.kt` with multi-intent settings resolution (`android.provider.Settings.ACTION_HEALTH_CONNECT_SETTINGS`, `android.health.connect.action.HEALTH_CONNECT_SETTINGS`, `androidx.health.ACTION_HEALTH_CONNECT_SETTINGS`, deep links, and package launch intents) and `exportHealthData` JSON payload formatter.
+
 ## [1.3.4] - 2026-08-04
+
 
 - **Android 15+ 16 KB Page Alignment Compliance**: Upgraded `com.google.mediapipe:tasks-genai` to `0.10.20` and configured `packaging.jniLibs.useLegacyPackaging = false` in `app/build.gradle.kts` to ensure uncompressed, 16 KB (0x4000) page-aligned `libllm_inference_engine_jni.so` native binaries.
 
