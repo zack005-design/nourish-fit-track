@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.4] - 2026-08-04
+
+- **Android 15+ 16 KB Page Alignment Compliance**: Upgraded `com.google.mediapipe:tasks-genai` to `0.10.20` and configured `packaging.jniLibs.useLegacyPackaging = false` in `app/build.gradle.kts` to ensure uncompressed, 16 KB (0x4000) page-aligned `libllm_inference_engine_jni.so` native binaries.
+
 ## [1.3.3] - 2026-08-04
+
 
 - **Transparent Status Bar Edge-to-Edge**: Configured `@android:color/transparent` status and navigation bar in `themes.xml` and `SystemBarStyle.dark(TRANSPARENT)` in `MainActivity.kt`, eliminating top black bars when scrolling down on every screen.
 - **Redesigned AI Health Hub (`AiScreen.kt`)**: Implemented live interactive prompt query bar, 0-100 Wellness Score ring with 4 sub-scores, contextual AI insight cards with severity indicators, and today's action plan checklist.

@@ -13,8 +13,9 @@ android {
         applicationId = "com.fitnessapp"
         minSdk = 26
         targetSdk = 34
-        versionCode = 26
-        versionName = "1.3.3"
+        versionCode = 27
+        versionName = "1.3.4"
+
 
     }
 
@@ -39,7 +40,17 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
 }
+
 
 dependencies {
     implementation(libs.core.ktx)
@@ -65,8 +76,9 @@ dependencies {
     implementation(libs.camerax.lifecycle)
     implementation(libs.camerax.view)
 
-    // Gemini Nano on-device (MediaPipe LLM Inference)
-    implementation("com.google.mediapipe:tasks-genai:0.10.14")
+    // Gemini Nano on-device (MediaPipe LLM Inference with 16 KB page alignment)
+    implementation("com.google.mediapipe:tasks-genai:0.10.20")
+
 
     // Runtime permissions helper
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
