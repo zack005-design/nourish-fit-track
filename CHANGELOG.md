@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.7] - 2026-08-04
+
+- **Barcode Food Scanner & OpenFoodFacts Lookup**: Added `BarcodeScannerUtil.kt` for EAN-13/UPC barcode string parsing and OpenFoodFacts product dataset matching, backed by `BarcodeScannerUtilTest.kt`.
+
 ## [1.2.6] - 2026-08-04
 
 - **Camera ML Meal Recognition**: Enhanced `CameraFoodEstimator.kt` with RGB channel luminance scoring and dynamic confidence metrics for bitmap analysis, verified by `CameraFoodEstimatorTest.kt`.

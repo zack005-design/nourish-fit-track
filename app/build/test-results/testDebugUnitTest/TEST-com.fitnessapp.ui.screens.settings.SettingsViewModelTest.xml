@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ui.screens.settings.SettingsViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T14:06:28.820Z" hostname="USER_05" time="0.009">
+<testsuite name="com.fitnessapp.ui.screens.settings.SettingsViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T14:08:25.869Z" hostname="USER_05" time="0.022">
   <properties/>
-  <testcase name="testSaveUserGoals" classname="com.fitnessapp.ui.screens.settings.SettingsViewModelTest" time="0.008"/>
+  <testcase name="testSaveUserGoals" classname="com.fitnessapp.ui.screens.settings.SettingsViewModelTest" time="0.022"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
