@@ -1,5 +1,7 @@
 package com.fitnessapp.ui.navigation
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,13 +17,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.TextTertiary
+
 
 
 
@@ -159,65 +164,78 @@ fun FitnessNavGraph(
         },
         bottomBar = {
             if (showBottomBar) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 12.dp)
-                        .navigationBarsPadding(),
-                    contentAlignment = Alignment.Center
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = SurfaceCard.copy(alpha = 0.92f),
+                    shadowElevation = 12.dp
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(68.dp)
-                            .clip(RoundedCornerShape(34.dp))
                             .background(SurfaceCard.copy(alpha = 0.92f))
-                            .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(34.dp))
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
+                            .border(
+                                width = 1.dp,
+                                color = Color.White.copy(alpha = 0.10f),
+                                shape = RectangleShape
+                            )
+                            .navigationBarsPadding()
                     ) {
-                        bottomNavItems.forEach { screen ->
-                            val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxHeight()
-                                    .clip(RoundedCornerShape(26.dp))
-                                    .background(if (selected) AccentGreen.copy(alpha = 0.18f) else Color.Transparent)
-                                    .clickable {
-                                        if (currentDestination?.route != screen.route) {
-                                            navController.navigate(screen.route) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(64.dp)
+                                .padding(horizontal = 6.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            bottomNavItems.forEach { screen ->
+                                val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+                                val animatedIconSize by animateDpAsState(
+                                    targetValue = if (selected) 24.dp else 20.dp,
+                                    animationSpec = tween(durationMillis = 200),
+                                    label = "iconSize"
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight()
+                                        .padding(vertical = 4.dp, horizontal = 2.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(if (selected) AccentGreen.copy(alpha = 0.15f) else Color.Transparent)
+                                        .clickable {
+                                            if (currentDestination?.route != screen.route) {
+                                                navController.navigate(screen.route) {
+                                                    popUpTo(navController.graph.findStartDestination().id) {
+                                                        saveState = true
+                                                    }
+                                                    launchSingleTop = true
+                                                    restoreState = true
                                                 }
-                                                launchSingleTop = true
-                                                restoreState = true
                                             }
-                                        }
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
+                                        },
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(
-                                        imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
-                                        contentDescription = screen.label,
-                                        tint = if (selected) AccentGreen else TextTertiary,
-                                        modifier = Modifier.size(22.dp)
-                                    )
-                                    Spacer(modifier = Modifier.height(2.dp))
-                                    Text(
-                                        text = screen.label,
-                                        fontSize = 11.sp,
-                                        fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Medium,
-                                        color = if (selected) AccentGreen else TextTertiary,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
+                                            contentDescription = screen.label,
+                                            tint = if (selected) AccentGreen else TextTertiary,
+                                            modifier = Modifier.size(animatedIconSize)
+                                        )
+                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Text(
+                                            text = screen.label,
+                                            fontSize = 10.5.sp,
+                                            fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                                            color = if (selected) AccentGreen else TextTertiary,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -225,6 +243,7 @@ fun FitnessNavGraph(
                 }
             }
         }
+
 
 
     ) { innerPadding ->

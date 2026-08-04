@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.4.0] - 2026-08-04
+
+- **Edge-to-Edge Frosted Glass Navigation Bar**: Redesigned bottom navigation bar with Apple Fitness inspired edge-to-edge translucent frosted glass background (`SurfaceCard 92%`), 1dp subtle top border (`Color.White 10%`), animated icon scale specifications (`20.dp` to `24.dp`), glowing active pill backdrops, and native Android `navigationBarsPadding()` support.
+
 ## [1.3.9] - 2026-08-04
+
 
 - **Bottom Navigation Capsule Bar**: Rebuilt bottom navigation bar with pixel-perfect custom floating capsule layout (`68.dp` height, `34.dp` rounded corners, `22.dp` crisp icons, `11.sp` labels, and emerald pill active tab glows) preventing label cutoff and clipping across all screen densities.
 
