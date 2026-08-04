@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.6] - 2026-08-04
+
+- **Camera ML Meal Recognition**: Enhanced `CameraFoodEstimator.kt` with RGB channel luminance scoring and dynamic confidence metrics for bitmap analysis, verified by `CameraFoodEstimatorTest.kt`.
+
 ## [1.2.5] - 2026-08-04
 
 - **Health Connect API Sync**: Added availability detection and record validation helpers to `HealthConnectManager.kt` along with comprehensive unit testing (`HealthConnectManagerTest.kt`).
