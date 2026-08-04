@@ -18,11 +18,23 @@ import org.json.JSONObject
 import java.time.Instant
 import java.time.ZoneOffset
 
+import androidx.health.connect.client.permission.HealthPermission
+
 /**
  * HealthConnectManager
  * Handles Google Health / Health Connect data read & write sync and system settings launching.
  */
 object HealthConnectManager {
+
+    val HEALTH_CONNECT_PERMISSIONS = setOf(
+        HealthPermission.getReadPermission(NutritionRecord::class),
+        HealthPermission.getWritePermission(NutritionRecord::class),
+        HealthPermission.getReadPermission(HydrationRecord::class),
+        HealthPermission.getWritePermission(HydrationRecord::class),
+        HealthPermission.getReadPermission(SleepSessionRecord::class),
+        HealthPermission.getWritePermission(SleepSessionRecord::class)
+    )
+
 
     /**
      * Launch Google Health Connect Settings app or Play Store page if not installed.

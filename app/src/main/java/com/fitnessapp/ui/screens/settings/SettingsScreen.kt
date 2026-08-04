@@ -1,7 +1,10 @@
 package com.fitnessapp.ui.screens.settings
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.health.connect.client.PermissionController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -112,6 +115,18 @@ fun SettingsScreen(
     val userGoals by viewModel.userGoals.collectAsStateWithLifecycle()
 
     var showClearDataModal by remember { mutableStateOf(false) }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = PermissionController.createRequestPermissionResultContract()
+    ) { grantedPermissions ->
+        if (grantedPermissions.containsAll(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)) {
+            onShowSnackbar("Google Health Connect permissions granted!")
+        } else {
+            HealthConnectManager.openHealthConnect(context)
+            onShowSnackbar("Opened Google Health Connect Settings")
+        }
+    }
+
 
     val handleSave = { cal: Int, prot: Float, water: Int, sleep: Float, steps: Int ->
         viewModel.saveGoals(
@@ -377,10 +392,15 @@ fun SettingsScreen(
                                         waters = emptyList(),
                                         sleeps = emptyList()
                                     )
-                                    HealthConnectManager.openHealthConnect(context)
+                                    try {
+                                        permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
+                                    } catch (e: Exception) {
+                                        HealthConnectManager.openHealthConnect(context)
+                                    }
                                     onShowSnackbar(msg)
                                 }
                             },
+
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(

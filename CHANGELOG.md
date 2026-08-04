@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.4.1] - 2026-08-04
+
+- **Google Health Connect In-App Permission Prompt**: Integrated `PermissionController.createRequestPermissionResultContract()` launcher with `READ_NUTRITION` and `WRITE_NUTRITION` manifest declarations in `AndroidManifest.xml` and `SettingsScreen.kt` for instant interactive permission prompting.
+
 ## [1.4.0] - 2026-08-04
+
 
 - **Edge-to-Edge Frosted Glass Navigation Bar**: Redesigned bottom navigation bar with Apple Fitness inspired edge-to-edge translucent frosted glass background (`SurfaceCard 92%`), 1dp subtle top border (`Color.White 10%`), animated icon scale specifications (`20.dp` to `24.dp`), glowing active pill backdrops, and native Android `navigationBarsPadding()` support.
 
