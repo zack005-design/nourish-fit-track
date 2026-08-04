@@ -80,6 +80,9 @@ import com.fitnessapp.ui.theme.TextSecondary
 import com.fitnessapp.ui.theme.TextTertiary
 import java.util.Locale
 
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.IconButton
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen(
@@ -88,6 +91,7 @@ fun AnalyticsScreen(
     sleepRepository: SleepRepository,
     settingsRepository: SettingsRepository,
     stepsRepository: StepsRepository,
+    onBack: () -> Unit = {},
     viewModel: AnalyticsViewModel = viewModel(
         factory = AnalyticsViewModel.Factory(foodRepository, waterRepository, sleepRepository, settingsRepository, stepsRepository)
     )
@@ -114,6 +118,15 @@ fun AnalyticsScreen(
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = TextPrimary
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )

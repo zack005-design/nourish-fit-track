@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.util.BarcodeScannerUtilTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:32:00.641Z" hostname="USER_05" time="0.008">
+<testsuite name="com.fitnessapp.util.BarcodeScannerUtilTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:34:33.791Z" hostname="USER_05" time="0.014">
   <properties/>
-  <testcase name="testOpenFoodFactsJsonParsing" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.006"/>
+  <testcase name="testOpenFoodFactsJsonParsing" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.012"/>
   <testcase name="testToFoodItemConversion" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.001"/>
   <testcase name="testUnknownBarcodeFallback" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.001"/>
   <testcase name="testKnownBarcodeLookup" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.0"/>

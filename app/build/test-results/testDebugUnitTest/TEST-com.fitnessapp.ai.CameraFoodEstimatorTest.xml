@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ai.CameraFoodEstimatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:32:00.326Z" hostname="USER_05" time="0.012">
+<testsuite name="com.fitnessapp.ai.CameraFoodEstimatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:34:33.383Z" hostname="USER_05" time="0.018">
   <properties/>
-  <testcase name="testNullBitmapReturnsFallbackPreset" classname="com.fitnessapp.ai.CameraFoodEstimatorTest" time="0.012"/>
+  <testcase name="testNullBitmapReturnsFallbackPreset" classname="com.fitnessapp.ai.CameraFoodEstimatorTest" time="0.018"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,5 +1,6 @@
 package com.fitnessapp.ui.screens.home
 
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -322,10 +323,13 @@ fun HomeScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentOrange, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("+ Meal", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentOrange, modifier = Modifier.size(15.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text("+ Meal", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = TextPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
 
@@ -342,10 +346,13 @@ fun HomeScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentPurple, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("+ Sleep", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentPurple, modifier = Modifier.size(15.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text("+ Sleep", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = TextPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
 
@@ -362,10 +369,13 @@ fun HomeScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("AI Hub", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(15.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text("AI Hub", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = TextPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
 
@@ -382,10 +392,13 @@ fun HomeScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(imageVector = Icons.Default.Spa, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Analytics", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Spa, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(15.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text("Analytics", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = TextPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
             }

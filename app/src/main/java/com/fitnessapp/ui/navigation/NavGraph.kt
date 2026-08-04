@@ -320,7 +320,8 @@ fun FitnessNavGraph(
                     waterRepository = waterRepository,
                     sleepRepository = sleepRepository,
                     settingsRepository = settingsRepository,
-                    stepsRepository = stepsRepository
+                    stepsRepository = stepsRepository,
+                    onBack = { navController.popBackStack() }
                 )
             }
 
