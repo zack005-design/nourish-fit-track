@@ -7,10 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import com.fitnessapp.ui.navigation.FitnessNavGraph
 import com.fitnessapp.ui.theme.FitnessTheme
 
+import androidx.activity.SystemBarStyle
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+        )
+
 
         val app = application as FitnessApp
 

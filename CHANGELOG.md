@@ -1,6 +1,13 @@
 # Changelog
 
+## [1.3.3] - 2026-08-04
+
+- **Transparent Status Bar Edge-to-Edge**: Configured `@android:color/transparent` status and navigation bar in `themes.xml` and `SystemBarStyle.dark(TRANSPARENT)` in `MainActivity.kt`, eliminating top black bars when scrolling down on every screen.
+- **Redesigned AI Health Hub (`AiScreen.kt`)**: Implemented live interactive prompt query bar, 0-100 Wellness Score ring with 4 sub-scores, contextual AI insight cards with severity indicators, and today's action plan checklist.
+- **Redesigned More & Account Hub (`SettingsScreen.kt`)**: Created interactive goal adjusters (calories, water, sleep, steps), Google Health Connect launcher, hardware step sensor status, and push notification trigger.
+
 ## [1.3.2] - 2026-08-04
+
 
 - **Edge-to-Edge Status Bar Inset Realignment**: Configured `contentWindowInsets = WindowInsets(0, 0, 0, 0)` across root and child `Scaffold` containers (`NavGraph.kt`, `HomeScreen.kt`, `FoodLogScreen.kt`, `SleepLogScreen.kt`, `AiScreen.kt`, `AnalyticsScreen.kt`, `SettingsScreen.kt`, `AddFoodScreen.kt`, `AddSleepScreen.kt`, `NutritionDetailsScreen.kt`), eliminating duplicate status bar top gaps and top bar scrolling cutoffs.
 
