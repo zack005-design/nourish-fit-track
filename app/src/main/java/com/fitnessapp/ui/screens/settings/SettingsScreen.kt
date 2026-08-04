@@ -251,12 +251,39 @@ fun SettingsScreen(
             }
 
             // 2. Interactive Daily Target Goals
-            Text(
-                text = "Daily Targets",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimary
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Daily Targets",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = TextPrimary
+                )
+
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(AccentPurple.copy(alpha = 0.2f))
+                        .border(1.dp, AccentPurple.copy(alpha = 0.45f), RoundedCornerShape(10.dp))
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.optimizeGoalsWithAi { msg ->
+                                onShowSnackbar(msg)
+                            }
+                        }
+                        .padding(horizontal = 10.dp, vertical = 6.dp)
+                ) {
+                    Text(
+                        text = "✨ AI Auto-Calibrate",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = AccentPurple
+                    )
+                }
+            }
 
             AppCard(
                 backgroundColor = SurfaceCard,

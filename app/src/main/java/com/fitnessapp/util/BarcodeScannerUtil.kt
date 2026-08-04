@@ -1,6 +1,8 @@
 package com.fitnessapp.util
 
 import com.fitnessapp.data.FoodItem
+import org.json.JSONObject
+
 
 /**
  * BarcodeScannerUtil
@@ -71,7 +73,7 @@ object BarcodeScannerUtil {
     }
 
     /**
-     * Parses raw OpenFoodFacts JSON string (pure Kotlin regex, 100% JVM unit test compatible).
+     * Parses raw OpenFoodFacts JSON string (pure Kotlin, 100% JVM unit test compatible).
      */
     fun parseJsonFromOpenFoodFacts(barcode: String, jsonString: String): ScannedProduct? {
         return try {
@@ -89,7 +91,7 @@ object BarcodeScannerUtil {
                 return match?.groupValues?.get(1)?.toFloatOrNull() ?: defaultVal
             }
 
-            val rawName = extractString("product_name") ?: "Scanned Item"
+            val rawName = extractString("product_name") ?: extractString("product_name_en") ?: "Scanned Item"
             val rawBrand = extractString("brands") ?: "OpenFoodFacts"
             val calories = extractFloat("energy-kcal_100g", extractFloat("energy-kcal", 250f)).toInt()
             val protein = extractFloat("proteins_100g", 12.0f)
@@ -109,8 +111,6 @@ object BarcodeScannerUtil {
             null
         }
     }
-
-
 
     /**
      * Converts a ScannedProduct into a FoodItem model.
@@ -136,7 +136,7 @@ object BarcodeScannerUtil {
         if (trimmed.isBlank()) return@withContext emptyList()
 
         // If numeric (barcode), perform direct barcode lookup
-        if (trimmed.all { it.isDigit() }) {
+        if (trimmed.all { it.isDigit() } && trimmed.length >= 8) {
             val single = lookupBarcodeOnline(trimmed)
             return@withContext listOf(single)
         }
@@ -144,56 +144,53 @@ object BarcodeScannerUtil {
         val results = mutableListOf<ScannedProduct>()
         try {
             val encoded = java.net.URLEncoder.encode(trimmed, "UTF-8")
-            val urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=8"
+            val urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=12"
             val url = java.net.URL(urlString)
             val connection = url.openConnection() as java.net.HttpURLConnection
             connection.requestMethod = "GET"
-            connection.connectTimeout = 4000
-            connection.readTimeout = 4000
-            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.4.3 (Android)")
+            connection.connectTimeout = 5000
+            connection.readTimeout = 5000
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.0 (Android)")
 
             if (connection.responseCode == 200) {
                 val jsonString = connection.inputStream.bufferedReader().use { it.readText() }
-                val productsRegex = Regex("\"products\"\\s*:\\s*\\[(.*?)\\]\\s*,\\s*\"count\"", RegexOption.DOT_MATCHES_ALL)
-                val match = productsRegex.find(jsonString)
-                if (match != null) {
-                    val productsArray = match.groupValues[1]
-                    // extract individual product json blocks
-                    val blocks = productsArray.split(Regex("\\},\\s*\\{"))
-                    for (block in blocks) {
-                        val nameMatch = Regex("\"product_name(?:_en)?\"\\s*:\\s*\"([^\"]+)\"").find(block)
-                        val brandMatch = Regex("\"brands\"\\s*:\\s*\"([^\"]+)\"").find(block)
-                        val codeMatch = Regex("\"code\"\\s*:\\s*\"([^\"]+)\"").find(block)
-                        val name = nameMatch?.groupValues?.get(1) ?: continue
-                        val brand = brandMatch?.groupValues?.get(1) ?: "OpenFoodFacts"
-                        val code = codeMatch?.groupValues?.get(1) ?: "0000"
+                val productBlocks = jsonString.split(Regex("\"product_name\"|\"product_name_en\""))
+                for (i in 1 until productBlocks.size) {
+                    val block = productBlocks[i]
+                    val nameMatch = Regex("^\\s*:\\s*\"([^\"]+)\"").find(block)
+                    val name = nameMatch?.groupValues?.get(1) ?: continue
+                    if (name.isBlank()) continue
 
-                        val calMatch = Regex("\"energy-kcal_100g\"\\s*:\\s*([0-9.]+)").find(block)
-                        val protMatch = Regex("\"proteins_100g\"\\s*:\\s*([0-9.]+)").find(block)
-                        val carbMatch = Regex("\"carbohydrates_100g\"\\s*:\\s*([0-9.]+)").find(block)
-                        val fatMatch = Regex("\"fat_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                    val brandMatch = Regex("\"brands\"\\s*:\\s*\"([^\"]+)\"").find(block)
+                    val codeMatch = Regex("\"code\"\\s*:\\s*\"([^\"]+)\"").find(block)
+                    val brand = brandMatch?.groupValues?.get(1) ?: "OpenFoodFacts"
+                    val code = codeMatch?.groupValues?.get(1) ?: "0000"
 
-                        val calories = calMatch?.groupValues?.get(1)?.toFloatOrNull()?.toInt() ?: 180
-                        val protein = protMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 8.0f
-                        val carbs = carbMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 24.0f
-                        val fat = fatMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 5.0f
+                    val calMatch = Regex("\"energy-kcal_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                    val protMatch = Regex("\"proteins_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                    val carbMatch = Regex("\"carbohydrates_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                    val fatMatch = Regex("\"fat_100g\"\\s*:\\s*([0-9.]+)").find(block)
 
-                        results.add(
-                            ScannedProduct(
-                                barcode = code,
-                                name = "$name ($brand)",
-                                calories = calories.coerceAtLeast(0),
-                                proteinGrams = protein.coerceAtLeast(0f),
-                                carbsGrams = carbs.coerceAtLeast(0f),
-                                fatGrams = fat.coerceAtLeast(0f),
-                                brand = brand
-                            )
+                    val calories = calMatch?.groupValues?.get(1)?.toFloatOrNull()?.toInt() ?: 180
+                    val protein = protMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 8.0f
+                    val carbs = carbMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 24.0f
+                    val fat = fatMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 5.0f
+
+                    results.add(
+                        ScannedProduct(
+                            barcode = code,
+                            name = "$name ($brand)",
+                            calories = calories.coerceAtLeast(0),
+                            proteinGrams = protein.coerceAtLeast(0f),
+                            carbsGrams = carbs.coerceAtLeast(0f),
+                            fatGrams = fat.coerceAtLeast(0f),
+                            brand = brand
                         )
-                    }
+                    )
                 }
             }
         } catch (e: Exception) {
-            // Network fallback
+            // Fallback
         }
 
         // Add matching local foods if API returns few items
@@ -207,6 +204,8 @@ object BarcodeScannerUtil {
         return@withContext results
     }
 }
+
+
 
 
 

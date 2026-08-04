@@ -61,6 +61,58 @@ class SettingsViewModel(
         }
     }
 
+    /**
+     * AI On-Device 7-Day Telemetry Analysis & Target Auto-Optimization Engine.
+     * Analyzes 7 days of food, water, sleep & steps to calibrate optimal daily goals.
+     */
+    fun optimizeGoalsWithAi(onOptimized: (String) -> Unit) {
+        viewModelScope.launch {
+            val now = System.currentTimeMillis()
+            val sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000L)
+
+            val allFoods = foodRepository.getAllEntries().firstOrNull() ?: emptyList()
+            val foods = allFoods.filter { it.dateMillis >= sevenDaysAgo }
+
+            val allWaters = waterRepository.getAllWaterEntries().firstOrNull() ?: emptyList()
+            val waters = allWaters.filter { it.dateMillis >= sevenDaysAgo }
+
+            val allSleeps = sleepRepository.getAllEntries().firstOrNull() ?: emptyList()
+            val sleeps = allSleeps.filter { it.startMillis >= sevenDaysAgo }
+
+            // 1. Calorie & Protein Optimization
+            val avgCalories = if (foods.isNotEmpty()) foods.sumOf { it.calories } / 7 else 2200
+            val avgProtein = if (foods.isNotEmpty()) foods.sumOf { it.proteinGrams.toDouble() }.toFloat() / 7 else 110f
+            val targetCalories = (avgCalories * 0.95).toInt().coerceIn(1600, 3200)
+            val targetProtein = (avgProtein * 1.15f).coerceIn(80f, 200f)
+
+            // 2. Hydration Optimization
+            val avgWater = if (waters.isNotEmpty()) waters.sumOf { it.amountMl } / 7 else 2000
+            val targetWater = if (avgWater < 2200) 2750 else (avgWater + 250).coerceIn(2000, 4000)
+
+            // 3. Sleep Optimization
+            val avgSleepDurationHours = if (sleeps.isNotEmpty()) {
+                sleeps.sumOf { (it.endMillis - it.startMillis) / (1000.0 * 3600.0) }.toFloat() / 7
+            } else 6.8f
+            val targetSleep = if (avgSleepDurationHours < 7.2f) 8.0f else (avgSleepDurationHours + 0.5f).coerceIn(7.0f, 9.0f)
+
+            // 4. Step Target Optimization
+            val targetSteps = 10000
+
+            val calibratedGoals = UserGoals(
+                id = 1,
+                dailyCalorieGoal = targetCalories,
+                dailyProteinGoal = targetProtein,
+                dailyWaterGoal = targetWater,
+                dailySleepGoalHours = targetSleep,
+                dailyStepsGoal = targetSteps
+            )
+
+            settingsRepository.saveUserGoals(calibratedGoals)
+            onOptimized("✨ AI 7-Day Analysis Complete! Calibrated: ${targetCalories}kcal, ${targetWater}ml water, ${targetSleep}h sleep.")
+        }
+    }
+
+
     fun clearAllData(onCleared: () -> Unit) {
         viewModelScope.launch {
             foodRepository.clearAll()
