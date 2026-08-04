@@ -58,7 +58,7 @@ object BarcodeScannerUtil {
             connection.requestMethod = "GET"
             connection.connectTimeout = 3000
             connection.readTimeout = 3000
-            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.3.0 (Android)")
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.1 (Android; contact@nourishapp.org)")
 
             if (connection.responseCode == 200) {
                 val stream = connection.inputStream
@@ -150,7 +150,7 @@ object BarcodeScannerUtil {
             connection.requestMethod = "GET"
             connection.connectTimeout = 4000
             connection.readTimeout = 4000
-            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.0 (Android; contact@nourishapp.org)")
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.1 (Android; contact@nourishapp.org)")
 
             val responseCode = connection.responseCode
             val jsonString = if (responseCode == 200) {
@@ -162,7 +162,7 @@ object BarcodeScannerUtil {
                 fallbackConn.requestMethod = "GET"
                 fallbackConn.connectTimeout = 4000
                 fallbackConn.readTimeout = 4000
-                fallbackConn.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.0 (Android; contact@nourishapp.org)")
+                fallbackConn.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.1 (Android; contact@nourishapp.org)")
                 if (fallbackConn.responseCode == 200) {
                     fallbackConn.inputStream.bufferedReader().use { it.readText() }
                 } else ""

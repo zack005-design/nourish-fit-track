@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.util.HealthDataExportTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:34:33.837Z" hostname="USER_05" time="0.017">
+<testsuite name="com.fitnessapp.util.HealthDataExportTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T18:43:34.863Z" hostname="USER_05" time="0.015">
   <properties/>
-  <testcase name="testCsvExportFormat" classname="com.fitnessapp.util.HealthDataExportTest" time="0.016"/>
+  <testcase name="testCsvExportFormat" classname="com.fitnessapp.util.HealthDataExportTest" time="0.015"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
