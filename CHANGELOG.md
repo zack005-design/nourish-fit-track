@@ -1,6 +1,14 @@
 # Changelog
 
+## [1.3.1] - 2026-08-04
+
+- **Live OpenFoodFacts REST API Lookup**: Added `lookupBarcodeOnline` and JVM-compatible JSON parser to `BarcodeScannerUtil.kt` (`BarcodeScannerUtilTest.kt`).
+- **Scheduled Background Reminders**: Created `ReminderReceiver.kt` and updated `ReminderNotificationHelper.kt` with `AlarmManager` repeating daily alarms (8 AM Breakfast, 2 PM Hydration, 10 PM Sleep).
+- **Google Health Connect Record Schemas**: Added `buildNutritionRecordJson`, `buildHydrationRecordJson`, and `buildSleepSessionRecordJson` to `HealthConnectManager.kt`.
+- **Multi-Region ML Food Estimator**: Upgraded `CameraFoodEstimator.kt` with $3 \times 3$ grid spectrum sampling and expanded food categories.
+
 ## [1.3.0] - 2026-08-04
+
 
 - **AI Voice Speech Recognition & TTS**: Created `VoiceSpeechManager.kt` supporting Speech-To-Text voice logging intents and Text-To-Speech audio response playback (`VoiceSpeechManagerTest.kt`).
 

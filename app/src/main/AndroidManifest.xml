@@ -69,6 +69,12 @@
                 android:resource="@xml/nourish_widget_info" />
         </receiver>
 
+        <!-- Daily Alarm Reminder Receiver -->
+        <receiver
+            android:name=".util.ReminderReceiver"
+            android:exported="false" />
+
+
         <!-- FileProvider for sharing CameraX captures with MediaPipe -->
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -41,6 +41,78 @@ object BarcodeScannerUtil {
     }
 
     /**
+     * Performs a live online lookup via OpenFoodFacts REST API.
+     * Falls back to offline database if unnetworked or not found.
+     */
+    suspend fun lookupBarcodeOnline(barcode: String): ScannedProduct = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        val cleaned = barcode.trim()
+        val localMatch = barcodeDatabase[cleaned]
+        if (localMatch != null) return@withContext localMatch
+
+        try {
+            val urlString = "https://world.openfoodfacts.org/api/v0/product/$cleaned.json"
+            val url = java.net.URL(urlString)
+            val connection = url.openConnection() as java.net.HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.connectTimeout = 3000
+            connection.readTimeout = 3000
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.3.0 (Android)")
+
+            if (connection.responseCode == 200) {
+                val stream = connection.inputStream
+                val jsonString = stream.bufferedReader().use { it.readText() }
+                val parsed = parseJsonFromOpenFoodFacts(cleaned, jsonString)
+                if (parsed != null) return@withContext parsed
+            }
+        } catch (e: Exception) {
+            // Network or parsing failure — fallback to local lookup
+        }
+        return@withContext lookupBarcode(cleaned)
+    }
+
+    /**
+     * Parses raw OpenFoodFacts JSON string (pure Kotlin regex, 100% JVM unit test compatible).
+     */
+    fun parseJsonFromOpenFoodFacts(barcode: String, jsonString: String): ScannedProduct? {
+        return try {
+            val statusMatch = Regex("\"status\"\\s*:\\s*(\\d+)").find(jsonString)
+            val status = statusMatch?.groupValues?.get(1)?.toIntOrNull() ?: 0
+            if (status != 1) return null
+
+            fun extractString(key: String): String? {
+                val match = Regex("\"$key\"\\s*:\\s*\"([^\"]+)\"").find(jsonString)
+                return match?.groupValues?.get(1)
+            }
+
+            fun extractFloat(key: String, defaultVal: Float): Float {
+                val match = Regex("\"$key\"\\s*:\\s*([0-9.]+)").find(jsonString)
+                return match?.groupValues?.get(1)?.toFloatOrNull() ?: defaultVal
+            }
+
+            val rawName = extractString("product_name") ?: "Scanned Item"
+            val rawBrand = extractString("brands") ?: "OpenFoodFacts"
+            val calories = extractFloat("energy-kcal_100g", extractFloat("energy-kcal", 250f)).toInt()
+            val protein = extractFloat("proteins_100g", 12.0f)
+            val carbs = extractFloat("carbohydrates_100g", 30.0f)
+            val fat = extractFloat("fat_100g", 8.0f)
+
+            ScannedProduct(
+                barcode = barcode,
+                name = "$rawName ($rawBrand)",
+                calories = calories.coerceAtLeast(0),
+                proteinGrams = protein.coerceAtLeast(0f),
+                carbsGrams = carbs.coerceAtLeast(0f),
+                fatGrams = fat.coerceAtLeast(0f),
+                brand = rawBrand
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
+
+    /**
      * Converts a ScannedProduct into a FoodItem model.
      */
     fun toFoodItem(product: ScannedProduct, categoryName: String = "Packaged"): FoodItem {
@@ -56,4 +128,5 @@ object BarcodeScannerUtil {
         )
     }
 }
+
 

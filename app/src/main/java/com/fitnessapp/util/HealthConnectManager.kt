@@ -122,5 +122,57 @@ object HealthConnectManager {
             "Health Connect app not detected. Install or update Google Health Connect via Play Store."
         }
     }
+
+    /**
+     * Generates standard Health Connect NutritionRecord schema JSON for export.
+     */
+    fun buildNutritionRecordJson(food: FoodEntry): String {
+        return org.json.JSONObject().apply {
+            put("recordType", "NutritionRecord")
+            put("name", food.name)
+            put("energyKcal", food.calories)
+            put("proteinGrams", food.proteinGrams)
+            put("carbsGrams", food.carbsGrams)
+            put("fatGrams", food.fatGrams)
+            put("timeMillis", food.dateMillis)
+            put("metadata", org.json.JSONObject().apply {
+                put("dataOrigin", "com.fitnessapp")
+                put("clientRecordId", "food_${food.id}")
+            })
+        }.toString()
+    }
+
+    /**
+     * Generates standard Health Connect HydrationRecord schema JSON for export.
+     */
+    fun buildHydrationRecordJson(water: WaterEntry): String {
+        return org.json.JSONObject().apply {
+            put("recordType", "HydrationRecord")
+            put("volumeLiters", water.amountMl / 1000.0)
+            put("timeMillis", water.dateMillis)
+            put("metadata", org.json.JSONObject().apply {
+                put("dataOrigin", "com.fitnessapp")
+                put("clientRecordId", "water_${water.id}")
+            })
+        }.toString()
+    }
+
+    /**
+     * Generates standard Health Connect SleepSessionRecord schema JSON for export.
+     */
+    fun buildSleepSessionRecordJson(sleep: SleepEntry): String {
+        return org.json.JSONObject().apply {
+            put("recordType", "SleepSessionRecord")
+            put("startTimeMillis", sleep.startMillis)
+            put("endTimeMillis", sleep.endMillis)
+            put("notes", "Sleep quality score: ${sleep.quality}/100")
+            put("metadata", org.json.JSONObject().apply {
+                put("dataOrigin", "com.fitnessapp")
+                put("clientRecordId", "sleep_${sleep.id}")
+            })
+        }.toString()
+    }
+
 }
+
 
