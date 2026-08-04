@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.3] - 2026-08-04
+
+- **Complete AI Cleanup**: Removed the `Consistency Insight` card and unused AI helper components from `AnalyticsScreen.kt`. Removed the `AiCoachSheet` bottom sheet modal from `HomeScreen.kt`. All AI features are now strictly isolated to the dedicated **AI** bottom navigation tab (`AiScreen.kt`).
+
 ## [1.2.2] - 2026-08-04
 
 - **Overview Hydration Widget Redesign**: Redesigned the Water Tracking card on `HomeScreen.kt` with a 10dp liquid progress bar, glowing header badge, daily goal progress percentage badge (`%`), large volume display, 3-cup quick log action chips (`+250 ml`, `+500 ml`, `+750 ml`), `-250 ml` subtract control, and one-tap reset.
