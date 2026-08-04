@@ -144,25 +144,41 @@ object BarcodeScannerUtil {
         val results = mutableListOf<ScannedProduct>()
         try {
             val encoded = java.net.URLEncoder.encode(trimmed, "UTF-8")
-            val urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=12"
+            val urlString = "https://in.openfoodfacts.org/cgi/search.pl?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=12"
             val url = java.net.URL(urlString)
             val connection = url.openConnection() as java.net.HttpURLConnection
             connection.requestMethod = "GET"
-            connection.connectTimeout = 5000
-            connection.readTimeout = 5000
-            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.0 (Android)")
+            connection.connectTimeout = 4000
+            connection.readTimeout = 4000
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.0 (Android; contact@nourishapp.org)")
 
-            if (connection.responseCode == 200) {
-                val jsonString = connection.inputStream.bufferedReader().use { it.readText() }
-                val productBlocks = jsonString.split(Regex("\"product_name\"|\"product_name_en\""))
-                for (i in 1 until productBlocks.size) {
-                    val block = productBlocks[i]
-                    val nameMatch = Regex("^\\s*:\\s*\"([^\"]+)\"").find(block)
+            val responseCode = connection.responseCode
+            val jsonString = if (responseCode == 200) {
+                connection.inputStream.bufferedReader().use { it.readText() }
+            } else {
+                // Fallback to world server if India server returns non-200
+                val fallbackUrl = java.net.URL("https://world.openfoodfacts.org/cgi/search.pl?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=12")
+                val fallbackConn = fallbackUrl.openConnection() as java.net.HttpURLConnection
+                fallbackConn.requestMethod = "GET"
+                fallbackConn.connectTimeout = 4000
+                fallbackConn.readTimeout = 4000
+                fallbackConn.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.0 (Android; contact@nourishapp.org)")
+                if (fallbackConn.responseCode == 200) {
+                    fallbackConn.inputStream.bufferedReader().use { it.readText() }
+                } else ""
+            }
+
+            if (jsonString.isNotBlank()) {
+                val matches = Regex("\"product_name(?:_en)?\"\\s*:\\s*\"([^\"]+)\"").findAll(jsonString)
+                val blocks = jsonString.split("\"code\":")
+                for (i in 1 until blocks.size) {
+                    val block = blocks[i]
+                    val nameMatch = Regex("\"product_name(?:_en)?\"\\s*:\\s*\"([^\"]+)\"").find(block)
                     val name = nameMatch?.groupValues?.get(1) ?: continue
                     if (name.isBlank()) continue
 
                     val brandMatch = Regex("\"brands\"\\s*:\\s*\"([^\"]+)\"").find(block)
-                    val codeMatch = Regex("\"code\"\\s*:\\s*\"([^\"]+)\"").find(block)
+                    val codeMatch = Regex("^\\s*\"([^\"]+)\"").find(block)
                     val brand = brandMatch?.groupValues?.get(1) ?: "OpenFoodFacts"
                     val code = codeMatch?.groupValues?.get(1) ?: "0000"
 

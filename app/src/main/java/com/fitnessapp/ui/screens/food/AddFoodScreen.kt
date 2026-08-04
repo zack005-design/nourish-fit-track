@@ -173,6 +173,19 @@ fun AddFoodScreen(
                     selectedItem = partialMatch
                 }
             }
+
+            if (searchQuery.trim().length >= 3) {
+                kotlinx.coroutines.delay(400)
+                isSearchingApi = true
+                val results = BarcodeScannerUtil.searchOpenFoodFactsOnline(searchQuery.trim())
+                apiResults = results
+                isSearchingApi = false
+                if (results.isNotEmpty() && selectedItem == null) {
+                    selectedItem = BarcodeScannerUtil.toFoodItem(results.first())
+                }
+            }
+        } else {
+            apiResults = emptyList()
         }
     }
 
