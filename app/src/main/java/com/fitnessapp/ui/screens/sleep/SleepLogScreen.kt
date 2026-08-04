@@ -1,6 +1,8 @@
 package com.fitnessapp.ui.screens.sleep
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -810,7 +813,7 @@ fun SleepLogScreen(
     }
 }
 
-// ─── LIVE SENSOR SLEEP TRACKING SHEET (XIAOMI 17T NIGHT MODE) ─────────────────
+// ─── LIVE SENSOR SLEEP TRACKING SHEET (PREMIUM MIDNIGHT NIGHT MODE) ─────────────────
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LiveSensorSleepSheet(
@@ -835,10 +838,22 @@ private fun LiveSensorSleepSheet(
     val secs = timerSeconds % 60
     val timerFormatted = String.format(Locale.US, "%02d:%02d:%02d", hours, mins, secs)
 
+    // Breathing pulse animation for midnight sleep tracking
+    val infiniteTransition = androidx.compose.animation.core.rememberInfiniteTransition(label = "pulse_transition")
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.25f,
+        targetValue = 0.65f,
+        animationSpec = androidx.compose.animation.core.infiniteRepeatable(
+            animation = tween(1800, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+            repeatMode = androidx.compose.animation.core.RepeatMode.Reverse
+        ),
+        label = "pulse_alpha"
+    )
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = SurfaceCardAlt,
+        containerColor = Color(0xFF0D111A),
         scrimColor = Color.Black.copy(alpha = 0.85f)
     ) {
         Column(
@@ -848,14 +863,27 @@ private fun LiveSensorSleepSheet(
                 .padding(bottom = 36.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Sensors,
-                    contentDescription = null,
-                    tint = AccentBlue,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
+            // Header Badge
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(AccentPurple.copy(alpha = 0.2f))
+                        .border(1.dp, AccentPurple.copy(alpha = 0.4f), CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Sensors,
+                        contentDescription = null,
+                        tint = AccentPurple,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = "Hardware Sensor Night Mode",
                     fontSize = 18.sp,
@@ -864,102 +892,190 @@ private fun LiveSensorSleepSheet(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // Timer Digital Display Box
+            // Glowing Breathing Timer Display
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(BackgroundDark)
-                    .border(1.dp, AccentBlue.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
-                    .padding(vertical = 24.dp),
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0xFF161B28),
+                                BackgroundDark
+                            )
+                        )
+                    )
+                    .border(
+                        width = 1.5.dp,
+                        brush = Brush.linearGradient(
+                            colors = listOf(
+                                AccentPurple.copy(alpha = pulseAlpha),
+                                AccentBlue.copy(alpha = pulseAlpha * 0.7f),
+                                Color(0xFF2C3242)
+                            )
+                        ),
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                    .padding(vertical = 28.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "LIVE SLEEP DURATION",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AccentBlue,
-                        letterSpacing = 1.sp
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(AccentPurple.copy(alpha = pulseAlpha + 0.3f))
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "LIVE SLEEP DURATION",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = AccentPurple,
+                            letterSpacing = 1.2.sp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
                     Text(
                         text = timerFormatted,
-                        fontSize = 48.sp,
+                        fontSize = 46.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = TextPrimary
+                        color = TextPrimary,
+                        letterSpacing = 2.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Text(
+                        text = "Sensors actively monitoring resting state",
+                        fontSize = 11.sp,
+                        color = TextSecondary
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Live Sensor Telemetry Indicators
+            // Real-Time Hardware Telemetry Cards
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Motion Status Tile
+                // Motion Sensor Card
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(SurfaceCard.copy(alpha = 0.6f))
-                        .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(SurfaceCardAlt)
+                        .border(1.dp, Color(0xFF252D3D), RoundedCornerShape(18.dp))
                         .padding(14.dp)
                 ) {
                     Column {
-                        Text(
-                            text = "MOTION SENSOR",
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextTertiary
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "MOTION",
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = TextTertiary,
+                                letterSpacing = 0.8.sp
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(AccentGreen.copy(alpha = 0.15f))
+                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = "ACTIVE",
+                                    fontSize = 8.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AccentGreen
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
                         Text(
                             text = sensorState.motionStatusText,
-                            fontSize = 12.sp,
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             color = AccentGreen
                         )
+
                         Spacer(modifier = Modifier.height(2.dp))
+
                         Text(
                             text = "${sensorState.motionEventsCount} micro-events",
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
                             color = TextSecondary
                         )
                     }
                 }
 
-                // Light Level Sensor Tile
+                // Room Light Sensor Card
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(SurfaceCard.copy(alpha = 0.6f))
-                        .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(SurfaceCardAlt)
+                        .border(1.dp, Color(0xFF252D3D), RoundedCornerShape(18.dp))
                         .padding(14.dp)
                 ) {
                     Column {
-                        Text(
-                            text = "ROOM LIGHT SENSOR",
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextTertiary
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "ROOM LIGHT",
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = TextTertiary,
+                                letterSpacing = 0.8.sp
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(if (sensorState.isDarkEnvironment) AccentBlue.copy(alpha = 0.15f) else AccentOrange.copy(alpha = 0.15f))
+                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = if (sensorState.isDarkEnvironment) "DARK" else "LIGHT",
+                                    fontSize = 8.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (sensorState.isDarkEnvironment) AccentBlue else AccentOrange
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
                         Text(
                             text = if (sensorState.isDarkEnvironment) "Dark Bedroom" else "Room Light On",
-                            fontSize = 12.sp,
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             color = if (sensorState.isDarkEnvironment) AccentBlue else AccentOrange
                         )
+
                         Spacer(modifier = Modifier.height(2.dp))
+
                         Text(
                             text = "${String.format(Locale.US, "%.1f", sensorState.ambientLux)} lux",
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
                             color = TextSecondary
                         )
                     }
@@ -968,6 +1084,7 @@ private fun LiveSensorSleepSheet(
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Soothing Midnight Action Button
             Button(
                 onClick = {
                     val finalState = sensorTracker.stopTracking()
@@ -977,20 +1094,39 @@ private fun LiveSensorSleepSheet(
                     .fillMaxWidth()
                     .height(54.dp),
                 shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = AccentRed)
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                contentPadding = PaddingValues(0.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Stop,
-                    contentDescription = null,
-                    tint = BackgroundDark
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = "Wake Up & Save Sleep Session",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = BackgroundDark
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(27.dp))
+                        .background(
+                            Brush.horizontalGradient(
+                                colors = listOf(
+                                    Color(0xFF6B2FD9),
+                                    Color(0xFF8B42F6)
+                                )
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Stop,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Wake Up & Save Sleep Session",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+                }
             }
         }
     }

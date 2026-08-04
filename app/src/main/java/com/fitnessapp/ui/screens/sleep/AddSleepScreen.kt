@@ -503,7 +503,7 @@ private fun CustomTimeTile(
     }
 }
 
-// ─── AUTHENTIC PHONE CLOCK SCROLLABLE WHEEL PICKER (iOS / ANDROID ALARM CLOCK STYLE) ───
+// ─── AUTHENTIC PHONE CLOCK SCROLLABLE WHEEL PICKER (PREMIUM ALARM CLOCK STYLE) ───
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun PhoneClockWheelSheet(
@@ -521,8 +521,6 @@ private fun PhoneClockWheelSheet(
         else -> initialHour24 % 12
     }
 
-    // Scroll States for Hours (1-12) and Minutes (0-59)
-    val itemHeightPx = 48.dp
     val hoursList = (1..12).toList()
     val minutesList = (0..59).toList()
 
@@ -551,15 +549,15 @@ private fun PhoneClockWheelSheet(
         }
     }
 
-    val displayFormatted = remember(currentSelectedHour, currentSelectedMinute, isAm) {
-        String.format(Locale.US, "%d:%02d %s", currentSelectedHour, currentSelectedMinute, if (isAm) "AM" else "PM")
+    val timeFormatted = remember(currentSelectedHour, currentSelectedMinute) {
+        String.format(Locale.US, "%02d:%02d", currentSelectedHour, currentSelectedMinute)
     }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = SurfaceCardAlt,
-        scrimColor = Color.Black.copy(alpha = 0.7f)
+        containerColor = Color(0xFF131822),
+        scrimColor = Color.Black.copy(alpha = 0.75f)
     ) {
         Column(
             modifier = Modifier
@@ -568,158 +566,88 @@ private fun PhoneClockWheelSheet(
                 .padding(bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimary
-            )
-
-            Spacer(modifier = Modifier.height(14.dp))
-
-            // Time Digital Preview Banner
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(SurfaceCard.copy(alpha = 0.8f))
-                    .border(1.dp, accentColor.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
-                    .padding(vertical = 14.dp),
-                contentAlignment = Alignment.Center
+            // Drag handle space & header
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
+                Icon(
+                    imageVector = if (title.contains("Bedtime", ignoreCase = true)) Icons.Default.NightlightRound else Icons.Default.WbSunny,
+                    contentDescription = null,
+                    tint = accentColor,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = displayFormatted,
-                    fontSize = 44.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = accentColor
+                    text = title,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = TextPrimary
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Phone Clock Scrollable Wheel Picker Box
+            // Time Preview Banner with Segmented AM / PM Switch
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(160.dp)
                     .clip(RoundedCornerShape(20.dp))
-                    .background(SurfaceCard.copy(alpha = 0.5f))
-                    .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(20.dp)),
-                contentAlignment = Alignment.Center
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                SurfaceCardAlt,
+                                SurfaceCard.copy(alpha = 0.6f)
+                            )
+                        )
+                    )
+                    .border(
+                        width = 1.dp,
+                        brush = Brush.linearGradient(
+                            colors = listOf(accentColor.copy(alpha = 0.4f), Color(0xFF2C3242))
+                        ),
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .padding(horizontal = 20.dp, vertical = 14.dp)
             ) {
-                // Center Selection Glass Band
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .padding(horizontal = 8.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(accentColor.copy(alpha = 0.12f))
-                        .border(1.dp, accentColor.copy(alpha = 0.35f), RoundedCornerShape(12.dp))
-                )
-
                 Row(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // HOURS WHEEL
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(160.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LazyColumn(
-                            state = hoursListState,
-                            flingBehavior = hoursSnapBehavior,
-                            contentPadding = PaddingValues(vertical = 56.dp),
-                            modifier = Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            items(1000 * hoursList.size) { globalIndex ->
-                                val hr = hoursList[globalIndex % hoursList.size]
-                                val isSelected = currentSelectedHour == hr
-
-                                Box(
-                                    modifier = Modifier
-                                        .height(48.dp)
-                                        .fillMaxWidth(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = String.format(Locale.US, "%02d", hr),
-                                        fontSize = if (isSelected) 26.sp else 18.sp,
-                                        fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
-                                        color = if (isSelected) accentColor else TextTertiary
-                                    )
-                                }
-                            }
-                        }
-                    }
-
                     Text(
-                        text = ":",
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = accentColor,
-                        modifier = Modifier.padding(horizontal = 4.dp)
+                        text = timeFormatted,
+                        fontSize = 44.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = TextPrimary,
+                        letterSpacing = 1.sp
                     )
 
-                    // MINUTES WHEEL
-                    Box(
+                    // Horizontal Segmented AM / PM Selector
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .height(160.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LazyColumn(
-                            state = minutesListState,
-                            flingBehavior = minutesSnapBehavior,
-                            contentPadding = PaddingValues(vertical = 56.dp),
-                            modifier = Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            items(1000 * minutesList.size) { globalIndex ->
-                                val min = minutesList[globalIndex % minutesList.size]
-                                val isSelected = currentSelectedMinute == min
-
-                                Box(
-                                    modifier = Modifier
-                                        .height(48.dp)
-                                        .fillMaxWidth(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = String.format(Locale.US, "%02d", min),
-                                        fontSize = if (isSelected) 26.sp else 18.sp,
-                                        fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
-                                        color = if (isSelected) accentColor else TextTertiary
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    // AM / PM VERTICAL TOGGLE
-                    Column(
-                        modifier = Modifier
-                            .width(60.dp)
-                            .height(96.dp)
                             .clip(RoundedCornerShape(14.dp))
                             .background(BackgroundDark)
                             .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(14.dp))
-                            .padding(2.dp),
-                        verticalArrangement = Arrangement.SpaceEvenly
+                            .padding(3.dp)
                     ) {
+                        val amBg by animateColorAsState(
+                            targetValue = if (isAm) accentColor else Color.Transparent,
+                            animationSpec = tween(200),
+                            label = "am_bg"
+                        )
+                        val pmBg by animateColorAsState(
+                            targetValue = if (!isAm) accentColor else Color.Transparent,
+                            animationSpec = tween(200),
+                            label = "pm_bg"
+                        )
+
                         Box(
                             modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(if (isAm) accentColor else Color.Transparent)
+                                .width(46.dp)
+                                .height(38.dp)
+                                .clip(RoundedCornerShape(11.dp))
+                                .background(amBg)
                                 .clickable { isAm = true },
                             contentAlignment = Alignment.Center
                         ) {
@@ -733,10 +661,10 @@ private fun PhoneClockWheelSheet(
 
                         Box(
                             modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(if (!isAm) accentColor else Color.Transparent)
+                                .width(46.dp)
+                                .height(38.dp)
+                                .clip(RoundedCornerShape(11.dp))
+                                .background(pmBg)
                                 .clickable { isAm = false },
                             contentAlignment = Alignment.Center
                         ) {
@@ -749,6 +677,146 @@ private fun PhoneClockWheelSheet(
                         }
                     }
                 }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Wheel Container with Top/Bottom Gradient Fades & Frosted Glass Selection Band
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(BackgroundDark)
+                    .border(1.dp, Color(0xFF252D3D), RoundedCornerShape(24.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                // Frosted Glass Highlight Box in Center
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                        .padding(horizontal = 12.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(accentColor.copy(alpha = 0.14f))
+                        .border(
+                            width = 1.dp,
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(accentColor.copy(alpha = 0.5f), accentColor.copy(alpha = 0.2f))
+                            ),
+                            shape = RoundedCornerShape(14.dp)
+                        )
+                )
+
+                // Scrollable Wheels
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // HOURS WHEEL
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(180.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LazyColumn(
+                            state = hoursListState,
+                            flingBehavior = hoursSnapBehavior,
+                            contentPadding = PaddingValues(vertical = 64.dp),
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            items(1000 * hoursList.size) { globalIndex ->
+                                val hr = hoursList[globalIndex % hoursList.size]
+                                val isSelected = currentSelectedHour == hr
+
+                                Box(
+                                    modifier = Modifier
+                                        .height(52.dp)
+                                        .fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = String.format(Locale.US, "%02d", hr),
+                                        fontSize = if (isSelected) 28.sp else 18.sp,
+                                        fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Medium,
+                                        color = if (isSelected) accentColor else TextTertiary.copy(alpha = 0.5f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    Text(
+                        text = ":",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = accentColor,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+
+                    // MINUTES WHEEL
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(180.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LazyColumn(
+                            state = minutesListState,
+                            flingBehavior = minutesSnapBehavior,
+                            contentPadding = PaddingValues(vertical = 64.dp),
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            items(1000 * minutesList.size) { globalIndex ->
+                                val min = minutesList[globalIndex % minutesList.size]
+                                val isSelected = currentSelectedMinute == min
+
+                                Box(
+                                    modifier = Modifier
+                                        .height(52.dp)
+                                        .fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = String.format(Locale.US, "%02d", min),
+                                        fontSize = if (isSelected) 28.sp else 18.sp,
+                                        fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Medium,
+                                        color = if (isSelected) accentColor else TextTertiary.copy(alpha = 0.5f)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Top & Bottom Gradient Masks for Wheel Depth Effect
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .align(Alignment.TopCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(BackgroundDark, Color.Transparent)
+                            )
+                        )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(Color.Transparent, BackgroundDark)
+                            )
+                        )
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -765,8 +833,8 @@ private fun PhoneClockWheelSheet(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(26.dp),
+                    .height(54.dp),
+                shape = RoundedCornerShape(27.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = accentColor)
             ) {
                 Icon(
@@ -774,7 +842,7 @@ private fun PhoneClockWheelSheet(
                     contentDescription = null,
                     tint = BackgroundDark
                 )
-                Spacer(modifier = Modifier.width(6.dp))
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Confirm Time",
                     fontSize = 16.sp,

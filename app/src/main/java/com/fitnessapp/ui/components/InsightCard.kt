@@ -1,6 +1,7 @@
 package com.fitnessapp.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,7 @@ fun InsightCard(
     onClick: () -> Unit = {}
 ) {
     AppCard(
-        modifier = modifier,
+        modifier = modifier.clickable(onClick = onClick),
         contentPadding = 16.dp
     ) {
         Row(

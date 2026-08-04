@@ -23,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.NightlightRound
@@ -34,11 +35,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -100,6 +104,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showDatePicker by remember { mutableStateOf(false) }
+    var showAiCoachSheet by remember { mutableStateOf(false) }
 
     // Full date string — no "Today" label; always shows "Tuesday, 4 August"
     val formattedDate = remember(uiState.selectedDateMillis) {
@@ -439,15 +444,25 @@ fun HomeScreen(
                 }
             }
 
-            // AI Insight Card
+            // AI Insight Card (Tap to open interactive AI Coach)
             InsightCard(
                 title = "AI Insight",
                 primaryMessage = uiState.aiInsightPrimary,
-                suggestionMessage = uiState.aiInsightSecondary
+                suggestionMessage = uiState.aiInsightSecondary,
+                onClick = { showAiCoachSheet = true }
             )
 
             Spacer(modifier = Modifier.height(48.dp))
         }
+    }
+
+    if (showAiCoachSheet) {
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        AiCoachSheet(
+            sheetState = sheetState,
+            uiState = uiState,
+            onDismiss = { showAiCoachSheet = false }
+        )
     }
 }
 
@@ -501,6 +516,209 @@ private fun MetricBox(
                 barHeight = 4.dp,
                 showPercentageText = false
             )
+        }
+    }
+}
+
+// ─── INTERACTIVE AI HEALTH COACH SHEET ──────────────────────────────────────────
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AiCoachSheet(
+    sheetState: SheetState,
+    uiState: HomeUiState,
+    onDismiss: () -> Unit
+) {
+    var activeTopic by remember { mutableStateOf<String?>(null) }
+
+    val topicAdvice = remember(activeTopic, uiState) {
+        when (activeTopic) {
+            "Meal Suggestions" -> {
+                val pNeeded = (uiState.userGoals.dailyProteinGoal - uiState.totalProtein).coerceAtLeast(0f)
+                if (pNeeded > 0f) {
+                    "To reach your remaining ${pNeeded.toInt()}g protein target today, try 200g Greek yogurt, 3 boiled egg whites, or 150g grilled chicken/paneer."
+                } else {
+                    "You've already hit your protein target! For your next meal, keep carbs moderate with healthy fats like avocados or nuts."
+                }
+            }
+            "Hydration Strategy" -> {
+                val waterNeededL = (uiState.userGoals.dailyWaterGoal / 1000f - uiState.totalWaterL).coerceAtLeast(0f)
+                if (waterNeededL > 0f) {
+                    "Drink 500ml of water now, and set a reminder to drink another glass after your next workout or walk."
+                } else {
+                    "Hydration target fully unlocked! Continue sipping water steadily throughout the rest of the evening."
+                }
+            }
+            "Sleep & Recovery" -> {
+                if (uiState.totalSleepHours < 7f) {
+                    "You've logged ${String.format(Locale.US, "%.1f", uiState.totalSleepHours)}h of sleep. Aim to turn off screens 30 minutes before bedtime tonight for deep REM recovery."
+                } else {
+                    "Great sleep score (${uiState.sleepScore})! Your nervous system is well-recovered. Ideal day for strength or cardio training."
+                }
+            }
+            else -> null
+        }
+    }
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = Color(0xFF131822),
+        scrimColor = Color.Black.copy(alpha = 0.75f)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Header
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(AccentGreen.copy(alpha = 0.2f))
+                        .border(1.dp, AccentGreen.copy(alpha = 0.4f), CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AutoAwesome,
+                        contentDescription = null,
+                        tint = AccentGreen,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Column {
+                    Text(
+                        text = "Nourish AI Health Coach",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                    Text(
+                        text = "Real-time Nutrition & Recovery Insights",
+                        fontSize = 11.sp,
+                        color = TextSecondary
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            // Primary Analysis Banner
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(SurfaceCardAlt)
+                    .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(20.dp))
+                    .padding(16.dp)
+            ) {
+                Column {
+                    Text(
+                        text = "TODAY'S AI ASSESSMENT",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = AccentGreen,
+                        letterSpacing = 0.8.sp
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = uiState.aiInsightPrimary,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary,
+                        lineHeight = 19.sp
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = uiState.aiInsightSecondary,
+                        fontSize = 12.sp,
+                        color = TextSecondary,
+                        lineHeight = 17.sp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Interactive Quick Coaching Prompts
+            Text(
+                text = "Tap a topic for instant AI advice:",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = TextSecondary,
+                modifier = Modifier.align(Alignment.Start)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                listOf("Meal Suggestions", "Hydration Strategy", "Sleep & Recovery").forEach { topic ->
+                    val isSelected = activeTopic == topic
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(if (isSelected) AccentGreen.copy(alpha = 0.2f) else SurfaceCardAlt)
+                            .border(
+                                1.dp,
+                                if (isSelected) AccentGreen else Color(0xFF2C3242),
+                                RoundedCornerShape(14.dp)
+                            )
+                            .clickable { activeTopic = if (isSelected) null else topic }
+                            .padding(vertical = 10.dp, horizontal = 6.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = topic,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isSelected) AccentGreen else TextPrimary,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+
+            if (topicAdvice != null) {
+                Spacer(modifier = Modifier.height(14.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(AccentGreen.copy(alpha = 0.1f))
+                        .border(1.dp, AccentGreen.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
+                        .padding(14.dp)
+                ) {
+                    Text(
+                        text = topicAdvice,
+                        fontSize = 13.sp,
+                        color = TextPrimary,
+                        lineHeight = 18.sp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            OutlinedButton(
+                onClick = onDismiss,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = RoundedCornerShape(24.dp)
+            ) {
+                Text(text = "Close AI Coach", color = TextPrimary, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }

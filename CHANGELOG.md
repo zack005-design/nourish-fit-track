@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.2] - 2026-08-04
+
+- **Sleep Sheets Redesign**: Redesigned time picker wheel sheet (`PhoneClockWheelSheet`) and Hardware Sensor Night Mode sheet (`LiveSensorSleepSheet`) with glowing breathing pulse timer, depth gradient masks, and glassmorphism.
+- **Hybrid AI Insights Engine**: Implemented cross-metric On-Device AI Health Reasoning Engine with time-of-day contextual analysis and interactive AI Health Coach sheet (`AiCoachSheet`).
+
 ## [1.1.1] - 2026-08-04
 
 - **16 KB Page Size Support**: Upgraded CameraX dependencies (`camera-core`, `camera-camera2`, `camera-lifecycle`, `camera-view`) to 1.4.1 to align native libraries (`libimage_processing_util_jni.so`) to 16 KB page size boundaries for Android 15+ compatibility.

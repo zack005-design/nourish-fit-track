@@ -123,24 +123,17 @@ class HomeViewModel(
 
         val hasAnyData = calories > 0 || protein > 0f || waterMl > 0 || stepsCount > 0 || sleepEntry != null
 
-        val primaryInsight = if (!hasAnyData) {
-            "Welcome to Nourish! Start logging your meals, water, or steps for today."
-        } else when {
-            protein >= goals.dailyProteinGoal -> "Good job hitting your protein goal! (${protein.toInt()}g / ${goals.dailyProteinGoal.toInt()}g)"
-            calories >= goals.dailyCalorieGoal -> "You've met your daily calorie target of ${goals.dailyCalorieGoal} kcal."
-            totalWaterL >= (goals.dailyWaterGoal / 1000f) -> "Hydration target reached! Great job drinking ${String.format("%.1f", totalWaterL)} L of water today."
-            stepsCount >= goals.dailyStepsGoal -> "Step target unlocked! You've logged $stepsCount steps today."
-            else -> "Stay consistent! You've logged ${protein.toInt()}g protein and $calories kcal so far."
-        }
-
-        val secondaryInsight = if (!hasAnyData) {
-            "Tap the + icon on Water or Steps to record your progress."
-        } else when {
-            fiber < goals.dailyFiberGoal -> "Try adding more veggies to improve fiber intake (${fiber.toInt()}g / ${goals.dailyFiberGoal.toInt()}g)."
-            totalWaterL < (goals.dailyWaterGoal / 1000f) -> "Drink another glass of water to reach your ${goals.dailyWaterGoal / 1000f}L hydration goal."
-            stepsCount < goals.dailyStepsGoal -> "A short walk will add steps toward your ${goals.dailyStepsGoal} goal."
-            else -> "Keep up the great balanced routine for the rest of the day."
-        }
+        val (primaryInsight, secondaryInsight) = generateSmartAiInsights(
+            calories = calories,
+            protein = protein,
+            carbs = carbs,
+            fat = fat,
+            fiber = fiber,
+            totalWaterL = totalWaterL,
+            stepsCount = stepsCount,
+            sleepEntry = sleepEntry,
+            goals = goals
+        )
 
         HomeUiState(
             selectedDateMillis = date,
@@ -183,6 +176,62 @@ class HomeViewModel(
                 )
             )
         }
+    }
+
+    private fun generateSmartAiInsights(
+        calories: Int,
+        protein: Float,
+        carbs: Float,
+        fat: Float,
+        fiber: Float,
+        totalWaterL: Float,
+        stepsCount: Int,
+        sleepEntry: SleepEntry?,
+        goals: UserGoals
+    ): Pair<String, String> {
+        val hasAnyData = calories > 0 || protein > 0f || totalWaterL > 0f || stepsCount > 0 || sleepEntry != null
+
+        if (!hasAnyData) {
+            return Pair(
+                "Welcome to Nourish AI! Log your meals, water, or steps to activate your personalized health insights.",
+                "Tap + on Water or Steps below, or log a meal to get real-time nutrition and recovery recommendations."
+            )
+        }
+
+        val currentHour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+        val timeGreeting = when (currentHour) {
+            in 5..11 -> "Morning Briefing"
+            in 12..16 -> "Afternoon Check"
+            in 17..21 -> "Evening Summary"
+            else -> "Night Recovery"
+        }
+
+        // Cross-metric intelligent reasoning
+        val waterGoalL = goals.dailyWaterGoal / 1000f
+        val proteinTarget = goals.dailyProteinGoal
+        val calorieTarget = goals.dailyCalorieGoal
+        val stepsTarget = goals.dailyStepsGoal
+
+        val primary = when {
+            protein >= proteinTarget -> "[$timeGreeting] Excellent work hitting your protein goal! (${protein.toInt()}g / ${proteinTarget.toInt()}g) Great for muscle synthesis."
+            stepsCount >= stepsTarget && totalWaterL < waterGoalL -> "[$timeGreeting] You've hit your step goal of $stepsCount steps! Boost hydration now with extra water to support muscle recovery."
+            calories >= calorieTarget -> "[$timeGreeting] You've reached your daily energy target of $calorieTarget kcal. Focus on fiber and light hydration for the rest of the day."
+            sleepEntry != null && sleepEntry.quality >= 4 -> "[$timeGreeting] High quality sleep (${sleepEntry.quality}/5) logged! Your metabolism and recovery state are primed today."
+            stepsCount >= stepsTarget -> "[$timeGreeting] Step target unlocked! $stepsCount steps logged today."
+            totalWaterL >= waterGoalL -> "[$timeGreeting] Hydration goal achieved! ${String.format("%.1f", totalWaterL)} L logged today."
+            protein > 0f -> "[$timeGreeting] You've logged ${protein.toInt()}g protein (${(protein / proteinTarget * 100).toInt()}% of goal) and $calories kcal so far."
+            else -> "[$timeGreeting] Healthy progress started! $calories kcal and ${String.format("%.1f", totalWaterL)} L water recorded."
+        }
+
+        val secondary = when {
+            totalWaterL < waterGoalL -> "Hydration recommendation: Drink another ${String.format("%.1f", (waterGoalL - totalWaterL).coerceAtLeast(0.2f))} L to complete your daily goal."
+            fiber < goals.dailyFiberGoal -> "Nutrient tip: Increase fiber intake (${fiber.toInt()}g / ${goals.dailyFiberGoal.toInt()}g) by adding leafy greens or seeds to your next meal."
+            stepsCount < stepsTarget -> "Activity suggestion: A quick 15-minute walk will add ~1,500 steps towards your $stepsTarget target."
+            protein < proteinTarget -> "Protein focus: Add a protein snack (greek yogurt, eggs, paneer) to reach your ${proteinTarget.toInt()}g target."
+            else -> "All core metrics are on track! Maintain this balanced nutrition and recovery schedule."
+        }
+
+        return Pair(primary, secondary)
     }
 
     class Factory(
