@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -153,11 +154,12 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier
@@ -497,25 +499,8 @@ fun HomeScreen(
                 }
             }
 
-            // AI Insight Card (Tap to open interactive AI Coach)
-            InsightCard(
-                title = "AI Insight",
-                primaryMessage = uiState.aiInsightPrimary,
-                suggestionMessage = uiState.aiInsightSecondary,
-                onClick = { showAiCoachSheet = true }
-            )
-
             Spacer(modifier = Modifier.height(48.dp))
         }
-    }
-
-    if (showAiCoachSheet) {
-        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-        AiCoachSheet(
-            sheetState = sheetState,
-            uiState = uiState,
-            onDismiss = { showAiCoachSheet = false }
-        )
     }
 }
 

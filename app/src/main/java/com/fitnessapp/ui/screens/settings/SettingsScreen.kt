@@ -411,7 +411,7 @@ fun SettingsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Nourish Fitness v1.1.7 (Build 10)",
+                    text = "Nourish Fitness v1.2.0 (Build 13)",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
                     color = TextTertiary
@@ -424,7 +424,7 @@ fun SettingsScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }

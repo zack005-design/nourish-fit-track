@@ -115,15 +115,6 @@ fun AddFoodScreen(
 
     val haptic = LocalHapticFeedback.current
 
-    // Camera AI Estimation Dialog State
-    var showCameraDialog by remember { mutableStateOf(false) }
-    var cameraEstName by remember { mutableStateOf("") }
-    var cameraEstCalories by remember { mutableStateOf("") }
-    var cameraEstProtein by remember { mutableStateOf("") }
-    var cameraEstCarbs by remember { mutableStateOf("") }
-    var cameraEstFat by remember { mutableStateOf("") }
-    var cameraEstFiber by remember { mutableStateOf("") }
-
     val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val defaultMealType = when (currentHour) {
         in 5..10 -> "Breakfast"
@@ -237,114 +228,6 @@ fun AddFoodScreen(
     val finalSugar = if (isCustomMode) customSugar.toFloatOrNull() ?: 0f else 0f
     val finalSodium = if (isCustomMode) customSodium.toFloatOrNull() ?: 0f else 0f
     val finalCholesterol = if (isCustomMode) customCholesterol.toFloatOrNull() ?: 0f else 0f
-
-    if (showCameraDialog) {
-        AlertDialog(
-            onDismissRequest = { showCameraDialog = false },
-            containerColor = SurfaceCardAlt,
-            title = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.PhotoCamera,
-                        contentDescription = null,
-                        tint = AccentGreen,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "AI Photo Estimate (Editable)",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = TextPrimary
-                    )
-                }
-            },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Text(
-                        text = "Review and edit the AI detected meal values before saving:",
-                        fontSize = 12.sp,
-                        color = TextSecondary
-                    )
-                    OutlinedTextField(
-                        value = cameraEstName,
-                        onValueChange = { cameraEstName = it },
-                        label = { Text("Dish Name") },
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = AccentGreen)
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        OutlinedTextField(
-                            value = cameraEstCalories,
-                            onValueChange = { cameraEstCalories = it },
-                            label = { Text("Calories") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                        OutlinedTextField(
-                            value = cameraEstProtein,
-                            onValueChange = { cameraEstProtein = it },
-                            label = { Text("Protein (g)") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        OutlinedTextField(
-                            value = cameraEstCarbs,
-                            onValueChange = { cameraEstCarbs = it },
-                            label = { Text("Carbs (g)") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                        OutlinedTextField(
-                            value = cameraEstFat,
-                            onValueChange = { cameraEstFat = it },
-                            label = { Text("Fat (g)") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.weight(1f),
-                            singleLine = true
-                        )
-                    }
-                }
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        showCameraDialog = false
-                        scope.launch {
-                            foodRepository.insert(
-                                FoodEntry(
-                                    name = cameraEstName.ifBlank { "Scanned Meal" },
-                                    calories = cameraEstCalories.toIntOrNull() ?: 450,
-                                    proteinGrams = cameraEstProtein.toFloatOrNull() ?: 25f,
-                                    carbsGrams = cameraEstCarbs.toFloatOrNull() ?: 40f,
-                                    fatGrams = cameraEstFat.toFloatOrNull() ?: 15f,
-                                    fiberGrams = cameraEstFiber.toFloatOrNull() ?: 5f,
-                                    mealType = selectedMealType,
-                                    dateMillis = System.currentTimeMillis()
-                                )
-                            )
-                            onShowSnackbar("${cameraEstName.ifBlank { "Meal" }} logged successfully!")
-                            onBack()
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreen)
-                ) {
-                    Text("Save Meal", color = BackgroundDark, fontWeight = FontWeight.Bold)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showCameraDialog = false }) {
-                    Text("Cancel", color = TextSecondary)
-                }
-            }
-        )
-    }
 
     Scaffold(
         containerColor = BackgroundDark,
@@ -502,24 +385,6 @@ fun AddFoodScreen(
                                     tint = TextSecondary
                                 )
                             }
-                        } else {
-                            IconButton(onClick = {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                val est = CameraFoodEstimator.estimateMealFromPhoto(null)
-                                cameraEstName = est.dishName
-                                cameraEstCalories = est.calories.toString()
-                                cameraEstProtein = est.proteinGrams.toInt().toString()
-                                cameraEstCarbs = est.carbsGrams.toInt().toString()
-                                cameraEstFat = est.fatGrams.toInt().toString()
-                                cameraEstFiber = est.fiberGrams.toInt().toString()
-                                showCameraDialog = true
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.PhotoCamera,
-                                    contentDescription = "Camera AI Scan",
-                                    tint = AccentGreen
-                                )
-                            }
                         }
                     },
                     singleLine = true,
@@ -549,63 +414,7 @@ fun AddFoodScreen(
                 }
             }
 
-            // ─── CAMERA AI MEAL RECOGNITION BANNER ──────────────────────────────
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(AccentGreen.copy(alpha = 0.12f))
-                    .border(1.dp, AccentGreen.copy(alpha = 0.35f), RoundedCornerShape(16.dp))
-                    .clickable {
-                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                        val est = CameraFoodEstimator.estimateMealFromPhoto(null)
-                        cameraEstName = est.dishName
-                        cameraEstCalories = est.calories.toString()
-                        cameraEstProtein = est.proteinGrams.toInt().toString()
-                        cameraEstCarbs = est.carbsGrams.toInt().toString()
-                        cameraEstFat = est.fatGrams.toInt().toString()
-                        cameraEstFiber = est.fiberGrams.toInt().toString()
-                        showCameraDialog = true
-                    }
-                    .padding(14.dp)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(38.dp)
-                            .clip(CircleShape)
-                            .background(AccentGreen.copy(alpha = 0.2f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PhotoCamera,
-                            contentDescription = null,
-                            tint = AccentGreen,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Snap Photo with AI Meal Scanner",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
-                        )
-                        Text(
-                            text = "Instantly estimates calories & macros — fully editable",
-                            fontSize = 11.sp,
-                            color = TextSecondary
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.Default.AutoAwesome,
-                        contentDescription = null,
-                        tint = AccentGreen,
-                        modifier = Modifier.size(16.dp)
-                    )
-                }
-            }
+
 
             // ─── 2. MEAL TYPE SELECTOR PILLS ───────────────────────────────────────
             Row(

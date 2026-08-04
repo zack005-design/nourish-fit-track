@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.0] - 2026-08-04
+
+- **Dedicated AI Bottom Tab**: Added new **AI** bottom navigation tab (`AiScreen.kt`), consolidating all AI capabilities (Camera AI Meal Scanner, Health Intelligence Engine, Daily Wellness Score, Contextual Insights, Today's Action Plan, 7-Day Digest, and Interactive Advice).
+- **UI & Inset Realignment**: Removed AI components from `HomeScreen`, `AddFoodScreen`, and `AnalyticsScreen`. Added notch status bar insets (`statusBarsPadding()`) and bottom navigation bar padding across all screens for full phone display compatibility.
+
 ## [1.1.9] - 2026-08-04
 
 - **Gradle JDK 21 Compatibility**: Configured `org.gradle.java.home` to point to RedHat Java 21 JDK, resolving Java 25 (class major version 69) Kotlin DSL semantic analysis errors in IDE build scripts.

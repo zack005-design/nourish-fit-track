@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ui.screens.sleep.SleepViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-04T10:00:00.826Z" hostname="USER_05" time="0.032">
+<testsuite name="com.fitnessapp.ui.screens.sleep.SleepViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-04T10:18:27.951Z" hostname="USER_05" time="0.042">
   <properties/>
-  <testcase name="testSleepViewModelScoreCalculation" classname="com.fitnessapp.ui.screens.sleep.SleepViewModelTest" time="0.019"/>
-  <testcase name="testDeleteSleepEntry" classname="com.fitnessapp.ui.screens.sleep.SleepViewModelTest" time="0.013"/>
+  <testcase name="testSleepViewModelScoreCalculation" classname="com.fitnessapp.ui.screens.sleep.SleepViewModelTest" time="0.025"/>
+  <testcase name="testDeleteSleepEntry" classname="com.fitnessapp.ui.screens.sleep.SleepViewModelTest" time="0.017"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

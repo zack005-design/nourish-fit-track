@@ -97,9 +97,8 @@ fun AnalyticsScreen(
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val aiCoachState by viewModel.aiCoachState.collectAsStateWithLifecycle()
-    // 0=Week, 1=Month, 2=Year, 3=AI Coach
-    val periodTitles = listOf("Week", "Month", "Year", "AI Coach")
+    // 0=Week, 1=Month, 2=Year
+    val periodTitles = listOf("Week", "Month", "Year")
     var selectedMetricChip by remember { mutableIntStateOf(0) }
 
     Scaffold(
@@ -143,50 +142,28 @@ fun AnalyticsScreen(
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     periodTitles.forEachIndexed { index, title ->
-                        val isSelected = if (index == 3) uiState.selectedPeriodIndex == 3
-                                         else uiState.selectedPeriodIndex == index
-                        val selColor = if (index == 3) AccentGreen else AccentBlue
+                        val isSelected = uiState.selectedPeriodIndex == index
                         Box(
                             modifier = Modifier
                                 .weight(1f)
                                 .height(38.dp)
                                 .clip(RoundedCornerShape(20.dp))
-                                .background(if (isSelected) selColor else Color.Transparent)
+                                .background(if (isSelected) AccentBlue else Color.Transparent)
                                 .clickable { viewModel.setSelectedPeriod(index) },
                             contentAlignment = Alignment.Center
                         ) {
-                            if (index == 3) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(
-                                        imageVector = Icons.Default.AutoAwesome,
-                                        contentDescription = null,
-                                        tint = if (isSelected) BackgroundDark else AccentGreen,
-                                        modifier = Modifier.size(12.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(3.dp))
-                                    Text(
-                                        text = title,
-                                        fontSize = 11.sp,
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                        color = if (isSelected) BackgroundDark else AccentGreen
-                                    )
-                                }
-                            } else {
-                                Text(
-                                    text = title,
-                                    fontSize = 13.sp,
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                    color = if (isSelected) BackgroundDark else TextSecondary
-                                )
-                            }
+                            Text(
+                                text = title,
+                                fontSize = 13.sp,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                color = if (isSelected) BackgroundDark else TextSecondary
+                            )
                         }
                     }
                 }
             }
 
-            // Hide metric chips and trend cards when AI Coach is active
-            if (uiState.selectedPeriodIndex != 3) {
-                // ─── 2. METRIC FILTER CHIPS ─────────────────────────────────────────
+            // ─── 2. METRIC FILTER CHIPS ─────────────────────────────────────────
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -555,278 +532,7 @@ fun AnalyticsScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
-            } // end if (selectedPeriodIndex != 3)
-
-            // ─── AI COACH SECTION (Whoop / Google Health style) ──────────────────
-            if (uiState.selectedPeriodIndex == 3) {
-                AiCoachContent(report = aiCoachState)
-                Spacer(modifier = Modifier.height(24.dp))
-            }
-        }
-    }
-}
-
-@Composable
-private fun AiCoachContent(report: com.fitnessapp.ai.AiCoachReport) {
-    val infiniteTransition = rememberInfiniteTransition(label = "ai_coach_pulse")
-    val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
-        targetValue = 0.9f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1600, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "coach_pulse"
-    )
-
-    // ── Daily Wellness Score Ring ─────────────────────────────────────────────
-    AppCard {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.AutoAwesome,
-                    contentDescription = null,
-                    tint = AccentGreen,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = "DAILY WELLNESS SCORE",
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = AccentGreen,
-                    letterSpacing = 1.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Box(contentAlignment = Alignment.Center) {
-                Box(
-                    modifier = Modifier
-                        .size(180.dp)
-                        .clip(CircleShape)
-                        .background(
-                            Brush.radialGradient(
-                                colors = listOf(
-                                    AccentGreen.copy(alpha = pulseAlpha * 0.12f),
-                                    Color.Transparent
-                                )
-                            )
-                        )
-                )
-                RingProgress(
-                    progressFraction = (report.overallScore / 100f).coerceIn(0f, 1f),
-                    ringSize = 160.dp,
-                    strokeWidth = 14.dp
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "${report.overallScore}",
-                            fontSize = 48.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = TextPrimary
-                        )
-                        Text(
-                            text = report.scoreLabel,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = when (report.scoreLabel) {
-                                "Excellent" -> AccentGreen
-                                "Good" -> AccentBlue
-                                "Fair" -> AccentOrange
-                                else -> AccentRed
-                            }
-                        )
-                    }
-                }
-            }
-
-            // Score delta vs yesterday
-            val delta = report.scoreDelta
-            if (delta != 0) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = if (delta > 0) Icons.AutoMirrored.Filled.TrendingUp else Icons.AutoMirrored.Filled.TrendingDown,
-                        contentDescription = null,
-                        tint = if (delta > 0) AccentGreen else AccentRed,
-                        modifier = Modifier.size(14.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "${if (delta > 0) "+" else ""}$delta pts vs yesterday",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = if (delta > 0) AccentGreen else AccentRed
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // 4 Sub-Score Chips
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                SubScoreChip("Nutrition", report.nutritionScore, AccentOrange, Modifier.weight(1f))
-                SubScoreChip("Hydration", report.hydrationScore, AccentBlue, Modifier.weight(1f))
-                SubScoreChip("Sleep", report.sleepScore, AccentPurple, Modifier.weight(1f))
-                SubScoreChip("Activity", report.activityScore, AccentGreen, Modifier.weight(1f))
-            }
-        }
-    }
-
-    // ── Insight Cards ────────────────────────────────────────────────────────
-    if (report.insightCards.isNotEmpty()) {
-        AppCard {
-            Text(
-                text = "PERSONALIZED INSIGHTS",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextSecondary,
-                letterSpacing = 1.sp
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                report.insightCards.forEach { card ->
-                    val borderColor = when (card.severity) {
-                        InsightSeverity.CRITICAL -> AccentRed
-                        InsightSeverity.WARNING -> AccentOrange
-                        InsightSeverity.POSITIVE -> AccentGreen
-                        InsightSeverity.INFO -> AccentBlue
-                    }
-                    val bgColor = borderColor.copy(alpha = 0.06f)
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(bgColor)
-                            .border(1.dp, borderColor.copy(alpha = 0.3f), RoundedCornerShape(14.dp))
-                            .padding(14.dp)
-                    ) {
-                        Column {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    text = card.emoji,
-                                    fontSize = 18.sp
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = card.title,
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = TextPrimary
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = card.body,
-                                fontSize = 12.sp,
-                                color = TextSecondary,
-                                lineHeight = 17.sp
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // ── Today's Action Plan ──────────────────────────────────────────────────
-    if (report.actionPlan.isNotEmpty()) {
-        AppCard {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.CheckCircle,
-                    contentDescription = null,
-                    tint = AccentGreen,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "TODAY'S ACTION PLAN",
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = AccentGreen,
-                    letterSpacing = 1.sp
-                )
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                report.actionPlan.forEachIndexed { index, action ->
-                    Row(verticalAlignment = Alignment.Top) {
-                        Box(
-                            modifier = Modifier
-                                .size(22.dp)
-                                .clip(CircleShape)
-                                .background(AccentGreen.copy(alpha = 0.2f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "${index + 1}",
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = AccentGreen
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Text(
-                            text = action,
-                            fontSize = 13.sp,
-                            color = TextPrimary,
-                            lineHeight = 18.sp,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    // ── Weekly Summary ────────────────────────────────────────────────────────
-    if (report.weeklySummary.isNotEmpty()) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
-                .background(SurfaceCardAlt.copy(alpha = 0.75f))
-                .border(
-                    width = 1.dp,
-                    brush = Brush.linearGradient(
-                        colors = listOf(AccentGreen.copy(alpha = 0.35f), AccentBlue.copy(alpha = 0.2f))
-                    ),
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .padding(18.dp)
-        ) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.TrendingUp,
-                        contentDescription = null,
-                        tint = AccentGreen,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "7-DAY AI SUMMARY",
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AccentGreen,
-                        letterSpacing = 1.sp
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = report.weeklySummary,
-                    fontSize = 13.sp,
-                    color = TextSecondary,
-                    lineHeight = 19.sp
-                )
-            }
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

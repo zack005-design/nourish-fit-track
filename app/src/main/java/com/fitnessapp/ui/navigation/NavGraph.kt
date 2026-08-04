@@ -40,6 +40,8 @@ import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
+import com.fitnessapp.ui.screens.ai.AiScreen
+import kotlinx.coroutines.launch
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.screens.analytics.AnalyticsScreen
 import com.fitnessapp.ui.screens.food.AddFoodScreen
@@ -54,7 +56,10 @@ import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.TextTertiary
-import kotlinx.coroutines.launch
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 
 sealed class Screen(
     val route: String,
@@ -67,6 +72,7 @@ sealed class Screen(
     data object Nutrition : Screen("nutrition", "Nutrition", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
     data object NutritionDetails : Screen("nutrition_details", "Nutrition Details", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
     data object Sleep : Screen("sleep", "Sleep", Icons.Filled.Bedtime, Icons.Outlined.Bedtime)
+    data object Ai : Screen("ai", "AI", Icons.Filled.AutoAwesome, Icons.Outlined.AutoAwesome)
     data object Analytics : Screen("analytics", "Analytics", Icons.Filled.BarChart, Icons.Outlined.BarChart)
     data object More : Screen("more", "More", Icons.Filled.Menu, Icons.Outlined.Menu)
     data object AddFood : Screen("add_food", "Add Food", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
@@ -77,6 +83,7 @@ val bottomNavItems = listOf(
     Screen.Overview,
     Screen.Nutrition,
     Screen.Sleep,
+    Screen.Ai,
     Screen.Analytics,
     Screen.More
 )
@@ -122,7 +129,15 @@ fun FitnessNavGraph(
                                     contentDescription = screen.label
                                 )
                             },
-                            label = { Text(screen.label) },
+                            label = {
+                                Text(
+                                    text = screen.label,
+                                    fontSize = 10.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
+                            alwaysShowLabel = true,
                             selected = selected,
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = AccentGreen,
@@ -201,6 +216,17 @@ fun FitnessNavGraph(
                     settingsRepository = settingsRepository,
                     onAddClick = { navController.navigate(Screen.AddSleep.route) },
                     onEditClick = { id -> navController.navigate("${Screen.AddSleep.route}?id=$id") },
+                    onShowSnackbar = onShowSnackbar
+                )
+            }
+
+            composable(Screen.Ai.route) {
+                AiScreen(
+                    foodRepository = foodRepository,
+                    waterRepository = waterRepository,
+                    sleepRepository = sleepRepository,
+                    settingsRepository = settingsRepository,
+                    stepsRepository = stepsRepository,
                     onShowSnackbar = onShowSnackbar
                 )
             }
