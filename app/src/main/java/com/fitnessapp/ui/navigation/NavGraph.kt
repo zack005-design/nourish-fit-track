@@ -210,9 +210,13 @@ fun FitnessNavGraph(
                     settingsRepository = settingsRepository,
                     onNavigateToFoodLog = { navController.navigate(Screen.Nutrition.route) },
                     onNavigateToSleepLog = { navController.navigate(Screen.Sleep.route) },
-                    onNavigateToSettings = { navController.navigate(Screen.More.route) }
+                    onNavigateToSettings = { navController.navigate(Screen.More.route) },
+                    onNavigateToAddFood = { navController.navigate(Screen.AddFood.route) },
+                    onNavigateToAddSleep = { navController.navigate(Screen.AddSleep.route) },
+                    onNavigateToAi = { navController.navigate(Screen.Ai.route) }
                 )
             }
+
 
             composable(Screen.Nutrition.route) {
                 FoodLogScreen(

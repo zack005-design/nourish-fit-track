@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.6] - 2026-08-04
+
+- **Home Screen Quick Action Bar**: Added interactive quick action chips (`+ Meal`, `+ Sleep`, `AI Hub`) to `HomeScreen.kt` connected directly to `NavGraph` routes for one-tap navigation.
+
 ## [1.3.5] - 2026-08-04
+
 
 - **Google Health Connect Multi-Intent Fallback & Telemetry Export**: Upgraded `HealthConnectManager.kt` with multi-intent settings resolution (`android.provider.Settings.ACTION_HEALTH_CONNECT_SETTINGS`, `android.health.connect.action.HEALTH_CONNECT_SETTINGS`, `androidx.health.ACTION_HEALTH_CONNECT_SETTINGS`, deep links, and package launch intents) and `exportHealthData` JSON payload formatter.
 

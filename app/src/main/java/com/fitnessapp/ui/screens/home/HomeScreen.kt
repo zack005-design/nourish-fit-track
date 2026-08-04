@@ -101,7 +101,11 @@ fun HomeScreen(
     onNavigateToFoodLog: () -> Unit,
     onNavigateToSleepLog: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToAddFood: () -> Unit = {},
+    onNavigateToAddSleep: () -> Unit = {},
+    onNavigateToAi: () -> Unit = {},
     viewModel: HomeViewModel = viewModel(
+
         factory = HomeViewModel.Factory(
             foodRepository,
             sleepRepository,
@@ -228,6 +232,73 @@ fun HomeScreen(
                 color = AccentOrange,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+
+            // Quick Action Buttons Row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(38.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(AccentOrange.copy(alpha = 0.15f))
+                        .border(1.dp, AccentOrange.copy(alpha = 0.4f), RoundedCornerShape(12.dp))
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onNavigateToAddFood()
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentOrange, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("+ Meal", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(38.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(AccentPurple.copy(alpha = 0.15f))
+                        .border(1.dp, AccentPurple.copy(alpha = 0.4f), RoundedCornerShape(12.dp))
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onNavigateToAddSleep()
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentPurple, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("+ Sleep", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(38.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(AccentGreen.copy(alpha = 0.15f))
+                        .border(1.dp, AccentGreen.copy(alpha = 0.4f), RoundedCornerShape(12.dp))
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            onNavigateToAi()
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("AI Hub", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                    }
+                }
+            }
+
 
             // 4-Column Metric Grid — equal height via IntrinsicSize.Min with subtle glass outlines
             Row(
