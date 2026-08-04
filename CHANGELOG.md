@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.6] - 2026-08-04
+
+- **Animated Splash Screen**: Implemented brand dark theme (`#0B0E14` window background in `themes.xml`) and Jetpack Compose animated splash screen (`SplashScreen.kt`) with glowing pulse emblem, title entrance, and smooth 1.2-second transition into `HomeScreen`.
+
 ## [1.1.5] - 2026-08-04
 
 - **Overview Header Scroll**: Removed nested Scaffold in `HomeScreen.kt` to fix header date and calorie dial scroll overlap.

@@ -49,6 +49,7 @@ import com.fitnessapp.ui.screens.home.HomeScreen
 import com.fitnessapp.ui.screens.settings.SettingsScreen
 import com.fitnessapp.ui.screens.sleep.AddSleepScreen
 import com.fitnessapp.ui.screens.sleep.SleepLogScreen
+import com.fitnessapp.ui.screens.splash.SplashScreen
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
@@ -61,6 +62,7 @@ sealed class Screen(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 ) {
+    data object Splash : Screen("splash", "Splash", Icons.Filled.GridView, Icons.Outlined.GridView)
     data object Overview : Screen("overview", "Overview", Icons.Filled.GridView, Icons.Outlined.GridView)
     data object Nutrition : Screen("nutrition", "Nutrition", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
     data object NutritionDetails : Screen("nutrition_details", "Nutrition Details", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
@@ -148,9 +150,19 @@ fun FitnessNavGraph(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Overview.route,
+            startDestination = Screen.Splash.route,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable(Screen.Splash.route) {
+                SplashScreen(
+                    onSplashFinished = {
+                        navController.navigate(Screen.Overview.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
             composable(Screen.Overview.route) {
                 HomeScreen(
                     foodRepository = foodRepository,
