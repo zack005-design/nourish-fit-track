@@ -44,7 +44,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Scaffold
+
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -282,7 +284,9 @@ fun SettingsScreen(
 
     Scaffold(
         containerColor = BackgroundDark,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
+
             TopAppBar(
                 modifier = Modifier.frostedGlass(
                     backgroundColor = BackgroundDark.copy(alpha = 0.85f),

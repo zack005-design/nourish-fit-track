@@ -1,6 +1,8 @@
 package com.fitnessapp.ui.navigation
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Bedtime
@@ -114,7 +116,9 @@ fun FitnessNavGraph(
 
     Scaffold(
         containerColor = BackgroundDark,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         snackbarHost = {
+
             SnackbarHost(
                 hostState = snackbarHostState,
                 modifier = Modifier

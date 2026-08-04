@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.2] - 2026-08-04
+
+- **Edge-to-Edge Status Bar Inset Realignment**: Configured `contentWindowInsets = WindowInsets(0, 0, 0, 0)` across root and child `Scaffold` containers (`NavGraph.kt`, `HomeScreen.kt`, `FoodLogScreen.kt`, `SleepLogScreen.kt`, `AiScreen.kt`, `AnalyticsScreen.kt`, `SettingsScreen.kt`, `AddFoodScreen.kt`, `AddSleepScreen.kt`, `NutritionDetailsScreen.kt`), eliminating duplicate status bar top gaps and top bar scrolling cutoffs.
+
 ## [1.3.1] - 2026-08-04
+
 
 - **Live OpenFoodFacts REST API Lookup**: Added `lookupBarcodeOnline` and JVM-compatible JSON parser to `BarcodeScannerUtil.kt` (`BarcodeScannerUtilTest.kt`).
 - **Scheduled Background Reminders**: Created `ReminderReceiver.kt` and updated `ReminderNotificationHelper.kt` with `AlarmManager` repeating daily alarms (8 AM Breakfast, 2 PM Hydration, 10 PM Sleep).
