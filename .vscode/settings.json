@@ -1,3 +1,6 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.jdt.ls.java.home": "C:/Users/aniru/.gradle/jdks/eclipse_adoptium-17-amd64-windows.2",
+    "kotlin.compiler.jvm.target": "17",
+    "java.home": "C:/Users/aniru/.gradle/jdks/eclipse_adoptium-17-amd64-windows.2"
 }
