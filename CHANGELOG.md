@@ -1,6 +1,12 @@
 # Changelog
 
+## [1.4.3] - 2026-08-04
+- **Manifest cleanup**: Removed `CAMERA`, `READ_MEDIA_IMAGES`, `READ_EXTERNAL_STORAGE` permissions — no longer needed since camera scanner was removed
+- **Health Connect rationale**: Added `ViewPermissionUsageActivity` alias required by Google Play for apps using health permissions (opens privacy rationale screen from Health Connect settings)
+- Removed orphaned `FileProvider` block (was only needed for CameraX file sharing)
+
 ## [1.4.2] - 2026-08-04
+
 
 - **Bottom Nav Streamlined**: Reduced from 6 to 4 tabs (Home, Nutrition, Sleep, Settings) for iOS-style minimal navigation
 - **Camera Removed**: Cleaned all `CameraFoodEstimator`, `PhotoCamera`, `QrCodeScanner` imports from `AddFoodScreen.kt`

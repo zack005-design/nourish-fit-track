@@ -11,23 +11,12 @@
     <uses-permission android:name="android.permission.health.WRITE_HYDRATION"/>
     <uses-permission android:name="android.permission.health.READ_HYDRATION"/>
 
-
     <!-- Sensor & Sleep Tracking Permissions -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
     <uses-permission android:name="android.permission.BODY_SENSORS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-    <!-- Camera -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
-
-    <!-- Scoped Storage (read media images for AI) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-
-    <!-- Legacy read storage for API < 33 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
-
-    <!-- Internet (needed for MediaPipe model download on first run) -->
+    <!-- Internet (needed for barcode lookup & network features) -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- Allow the app to query Health Connect -->
@@ -59,6 +48,22 @@
             </intent-filter>
         </activity>
 
+        <!--
+            Health Connect privacy rationale entry point.
+            Required by Google Play for apps declaring health permissions.
+            This activity-alias lets Health Connect launch the app's permission rationale screen.
+        -->
+        <activity-alias
+            android:name=".ViewPermissionUsageActivity"
+            android:exported="true"
+            android:targetActivity=".MainActivity"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+
         <!-- Home Screen Widget -->
         <receiver
             android:name=".widget.NourishAppWidget"
@@ -77,18 +82,8 @@
             android:name=".util.ReminderReceiver"
             android:exported="false" />
 
-
-        <!-- FileProvider for sharing CameraX captures with MediaPipe -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_paths"/>
-        </provider>
     </application>
 
 </manifest>
+
 
