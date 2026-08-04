@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.3] - 2026-08-04
+
+- **Gradle JVM Formatting**: Updated `org.gradle.java.home` to use Windows double backslash path syntax (`C:\\Users\\aniru\\.gradle\\jdks\\eclipse_adoptium-17-amd64-windows.2`) for IDE compatibility.
+
 ## [1.1.2] - 2026-08-04
 
 - **Sleep Sheets Redesign**: Redesigned time picker wheel sheet (`PhoneClockWheelSheet`) and Hardware Sensor Night Mode sheet (`LiveSensorSleepSheet`) with glowing breathing pulse timer, depth gradient masks, and glassmorphism.
