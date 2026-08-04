@@ -4,6 +4,7 @@ local.properties
 /local.properties
 .idea/
 /.idea/
+.agents/
 .DS_Store
 build/
 /build/
