@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2026-08-04
+
+- **AI Voice Speech Recognition & TTS**: Created `VoiceSpeechManager.kt` supporting Speech-To-Text voice logging intents and Text-To-Speech audio response playback (`VoiceSpeechManagerTest.kt`).
+
 ## [1.2.9] - 2026-08-04
 
 - **Hardware Step Tracking Foreground Service**: Created `StepTrackingService.kt` for background physical step counter sensor event processing (`Sensor.TYPE_STEP_COUNTER`), verified by `StepTrackingServiceTest.kt`.
