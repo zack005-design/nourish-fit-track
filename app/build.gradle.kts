@@ -13,8 +13,8 @@ android {
         applicationId = "com.fitnessapp"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.1.0"
     }
 
     buildTypes {
@@ -55,7 +55,19 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
     debugImplementation(libs.ui.tooling)
-    
+
+    // CameraX
+    implementation("androidx.camera:camera-core:1.3.4")
+    implementation("androidx.camera:camera-camera2:1.3.4")
+    implementation("androidx.camera:camera-lifecycle:1.3.4")
+    implementation("androidx.camera:camera-view:1.3.4")
+
+    // Gemini Nano on-device (MediaPipe LLM Inference)
+    implementation("com.google.mediapipe:tasks-genai:0.10.14")
+
+    // Runtime permissions helper
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
