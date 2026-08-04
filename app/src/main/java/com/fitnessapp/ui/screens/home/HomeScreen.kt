@@ -392,109 +392,224 @@ fun HomeScreen(
                 )
             }
 
-            // Water Tracking Card
+            // ─── REMADE WATER TRACKING WIDGET ─────────────────────────────────────────
             val waterGoalL = uiState.userGoals.dailyWaterGoal / 1000f
-            val waterProgress = if (waterGoalL > 0f) uiState.totalWaterL / waterGoalL else 0f
-            AppCard {
+            val waterGoalMl = uiState.userGoals.dailyWaterGoal
+            val totalWaterMl = (uiState.totalWaterL * 1000).toInt()
+            val waterProgress = if (waterGoalL > 0f) (uiState.totalWaterL / waterGoalL).coerceIn(0f, 1f) else 0f
+            val waterPctInt = (waterProgress * 100).toInt()
+            val remainingMl = (waterGoalMl - totalWaterMl).coerceAtLeast(0)
+
+            AppCard(contentPadding = 18.dp) {
+                // Header Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.WaterDrop,
-                            contentDescription = null,
-                            tint = AccentBlue,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(AccentBlue.copy(alpha = 0.18f))
+                                .border(1.dp, AccentBlue.copy(alpha = 0.4f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.WaterDrop,
+                                contentDescription = null,
+                                tint = AccentBlue,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = "Hydration Tracker",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = TextPrimary
+                            )
+                            Text(
+                                text = if (remainingMl > 0) "${remainingMl} ml remaining" else "Daily goal accomplished! 💧",
+                                fontSize = 11.sp,
+                                color = if (remainingMl > 0) TextSecondary else AccentBlue,
+                                fontWeight = if (remainingMl > 0) FontWeight.Normal else FontWeight.Bold
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(AccentBlue.copy(alpha = 0.15f))
+                            .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(12.dp))
+                            .padding(horizontal = 10.dp, vertical = 4.dp)
+                    ) {
                         Text(
-                            text = "Water",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
+                            text = "$waterPctInt%",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = AccentBlue
                         )
                     }
-                    Text(
-                        text = String.format(Locale.US, "%.1f L / %.1f L", uiState.totalWaterL, waterGoalL),
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = AccentBlue
-                    )
+                }
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                // Large Volume Display Row
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Text(
+                            text = String.format(Locale.US, "%.1f L", uiState.totalWaterL),
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = TextPrimary
+                        )
+                        Text(
+                            text = " / ${String.format(Locale.US, "%.1f L", waterGoalL)} (${totalWaterMl} ml)",
+                            fontSize = 13.sp,
+                            color = TextSecondary,
+                            modifier = Modifier.padding(bottom = 3.dp)
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
+                // Liquid Progress Bar
                 LinearBar(
                     progressFraction = waterProgress,
                     barColor = AccentBlue,
-                    barHeight = 6.dp,
+                    barHeight = 10.dp,
                     showPercentageText = false
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Quick Add Cup Buttons — Row 1 (Adding Water)
+                Text(
+                    text = "Quick Log Water Cups:",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = TextSecondary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    OutlinedButton(
-                        onClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            viewModel.removeWater(250)
-                            NourishAppWidget.updateAllWidgets(context)
-                        },
-                        modifier = Modifier.weight(1.1f),
-                        shape = RoundedCornerShape(12.dp),
-                        contentPadding = PaddingValues(horizontal = 4.dp)
+                    listOf(
+                        "+250 ml" to 250,
+                        "+500 ml" to 500,
+                        "+750 ml" to 750
+                    ).forEach { (label, amount) ->
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(40.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(AccentBlue.copy(alpha = 0.15f))
+                                .border(1.dp, AccentBlue.copy(alpha = 0.4f), RoundedCornerShape(14.dp))
+                                .clickable {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    viewModel.addWater(amount)
+                                    NourishAppWidget.updateAllWidgets(context)
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = null,
+                                    tint = AccentBlue,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                                Spacer(modifier = Modifier.width(3.dp))
+                                Text(
+                                    text = label,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Quick Adjustment Row 2 (Subtract & Clear)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .weight(1.2f)
+                            .height(38.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(SurfaceCardAlt)
+                            .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(14.dp))
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                viewModel.removeWater(250)
+                                NourishAppWidget.updateAllWidgets(context)
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(imageVector = Icons.Default.Remove, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(14.dp))
-                        Spacer(modifier = Modifier.width(2.dp))
-                        Text(text = "-250 ml", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Remove,
+                                contentDescription = null,
+                                tint = TextSecondary,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "-250 ml",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = TextSecondary
+                            )
+                        }
                     }
 
-                    OutlinedButton(
-                        onClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            viewModel.addWater(250)
-                            NourishAppWidget.updateAllWidgets(context)
-                        },
-                        modifier = Modifier.weight(1.1f),
-                        shape = RoundedCornerShape(12.dp),
-                        contentPadding = PaddingValues(horizontal = 4.dp)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(38.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(AccentRed.copy(alpha = 0.12f))
+                            .border(1.dp, AccentRed.copy(alpha = 0.35f), RoundedCornerShape(14.dp))
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                viewModel.clearWaterForDate()
+                                NourishAppWidget.updateAllWidgets(context)
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(14.dp))
-                        Spacer(modifier = Modifier.width(2.dp))
-                        Text(text = "+250 ml", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                    }
-
-                    OutlinedButton(
-                        onClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            viewModel.addWater(500)
-                            NourishAppWidget.updateAllWidgets(context)
-                        },
-                        modifier = Modifier.weight(1.1f),
-                        shape = RoundedCornerShape(12.dp),
-                        contentPadding = PaddingValues(horizontal = 4.dp)
-                    ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(14.dp))
-                        Spacer(modifier = Modifier.width(2.dp))
-                        Text(text = "+500 ml", color = TextPrimary, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                    }
-
-                    OutlinedButton(
-                        onClick = {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            viewModel.clearWaterForDate()
-                            NourishAppWidget.updateAllWidgets(context)
-                        },
-                        modifier = Modifier.weight(0.9f),
-                        shape = RoundedCornerShape(12.dp),
-                        contentPadding = PaddingValues(horizontal = 4.dp)
-                    ) {
-                        Icon(imageVector = Icons.Default.DeleteOutline, contentDescription = "Clear Water", tint = AccentRed, modifier = Modifier.size(16.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.DeleteOutline,
+                                contentDescription = "Clear Water Log",
+                                tint = AccentRed,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "Reset",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = AccentRed
+                            )
+                        }
                     }
                 }
             }

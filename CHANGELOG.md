@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.2] - 2026-08-04
+
+- **Overview Hydration Widget Redesign**: Redesigned the Water Tracking card on `HomeScreen.kt` with a 10dp liquid progress bar, glowing header badge, daily goal progress percentage badge (`%`), large volume display, 3-cup quick log action chips (`+250 ml`, `+500 ml`, `+750 ml`), `-250 ml` subtract control, and one-tap reset.
+
 ## [1.2.1] - 2026-08-04
 
 - **Gradle JDK Path Formatting**: Updated `org.gradle.java.home` path to use forward slashes (`C:/Users/aniru/.gradle/jdks/jetbrains_s_r_o_-21-amd64-windows.2`), aligning with registered IDE Java 21 JDK table entries and preventing Kotlin DSL build script semantic analysis warnings.
