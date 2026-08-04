@@ -39,5 +39,11 @@ class WaterRepository(
         dao.delete(entry)
     }
 
+    suspend fun deleteForDate(dateMillis: Long) = withContext(ioDispatcher) {
+        val startOfDay = DateUtils.startOfDayMillis(dateMillis)
+        val endOfDay = DateUtils.endOfDayMillis(dateMillis)
+        dao.deleteForDateRange(startOfDay, endOfDay)
+    }
+
     suspend fun clearAll() = withContext(ioDispatcher) { dao.clearAll() }
 }

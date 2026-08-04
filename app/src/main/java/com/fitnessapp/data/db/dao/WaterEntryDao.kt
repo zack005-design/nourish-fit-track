@@ -30,6 +30,9 @@ interface WaterEntryDao {
     @Delete
     fun delete(entry: WaterEntry): Int
 
+    @Query("DELETE FROM water_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun deleteForDateRange(startOfDay: Long, endOfDay: Long)
+
     @Query("DELETE FROM water_entries")
     fun clearAll()
 }

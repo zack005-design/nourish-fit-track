@@ -233,7 +233,7 @@ fun SettingsScreen(
                 }
             }
 
-            // ─── 2. iOS Shortcuts Grid (4 Square Tiles) ──────────────────────────────────
+            // ─── 2. Quick Shortcuts (Google Health & Clear All Data) ───────────────────
             AppCard {
                 Text(
                     text = "Quick Shortcuts",
@@ -249,36 +249,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     ShortcutTile(
-                        title = "Goals",
-                        icon = Icons.Default.Flag,
-                        tint = AccentOrange,
-                        modifier = Modifier.weight(1f),
-                        onClick = { onShowSnackbar("Scroll down to edit Daily Goals") }
-                    )
-                    ShortcutTile(
-                        title = "Reminders",
-                        icon = Icons.Default.Notifications,
-                        tint = AccentBlue,
-                        modifier = Modifier.weight(1f),
-                        onClick = { onShowSnackbar("Reminders feature coming soon") }
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    ShortcutTile(
-                        title = "My Data",
-                        icon = Icons.Default.Storage,
-                        tint = AccentPurple,
-                        modifier = Modifier.weight(1f),
-                        onClick = { onShowSnackbar("Data export feature coming soon") }
-                    )
-                    ShortcutTile(
-                        title = "Health Connect",
+                        title = "Google Health",
                         icon = Icons.Default.Favorite,
                         tint = AccentGreen,
                         modifier = Modifier.weight(1f),
@@ -304,9 +275,17 @@ fun SettingsScreen(
                                         )
                                     )
                                 }
-                                onShowSnackbar("Opening Health Connect on Play Store...")
+                                onShowSnackbar("Opening Google Health Connect...")
                             }
                         }
+                    )
+
+                    ShortcutTile(
+                        title = "Clear All Data",
+                        icon = Icons.Default.DeleteForever,
+                        tint = AccentRed,
+                        modifier = Modifier.weight(1f),
+                        onClick = { showClearDialog = true }
                     )
                 }
             }
@@ -399,69 +378,25 @@ fun SettingsScreen(
                 }
             }
 
-            // ─── 4. Support & Info Grouped Card ───────────────────────────────────────
-            AppCard {
-                Text(
-                    text = "Support & Information",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
+            Spacer(modifier = Modifier.height(16.dp))
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                HelpOptionRow(
-                    title = "Help Center",
-                    icon = Icons.AutoMirrored.Filled.HelpOutline,
-                    onClick = { onShowSnackbar("Opening Help Center...") }
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                HelpOptionRow(
-                    title = "About Nourish",
-                    icon = Icons.Default.Info,
-                    onClick = { onShowSnackbar("Nourish v1.0 - Modern Health & Fitness") }
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                HelpOptionRow(
-                    title = "Rate Nourish",
-                    icon = Icons.Default.Star,
-                    onClick = { onShowSnackbar("Thank you for rating Nourish!") }
-                )
-            }
-
-            // ─── 5. Danger Zone — Clear All Data ──────────────────────────────────────
-            AppCard {
+            // ─── 4. App Version Footer ────────────────────────────────────────────────
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
-                    text = "Danger Zone",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = AccentRed
+                    text = "Nourish Fitness v1.1.5 (Build 8)",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = TextTertiary
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "Permanently delete all logged entries (food, water, sleep, steps). Your goal settings will not be affected.",
-                    fontSize = 13.sp,
-                    color = TextSecondary,
-                    lineHeight = 18.sp
+                    text = "Designed for High Performance Health Tracking",
+                    fontSize = 10.sp,
+                    color = TextTertiary.copy(alpha = 0.6f)
                 )
-                Spacer(modifier = Modifier.height(14.dp))
-                Button(
-                    onClick = { showClearDialog = true },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                    shape = RoundedCornerShape(24.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentRed.copy(alpha = 0.15f))
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.DeleteForever,
-                        contentDescription = null,
-                        tint = AccentRed,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Clear All Data", fontWeight = FontWeight.Bold, color = AccentRed)
-                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.5] - 2026-08-04
+
+- **Overview Header Scroll**: Removed nested Scaffold in `HomeScreen.kt` to fix header date and calorie dial scroll overlap.
+- **Water Log Management**: Added `-250 ml` and `Clear Water` buttons to the water logging card in `HomeScreen.kt` and `HomeViewModel.kt`.
+- **Hardware Sensor Night Mode Alignment**: Configured `WindowInsets(0,0,0,0)` and `navigationBarsPadding()` on `LiveSensorSleepSheet` for real phone device screen alignment.
+- **More Screen Streamlining**: Removed Support & Information card, kept Google Health and Clear All Data as Quick Shortcuts, removed Danger Zone, and added app version footer (`Nourish Fitness v1.1.5 (Build 8)`).
+
 ## [1.1.4] - 2026-08-04
 
 - **Android Studio JDK Table Alignment**: Configured `gradleJvm` to `jbr-21` (`C:/Users/aniru/.gradle/jdks/jetbrains_s_r_o_-21-amd64-windows.2`), matching Android Studio's registered `jdk.table.xml` entry.

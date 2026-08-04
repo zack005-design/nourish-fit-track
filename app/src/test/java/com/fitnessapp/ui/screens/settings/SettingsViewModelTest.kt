@@ -72,6 +72,9 @@ class SettingsViewModelTest {
         override fun insert(entry: WaterEntry) = 1L
         override fun update(entry: WaterEntry) = 1
         override fun delete(entry: WaterEntry) = 1
+        override fun deleteForDateRange(startOfDay: Long, endOfDay: Long) {
+            list.value = list.value.filterNot { it.dateMillis in startOfDay..endOfDay }
+        }
         override fun clearAll() { list.value = emptyList() }
     }
 

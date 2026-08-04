@@ -166,6 +166,29 @@ class HomeViewModel(
         }
     }
 
+    fun removeWater(amountMl: Int) {
+        viewModelScope.launch {
+            val currentL = uiState.value.totalWaterL
+            val currentMl = (currentL * 1000).toInt()
+            val newMl = (currentMl - amountMl).coerceAtLeast(0)
+            waterRepository.deleteForDate(_selectedDateMillis.value)
+            if (newMl > 0) {
+                waterRepository.insert(
+                    WaterEntry(
+                        dateMillis = _selectedDateMillis.value,
+                        amountMl = newMl
+                    )
+                )
+            }
+        }
+    }
+
+    fun clearWaterForDate() {
+        viewModelScope.launch {
+            waterRepository.deleteForDate(_selectedDateMillis.value)
+        }
+    }
+
     fun addSteps(countDelta: Int) {
         viewModelScope.launch {
             val current = uiState.value.stepsCount
