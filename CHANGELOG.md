@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - 2026-08-04
+
+- **16 KB Page Size Support**: Upgraded CameraX dependencies (`camera-core`, `camera-camera2`, `camera-lifecycle`, `camera-view`) to 1.4.1 to align native libraries (`libimage_processing_util_jni.so`) to 16 KB page size boundaries for Android 15+ compatibility.
+
 ## [1.1.0] - 2026-08-04
 
 ### Added - AI Integration
