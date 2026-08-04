@@ -16,10 +16,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.ui.unit.dp
+import com.fitnessapp.ui.theme.TextPrimary
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -110,7 +114,22 @@ fun FitnessNavGraph(
 
     Scaffold(
         containerColor = BackgroundDark,
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier
+                    .padding(bottom = if (showBottomBar) 72.dp else 16.dp)
+                    .padding(horizontal = 16.dp)
+            ) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = Color(0xFF1E2433),
+                    contentColor = TextPrimary,
+                    actionColor = AccentGreen,
+                    shape = RoundedCornerShape(16.dp)
+                )
+            }
+        },
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar(

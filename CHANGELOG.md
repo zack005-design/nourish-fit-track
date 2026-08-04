@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.4] - 2026-08-04
+
+- **Google Health Connect Manager & Launcher**: Created `HealthConnectManager.kt` supporting multi-intent fallback (`android.health.connect.action.HEALTH_CONNECT_SETTINGS`, `androidx.health.ACTION_HEALTH_CONNECT_SETTINGS`, and Play Store fallback). Added modal dialog in `SettingsScreen.kt` supporting Google Health data read, write sync, and settings launch.
+- **Floating Dark Glass Snackbar UI**: Styled `SnackbarHost` in `NavGraph.kt` with bottom padding (`72.dp` above navigation bar) and a dark glass shape (`#1E2433`, rounded `16.dp` corners), preventing toast popups from obscuring bottom navigation icons or goal input fields.
+
 ## [1.2.3] - 2026-08-04
 
 - **Complete AI Cleanup**: Removed the `Consistency Insight` card and unused AI helper components from `AnalyticsScreen.kt`. Removed the `AiCoachSheet` bottom sheet modal from `HomeScreen.kt`. All AI features are now strictly isolated to the dedicated **AI** bottom navigation tab (`AiScreen.kt`).

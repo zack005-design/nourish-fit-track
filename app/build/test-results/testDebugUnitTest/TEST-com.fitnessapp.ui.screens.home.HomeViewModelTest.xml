@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ui.screens.home.HomeViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T10:18:27.880Z" hostname="USER_05" time="0.053">
+<testsuite name="com.fitnessapp.ui.screens.home.HomeViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T10:43:14.285Z" hostname="USER_05" time="0.043">
   <properties/>
-  <testcase name="testHomeViewModelAggregationAndQuickActions" classname="com.fitnessapp.ui.screens.home.HomeViewModelTest" time="0.053"/>
+  <testcase name="testHomeViewModelAggregationAndQuickActions" classname="com.fitnessapp.ui.screens.home.HomeViewModelTest" time="0.043"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

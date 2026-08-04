@@ -25,13 +25,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Sync
+import com.fitnessapp.util.HealthConnectManager
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -69,6 +73,7 @@ import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
+import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
@@ -116,6 +121,125 @@ fun SettingsScreen(
         waterGoal = userGoals.dailyWaterGoal.toString()
         sleepGoalHours = userGoals.dailySleepGoalHours.toString()
         stepsGoal = userGoals.dailyStepsGoal.toString()
+    }
+
+    var showHealthDialog by remember { mutableStateOf(false) }
+
+    if (showHealthDialog) {
+        AlertDialog(
+            onDismissRequest = { showHealthDialog = false },
+            containerColor = SurfaceCardAlt,
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = null,
+                        tint = AccentGreen,
+                        modifier = Modifier.size(22.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Google Health Connect",
+                        color = TextPrimary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text(
+                        text = "Read & Write nutrition, hydration, sleep, and steps data directly with Google Health Connect.",
+                        color = TextSecondary,
+                        fontSize = 12.sp,
+                        lineHeight = 16.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    // Action 1: Write / Export Data to Google Health
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(AccentGreen.copy(alpha = 0.15f))
+                            .border(1.dp, AccentGreen.copy(alpha = 0.35f), RoundedCornerShape(12.dp))
+                            .clickable {
+                                showHealthDialog = false
+                                val msg = HealthConnectManager.writeDataToHealthConnect(
+                                    foodCount = 1,
+                                    waterCount = 1,
+                                    sleepCount = 1
+                                )
+                                onShowSnackbar(msg)
+                            }
+                            .padding(12.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(imageVector = Icons.Default.Sync, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(text = "Sync & Write Data to Google Health", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                                Text(text = "Export food, water, sleep & steps to Health Connect", fontSize = 10.sp, color = TextSecondary)
+                            }
+                        }
+                    }
+
+                    // Action 2: Read / Import Data from Google Health
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(AccentBlue.copy(alpha = 0.15f))
+                            .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(12.dp))
+                            .clickable {
+                                showHealthDialog = false
+                                val msg = HealthConnectManager.readDataFromHealthConnect()
+                                onShowSnackbar(msg)
+                            }
+                            .padding(12.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(imageVector = Icons.Default.Download, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(text = "Read Data from Google Health", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                                Text(text = "Import health & activity records from Health Connect", fontSize = 10.sp, color = TextSecondary)
+                            }
+                        }
+                    }
+
+                    // Action 3: Open Google Health Connect System Settings
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(SurfaceCard)
+                            .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(12.dp))
+                            .clickable {
+                                showHealthDialog = false
+                                val launched = HealthConnectManager.openHealthConnect(context)
+                                onShowSnackbar(if (launched) "Opening Google Health Connect..." else "Could not open Google Health Connect")
+                            }
+                            .padding(12.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(imageVector = Icons.Default.Settings, contentDescription = null, tint = TextSecondary, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(text = "Open Health Connect Settings", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                                Text(text = "Manage app permissions & connected sources", fontSize = 10.sp, color = TextSecondary)
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showHealthDialog = false }) {
+                    Text("Close", color = TextSecondary)
+                }
+            }
+        )
     }
 
     if (showClearDialog) {
@@ -258,29 +382,7 @@ fun SettingsScreen(
                         modifier = Modifier.weight(1f),
                         onClick = {
                             haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
-                            val healthConnectPackage = "com.google.android.apps.healthdata"
-                            val intent = context.packageManager
-                                .getLaunchIntentForPackage(healthConnectPackage)
-                            if (intent != null) {
-                                context.startActivity(intent)
-                            } else {
-                                try {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse("market://details?id=$healthConnectPackage")
-                                        )
-                                    )
-                                } catch (e: Exception) {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse("https://play.google.com/store/apps/details?id=$healthConnectPackage")
-                                        )
-                                    )
-                                }
-                                onShowSnackbar("Opening Google Health Connect...")
-                            }
+                            showHealthDialog = true
                         }
                     )
 
