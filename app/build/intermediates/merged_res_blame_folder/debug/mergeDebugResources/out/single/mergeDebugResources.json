@@ -1,10 +1,18 @@
 [
     {
-        "merged": "com.fitnessapp-debug-66:/xml_file_provider_paths.xml.flat",
-        "source": "com.fitnessapp-main-68:/xml/file_provider_paths.xml"
+        "merged": "com.fitnessapp-debug-66:/layout_nourish_widget_layout.xml.flat",
+        "source": "com.fitnessapp-main-68:/layout/nourish_widget_layout.xml"
     },
     {
-        "merged": "com.fitnessapp-debug-66:/drawable_ic_launcher.xml.flat",
-        "source": "com.fitnessapp-main-68:/drawable/ic_launcher.xml"
+        "merged": "C:\\Users\\aniru\\.gradle\\daemon\\9.5.0\\com.fitnessapp-debug-66:\\drawable_ic_launcher.xml.flat",
+        "source": "C:\\Users\\aniru\\.gradle\\daemon\\9.5.0\\com.fitnessapp-main-68:\\drawable\\ic_launcher.xml"
+    },
+    {
+        "merged": "com.fitnessapp-debug-66:/xml_nourish_widget_info.xml.flat",
+        "source": "com.fitnessapp-main-68:/xml/nourish_widget_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\aniru\\.gradle\\daemon\\9.5.0\\com.fitnessapp-debug-66:\\xml_file_provider_paths.xml.flat",
+        "source": "C:\\Users\\aniru\\.gradle\\daemon\\9.5.0\\com.fitnessapp-main-68:\\xml\\file_provider_paths.xml"
     }
 ]

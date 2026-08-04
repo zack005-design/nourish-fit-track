@@ -57,6 +57,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -233,10 +234,10 @@ fun SettingsScreen(
                 }
             }
 
-            // ─── 2. Quick Shortcuts (Google Health & Clear All Data) ───────────────────
+            // ─── 2. Quick Shortcuts (Google Health, Reminder Notification, & Clear All Data) ───
             AppCard {
                 Text(
-                    text = "Quick Shortcuts",
+                    text = "Quick Shortcuts & Features",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = TextPrimary
@@ -246,14 +247,17 @@ fun SettingsScreen(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    val haptic = LocalHapticFeedback.current
+
                     ShortcutTile(
                         title = "Google Health",
                         icon = Icons.Default.Favorite,
                         tint = AccentGreen,
                         modifier = Modifier.weight(1f),
                         onClick = {
+                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
                             val healthConnectPackage = "com.google.android.apps.healthdata"
                             val intent = context.packageManager
                                 .getLaunchIntentForPackage(healthConnectPackage)
@@ -281,11 +285,30 @@ fun SettingsScreen(
                     )
 
                     ShortcutTile(
-                        title = "Clear All Data",
+                        title = "Remind Hydrate",
+                        icon = Icons.Default.Notifications,
+                        tint = AccentBlue,
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                            com.fitnessapp.util.ReminderNotificationHelper.sendReminderNotification(
+                                context,
+                                "Hydration Check-in 💧",
+                                "Time to drink a glass of water to hit your daily goal!"
+                            )
+                            onShowSnackbar("Reminder notification sent!")
+                        }
+                    )
+
+                    ShortcutTile(
+                        title = "Clear Data",
                         icon = Icons.Default.DeleteForever,
                         tint = AccentRed,
                         modifier = Modifier.weight(1f),
-                        onClick = { showClearDialog = true }
+                        onClick = {
+                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                            showClearDialog = true
+                        }
                     )
                 }
             }
@@ -355,8 +378,10 @@ fun SettingsScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                val haptic = LocalHapticFeedback.current
                 Button(
                     onClick = {
+                        haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
                         viewModel.saveGoals(
                             calorieGoal = calorieGoal.toIntOrNull() ?: 2200,
                             proteinGoal = proteinGoal.toFloatOrNull() ?: 140f,
@@ -386,14 +411,14 @@ fun SettingsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Nourish Fitness v1.1.5 (Build 8)",
+                    text = "Nourish Fitness v1.1.7 (Build 10)",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
                     color = TextTertiary
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "Designed for High Performance Health Tracking",
+                    text = "Designed for Personal High Performance Tracking",
                     fontSize = 10.sp,
                     color = TextTertiary.copy(alpha = 0.6f)
                 )

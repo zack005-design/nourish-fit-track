@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.8] - 2026-08-04
+
+- **Camera AI Meal Scanner**: Point phone camera at meal, snap photo, and receive an instant on-device nutritional estimate (dish name, calories, protein, carbs, fat, fiber) with a fully editable review dialog before saving to Room DB (`CameraFoodEstimator.kt`).
+- **Android Home Screen Widget**: AppWidgetProvider (`NourishAppWidget.kt` & `nourish_widget_layout.xml`) displaying daily Calorie intake, Water logged, and Step progress directly on the Android home screen.
+- **Local Push Notifications**: Added `ReminderNotificationHelper.kt` for hydration & meal logging check-ins with a "Remind Hydrate" test trigger in Settings.
+- **Tactile Haptic Feedback**: Integrated `LocalHapticFeedback.current` across button taps, step increments, water logging, AI Coach topic chips, and food log entries.
+- **Fully Local & Personal**: 100% on-device local Room DB, no remote databases, APIs, or subscriptions required.
+
 ## [1.1.7] - 2026-08-04
 
 - **AI Coach Tab**: Added "AI Coach" segment in Analytics screen (4th tab with AutoAwesome icon), powered by `HealthIntelligenceEngine` — a Whoop/Google Health-style on-device analytics engine.

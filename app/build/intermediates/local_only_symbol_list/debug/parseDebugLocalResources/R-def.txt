@@ -1,6 +1,14 @@
 R_DEF: Internal format may change without notice
 local
 drawable ic_launcher
+id widget_calories_sub
+id widget_calories_text
+id widget_steps_sub
+id widget_steps_text
+id widget_update_time
+id widget_water_sub
+id widget_water_text
+layout nourish_widget_layout
 string app_name
 string food_entry_add_title
 string food_entry_back_content_description
@@ -43,3 +51,4 @@ string sleep_log_empty_title
 string sleep_log_title
 style Theme.FitnessApp
 xml file_provider_paths
+xml nourish_widget_info

@@ -847,6 +847,13 @@ id view_tree_lifecycle_owner
 id view_tree_on_back_pressed_dispatcher_owner
 id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
+id widget_calories_sub
+id widget_calories_text
+id widget_steps_sub
+id widget_steps_text
+id widget_update_time
+id widget_water_sub
+id widget_water_text
 id withText
 id wrap_content
 id wrapped_composition_tag
@@ -899,6 +906,7 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout nourish_widget_layout
 layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
@@ -1461,3 +1469,4 @@ styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
 xml file_provider_paths
+xml nourish_widget_info

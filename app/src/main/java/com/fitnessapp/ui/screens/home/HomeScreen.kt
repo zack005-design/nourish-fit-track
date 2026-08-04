@@ -59,9 +59,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fitnessapp.R
+import com.fitnessapp.widget.NourishAppWidget
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
@@ -107,6 +111,8 @@ fun HomeScreen(
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
     var showDatePicker by remember { mutableStateOf(false) }
     var showAiCoachSheet by remember { mutableStateOf(false) }
 
@@ -328,7 +334,11 @@ fun HomeScreen(
                                 .size(28.dp)
                                 .clip(CircleShape)
                                 .background(AccentGreen.copy(alpha = 0.2f))
-                                .clickable { viewModel.addSteps(1000) },
+                                .clickable {
+                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    viewModel.addSteps(1000)
+                                    NourishAppWidget.updateAllWidgets(context)
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
@@ -428,7 +438,11 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     OutlinedButton(
-                        onClick = { viewModel.removeWater(250) },
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.removeWater(250)
+                            NourishAppWidget.updateAllWidgets(context)
+                        },
                         modifier = Modifier.weight(1.1f),
                         shape = RoundedCornerShape(12.dp),
                         contentPadding = PaddingValues(horizontal = 4.dp)
@@ -439,7 +453,11 @@ fun HomeScreen(
                     }
 
                     OutlinedButton(
-                        onClick = { viewModel.addWater(250) },
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.addWater(250)
+                            NourishAppWidget.updateAllWidgets(context)
+                        },
                         modifier = Modifier.weight(1.1f),
                         shape = RoundedCornerShape(12.dp),
                         contentPadding = PaddingValues(horizontal = 4.dp)
@@ -450,7 +468,11 @@ fun HomeScreen(
                     }
 
                     OutlinedButton(
-                        onClick = { viewModel.addWater(500) },
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.addWater(500)
+                            NourishAppWidget.updateAllWidgets(context)
+                        },
                         modifier = Modifier.weight(1.1f),
                         shape = RoundedCornerShape(12.dp),
                         contentPadding = PaddingValues(horizontal = 4.dp)
@@ -461,7 +483,11 @@ fun HomeScreen(
                     }
 
                     OutlinedButton(
-                        onClick = { viewModel.clearWaterForDate() },
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.clearWaterForDate()
+                            NourishAppWidget.updateAllWidgets(context)
+                        },
                         modifier = Modifier.weight(0.9f),
                         shape = RoundedCornerShape(12.dp),
                         contentPadding = PaddingValues(horizontal = 4.dp)
