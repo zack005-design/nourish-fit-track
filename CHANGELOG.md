@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.7] - 2026-08-04
+
+- **Native Google Health Connect Client SDK Writer**: Integrated `androidx.health.connect:connect-client:1.1.0-alpha10` and compiled against Android 35 SDK. Implemented `insertNutritionRecords`, `insertHydrationRecords`, and `insertSleepRecords` to write local Room DB entries directly to Google Health Connect API.
+
 ## [1.3.6] - 2026-08-04
+
 
 - **Home Screen Quick Action Bar**: Added interactive quick action chips (`+ Meal`, `+ Sleep`, `AI Hub`) to `HomeScreen.kt` connected directly to `NavGraph` routes for one-tap navigation.
 

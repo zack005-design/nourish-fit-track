@@ -7,14 +7,16 @@ plugins {
 
 android {
     namespace = "com.fitnessapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.fitnessapp"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 29
-        versionName = "1.3.6"
+        targetSdk = 35
+
+        versionCode = 30
+        versionName = "1.3.7"
+
 
 
 
@@ -82,8 +84,12 @@ dependencies {
     implementation("com.google.mediapipe:tasks-genai:0.10.20")
 
 
+    // Google Health Connect Client SDK
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha10")
+
     // Runtime permissions helper
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")

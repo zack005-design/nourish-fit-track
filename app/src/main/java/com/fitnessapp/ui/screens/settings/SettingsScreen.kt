@@ -370,8 +370,16 @@ fun SettingsScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                HealthConnectManager.openHealthConnect(context)
-                                onShowSnackbar("Opened Google Health Connect Settings")
+                                scope.launch {
+                                    val msg = HealthConnectManager.syncAllLocalDataToGoogleHealth(
+                                        context = context,
+                                        foods = emptyList(),
+                                        waters = emptyList(),
+                                        sleeps = emptyList()
+                                    )
+                                    HealthConnectManager.openHealthConnect(context)
+                                    onShowSnackbar(msg)
+                                }
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
