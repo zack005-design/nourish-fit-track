@@ -35,10 +35,10 @@ for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
 @rem Add default JVM options here.
 set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
-set GRADLE_OPTS="-Dorg.gradle.java.home=C:/Users/aniru/.gradle/jdks/eclipse_adoptium-17-amd64-windows.2"
+set GRADLE_OPTS="-Dorg.gradle.java.home=C:/Users/aniru/.gradle/jdks/jetbrains_s_r_o_-21-amd64-windows.2"
 
 @rem Find java.exe
-set "JAVA_HOME=C:\Users\aniru\.gradle\jdks\eclipse_adoptium-17-amd64-windows.2"
+set "JAVA_HOME=C:\Users\aniru\.gradle\jdks\jetbrains_s_r_o_-21-amd64-windows.2"
 if defined JAVA_HOME goto findJavaFromJavaHome
 
 set JAVA_EXE=java.exe

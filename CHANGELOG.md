@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.4] - 2026-08-04
+
+- **Android Studio JDK Table Alignment**: Configured `gradleJvm` to `jbr-21` (`C:/Users/aniru/.gradle/jdks/jetbrains_s_r_o_-21-amd64-windows.2`), matching Android Studio's registered `jdk.table.xml` entry.
+
 ## [1.1.3] - 2026-08-04
 
 - **Gradle JVM Formatting**: Updated `org.gradle.java.home` to use Windows double backslash path syntax (`C:\\Users\\aniru\\.gradle\\jdks\\eclipse_adoptium-17-amd64-windows.2`) for IDE compatibility.
