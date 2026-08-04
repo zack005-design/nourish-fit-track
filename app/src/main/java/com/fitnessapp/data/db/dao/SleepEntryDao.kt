@@ -12,21 +12,24 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SleepEntryDao {
 
-    @Query("SELECT * FROM sleep_entries WHERE dateMillis >= :dateMillis ORDER BY id DESC")
-    fun getEntriesForDate(dateMillis: Long): Flow<List<SleepEntry>>
+    @Query("SELECT * FROM sleep_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay ORDER BY id DESC")
+    fun getEntriesForDateRange(startOfDay: Long, endOfDay: Long): Flow<List<SleepEntry>>
 
     @Query("SELECT * FROM sleep_entries ORDER BY dateMillis DESC, id DESC")
     fun getAllEntries(): Flow<List<SleepEntry>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entry: SleepEntry)
+    fun insert(entry: SleepEntry): Long
 
     @Update
-    suspend fun update(entry: SleepEntry)
+    fun update(entry: SleepEntry): Int
 
     @Delete
-    suspend fun delete(entry: SleepEntry)
+    fun delete(entry: SleepEntry): Int
 
     @Query("SELECT * FROM sleep_entries WHERE id = :id")
     fun getEntryById(id: Long): Flow<SleepEntry?>
+
+    @Query("DELETE FROM sleep_entries")
+    fun clearAll()
 }

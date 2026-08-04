@@ -2,17 +2,34 @@ package com.fitnessapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Green80 = Color(0xFFA5D6A7)
-val Green40 = Color(0xFF388E3C)
-val Green30 = Color(0xFF2E7D32)
-val Blue80 = Color(0xFF90CAF9)
-val Blue40 = Color(0xFF1976D2)
-val Orange80 = Color(0xFFFFCC80)
-val Orange40 = Color(0xFFF57C00)
-val Purple80 = Color(0xFFCE93D8)
-val Purple40 = Color(0xFF7B1FA2)
+// Premium iOS Apple Health Theme Color Tokens
+val BackgroundDark = Color(0xFF0E1116)
+val SurfaceCard = Color(0xFF181C24)
+val SurfaceCardAlt = Color(0xFF202632)
+val BorderSubtle = Color(0xFF2A3140)
 
-val DarkBackground = Color(0xFF121212)
-val DarkSurface = Color(0xFF1E1E1E)
-val LightBackground = Color(0xFFFFFBFE)
-val LightSurface = Color(0xFFFFFBFE)
+// Typography Color Tokens (Apple Human Interface Guidelines)
+val TextPrimary = Color(0xFFFFFFFF)
+val TextSecondary = Color(0xFF8E8E93)
+val TextTertiary = Color(0xFF636366)
+
+// iOS System Vibrant Accent Tokens
+val AccentOrange = Color(0xFFFF9F0A)   // Calories
+val AccentGreen = Color(0xFF30D158)    // Protein, steps, active tab, success
+val AccentBlue = Color(0xFF0A84FF)     // Water, sleep, primary actions
+val AccentPurple = Color(0xFFBF5AF2)   // Fiber, sleep stage
+val AccentYellow = Color(0xFFFFD60A)   // Fats
+val AccentRed = Color(0xFFFF453A)      // Sodium, cholesterol, destructive actions
+
+// Brand Gradient Tokens
+val BrandGradientStart = Color(0xFFFF9F0A) // Vibrant iOS Orange
+val BrandGradientEnd = Color(0xFF0A84FF)   // iOS System Blue
+
+// Backwards-compatibility aliases
+val DarkBackground = BackgroundDark
+val DarkSurface = SurfaceCard
+val DarkSurfaceVariant = SurfaceCardAlt
+val CaloriesColor = AccentOrange
+val ProteinColor = AccentGreen
+val SleepColor = AccentBlue
+val WaterColor = AccentBlue

@@ -1,30 +1,23 @@
 package com.fitnessapp.data.repository
 
-import android.content.SharedPreferences
+import com.fitnessapp.data.db.dao.UserGoalsDao
+import com.fitnessapp.data.db.entity.UserGoals
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
-class SettingsRepository(private val sharedPreferences: SharedPreferences) {
+class SettingsRepository(
+    private val userGoalsDao: UserGoalsDao,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
-    companion object {
-        private const val KEY_DAILY_CALORIE_TARGET = "daily_calorie_target"
-        private const val KEY_SLEEP_TARGET_HOURS = "sleep_target_hours"
-
-        private const val DEFAULT_DAILY_CALORIE_TARGET = 2000
-        private const val DEFAULT_SLEEP_TARGET_HOURS = 8.0f
+    val userGoals: Flow<UserGoals> = userGoalsDao.getUserGoals().map { goals ->
+        goals ?: UserGoals()
     }
 
-    fun getDailyCalorieTarget(): Int {
-        return sharedPreferences.getInt(KEY_DAILY_CALORIE_TARGET, DEFAULT_DAILY_CALORIE_TARGET)
-    }
-
-    fun setDailyCalorieTarget(target: Int) {
-        sharedPreferences.edit().putInt(KEY_DAILY_CALORIE_TARGET, target).apply()
-    }
-
-    fun getSleepTargetHours(): Float {
-        return sharedPreferences.getFloat(KEY_SLEEP_TARGET_HOURS, DEFAULT_SLEEP_TARGET_HOURS)
-    }
-
-    fun setSleepTargetHours(target: Float) {
-        sharedPreferences.edit().putFloat(KEY_SLEEP_TARGET_HOURS, target).apply()
+    suspend fun saveUserGoals(userGoals: UserGoals): Long = withContext(ioDispatcher) {
+        userGoalsDao.insert(userGoals.copy(id = 1))
     }
 }

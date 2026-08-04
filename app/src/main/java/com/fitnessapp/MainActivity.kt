@@ -18,8 +18,9 @@ class MainActivity : ComponentActivity() {
             FitnessTheme {
                 FitnessNavGraph(
                     foodRepository = app.foodRepository,
-                    workoutRepository = app.workoutRepository,
                     sleepRepository = app.sleepRepository,
+                    waterRepository = app.waterRepository,
+                    stepsRepository = app.stepsRepository,
                     settingsRepository = app.settingsRepository
                 )
             }

@@ -6,38 +6,31 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.fitnessapp.data.db.dao.FoodEntryDao
 import com.fitnessapp.data.db.dao.SleepEntryDao
-import com.fitnessapp.data.db.dao.WorkoutEntryDao
+import com.fitnessapp.data.db.dao.StepsEntryDao
+import com.fitnessapp.data.db.dao.UserGoalsDao
+import com.fitnessapp.data.db.dao.WaterEntryDao
 import com.fitnessapp.data.db.entity.FoodEntry
 import com.fitnessapp.data.db.entity.SleepEntry
-import com.fitnessapp.data.db.entity.WorkoutEntry
+import com.fitnessapp.data.db.entity.StepsEntry
+import com.fitnessapp.data.db.entity.UserGoals
+import com.fitnessapp.data.db.entity.WaterEntry
 
-@Database(entities = [FoodEntry::class, SleepEntry::class, WorkoutEntry::class], version = 2, exportSchema = false)
+@Database(
+    entities = [FoodEntry::class, SleepEntry::class, WaterEntry::class, StepsEntry::class, UserGoals::class],
+    version = 5,
+    exportSchema = false
+)
 abstract class FitnessDatabase : RoomDatabase() {
 
     abstract fun foodEntryDao(): FoodEntryDao
     abstract fun sleepEntryDao(): SleepEntryDao
-    abstract fun workoutEntryDao(): WorkoutEntryDao
+    abstract fun waterEntryDao(): WaterEntryDao
+    abstract fun stepsEntryDao(): StepsEntryDao
+    abstract fun userGoalsDao(): UserGoalsDao
 
     companion object {
         @Volatile
         private var INSTANCE: FitnessDatabase? = null
-
-        private val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
-            override fun migrate(database: androidx.sqlite.db.SupportSQLiteDatabase) {
-                database.execSQL("""
-                    CREATE TABLE IF NOT EXISTS `workout_entries` (
-                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        `type` TEXT NOT NULL,
-                        `durationMinutes` INTEGER NOT NULL,
-                        `caloriesBurned` INTEGER NOT NULL,
-                        `distanceKm` REAL,
-                        `notes` TEXT,
-                        `dateMillis` INTEGER NOT NULL
-                    )
-                """
-                )
-            }
-        }
 
         fun getInstance(context: Context): FitnessDatabase {
             return INSTANCE ?: synchronized(this) {
@@ -45,7 +38,9 @@ abstract class FitnessDatabase : RoomDatabase() {
                     context.applicationContext,
                     FitnessDatabase::class.java,
                     "fitness_db"
-                ).addMigrations(MIGRATION_1_2).build()
+                )
+                .fallbackToDestructiveMigration()
+                .build()
                 INSTANCE = instance
                 instance
             }

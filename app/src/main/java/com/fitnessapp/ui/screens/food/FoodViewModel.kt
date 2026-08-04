@@ -6,69 +6,96 @@ import androidx.lifecycle.viewModelScope
 import com.fitnessapp.data.db.entity.FoodEntry
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.util.DateUtils
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
+data class FoodUiState(
+    val selectedDateMillis: Long = System.currentTimeMillis(),
+    val entries: List<FoodEntry> = emptyList(),
+    val totalCalories: Int = 0,
+    val totalProtein: Float = 0f,
+    val totalCarbs: Float = 0f,
+    val totalFat: Float = 0f,
+    val totalFiber: Float = 0f,
+    val totalSugar: Float = 0f,
+    val totalSodium: Float = 0f,
+    val totalCholesterol: Float = 0f
+)
+
+@OptIn(ExperimentalCoroutinesApi::class)
 class FoodViewModel(private val foodRepository: FoodRepository) : ViewModel() {
 
-    private val todayStartMillis = DateUtils.todayStartMillis()
+    private val _selectedDateMillis = MutableStateFlow(System.currentTimeMillis())
+    val selectedDateMillis: StateFlow<Long> = _selectedDateMillis.asStateFlow()
 
-    val todayEntries: StateFlow<List<FoodEntry>> = foodRepository
-        .getEntriesForDate(todayStartMillis)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    fun setSelectedDate(millis: Long) {
+        _selectedDateMillis.value = DateUtils.startOfDayMillis(millis)
+    }
 
-    val allEntries: StateFlow<List<FoodEntry>> = foodRepository
-        .getAllEntries()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val uiState: StateFlow<FoodUiState> = _selectedDateMillis.flatMapLatest { dateMillis ->
+        foodRepository.getEntriesForDate(dateMillis).map { entries ->
+            val calories = entries.sumOf { it.calories }
+            val protein = entries.sumOf { it.proteinGrams.toDouble() }.toFloat()
+            val carbs = entries.sumOf { it.carbsGrams.toDouble() }.toFloat()
+            val fat = entries.sumOf { it.fatGrams.toDouble() }.toFloat()
+            val fiber = entries.sumOf { it.fiberGrams.toDouble() }.toFloat()
+            val sugar = entries.sumOf { it.sugarGrams.toDouble() }.toFloat()
+            val sodium = entries.sumOf { it.sodiumMg.toDouble() }.toFloat()
+            val cholesterol = entries.sumOf { it.cholesterolMg.toDouble() }.toFloat()
 
-    val totalCalories: StateFlow<Int?> = foodRepository
-        .getTotalCaloriesForDate(todayStartMillis)
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
-    fun addEntry(name: String, calories: Int, protein: Float, carbs: Float, fat: Float, mealType: String) {
-        viewModelScope.launch {
-            foodRepository.insert(
-                FoodEntry(
-                    name = name,
-                    calories = calories,
-                    proteinGrams = protein,
-                    carbsGrams = carbs,
-                    fatGrams = fat,
-                    mealType = mealType,
-                    dateMillis = System.currentTimeMillis()
-                )
+            FoodUiState(
+                selectedDateMillis = dateMillis,
+                entries = entries,
+                totalCalories = calories,
+                totalProtein = protein,
+                totalCarbs = carbs,
+                totalFat = fat,
+                totalFiber = fiber,
+                totalSugar = sugar,
+                totalSodium = sodium,
+                totalCholesterol = cholesterol
             )
         }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = FoodUiState()
+    )
+
+    fun onPreviousDay() {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = _selectedDateMillis.value
+            add(Calendar.DAY_OF_YEAR, -1)
+        }
+        _selectedDateMillis.value = calendar.timeInMillis
     }
 
-    fun updateEntry(id: Long, name: String, calories: Int, protein: Float, carbs: Float, fat: Float, mealType: String) {
+    fun onNextDay() {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = _selectedDateMillis.value
+            add(Calendar.DAY_OF_YEAR, 1)
+        }
+        _selectedDateMillis.value = calendar.timeInMillis
+    }
+
+    fun deleteEntry(entry: FoodEntry, onDeleted: () -> Unit) {
         viewModelScope.launch {
-            // We need to fetch it to keep the original dateMillis or pass it. 
-            // Simple approach: we fetch first
-            val currentEntry = kotlinx.coroutines.flow.firstOrNull(foodRepository.getEntryById(id))
-            if (currentEntry != null) {
-                foodRepository.update(
-                    currentEntry.copy(
-                        name = name,
-                        calories = calories,
-                        proteinGrams = protein,
-                        carbsGrams = carbs,
-                        fatGrams = fat,
-                        mealType = mealType
-                    )
-                )
-            }
+            foodRepository.delete(entry)
+            onDeleted()
         }
     }
 
-    fun getEntry(id: Long) = foodRepository.getEntryById(id)
-
-    fun deleteEntry(entry: FoodEntry) {
+    fun restoreEntry(entry: FoodEntry) {
         viewModelScope.launch {
-            foodRepository.delete(entry)
+            foodRepository.insert(entry)
         }
     }
 

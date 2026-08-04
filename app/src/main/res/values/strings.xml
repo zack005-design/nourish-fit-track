@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Nutrition &amp; Sleep</string>
+    <string name="app_name">Nourish</string>
     <string name="home_title_today_summary">Today\'s Summary</string>
     <string name="home_section_nutrition">Nutrition</string>
     <string name="home_empty_meals">No meals logged today</string>

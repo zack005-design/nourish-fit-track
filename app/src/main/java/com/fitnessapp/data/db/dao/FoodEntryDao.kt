@@ -12,33 +12,48 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FoodEntryDao {
 
-    @Query("SELECT * FROM food_entries WHERE dateMillis >= :dateMillis ORDER BY id DESC")
-    fun getEntriesForDate(dateMillis: Long): Flow<List<FoodEntry>>
+    @Query("SELECT * FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay ORDER BY id DESC")
+    fun getEntriesForDateRange(startOfDay: Long, endOfDay: Long): Flow<List<FoodEntry>>
 
     @Query("SELECT * FROM food_entries ORDER BY dateMillis DESC, id DESC")
     fun getAllEntries(): Flow<List<FoodEntry>>
 
-    @Query("SELECT SUM(calories) FROM food_entries WHERE dateMillis >= :dateMillis")
-    fun getTotalCaloriesForDate(dateMillis: Long): Flow<Int?>
+    @Query("SELECT SUM(calories) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalCaloriesForDateRange(startOfDay: Long, endOfDay: Long): Flow<Int?>
 
-    @Query("SELECT SUM(proteinGrams) FROM food_entries WHERE dateMillis >= :dateMillis")
-    fun getTotalProteinForDate(dateMillis: Long): Flow<Float?>
+    @Query("SELECT SUM(proteinGrams) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalProteinForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
 
-    @Query("SELECT SUM(carbsGrams) FROM food_entries WHERE dateMillis >= :dateMillis")
-    fun getTotalCarbsForDate(dateMillis: Long): Flow<Float?>
+    @Query("SELECT SUM(carbsGrams) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalCarbsForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
 
-    @Query("SELECT SUM(fatGrams) FROM food_entries WHERE dateMillis >= :dateMillis")
-    fun getTotalFatForDate(dateMillis: Long): Flow<Float?>
+    @Query("SELECT SUM(fatGrams) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalFatForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
+
+    @Query("SELECT SUM(fiberGrams) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalFiberForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
+
+    @Query("SELECT SUM(sugarGrams) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalSugarForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
+
+    @Query("SELECT SUM(sodiumMg) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalSodiumForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
+
+    @Query("SELECT SUM(cholesterolMg) FROM food_entries WHERE dateMillis >= :startOfDay AND dateMillis <= :endOfDay")
+    fun getTotalCholesterolForDateRange(startOfDay: Long, endOfDay: Long): Flow<Float?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entry: FoodEntry)
+    fun insert(entry: FoodEntry): Long
 
     @Update
-    suspend fun update(entry: FoodEntry)
+    fun update(entry: FoodEntry): Int
 
     @Delete
-    suspend fun delete(entry: FoodEntry)
+    fun delete(entry: FoodEntry): Int
 
     @Query("SELECT * FROM food_entries WHERE id = :id")
     fun getEntryById(id: Long): Flow<FoodEntry?>
+
+    @Query("DELETE FROM food_entries")
+    fun clearAll()
 }

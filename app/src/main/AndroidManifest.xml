@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Health Connect permissions -->
+    <uses-permission android:name="android.permission.health.READ_STEPS"/>
+    <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
+    <uses-permission android:name="android.permission.health.READ_SLEEP"/>
+    <uses-permission android:name="android.permission.health.WRITE_SLEEP"/>
+    <uses-permission android:name="android.permission.health.WRITE_HYDRATION"/>
+    <uses-permission android:name="android.permission.health.READ_HYDRATION"/>
+
+    <!-- Sensor & Sleep Tracking Permissions for Xiaomi 17T -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- Allow the app to query Health Connect -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata"/>
+    </queries>
+
     <application
         android:name=".FitnessApp"
         android:allowBackup="true"
-        android:label="Fitness Tracker"
+        android:icon="@drawable/ic_launcher"
+        android:roundIcon="@drawable/ic_launcher"
+        android:label="Nourish"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessApp">
         <activity

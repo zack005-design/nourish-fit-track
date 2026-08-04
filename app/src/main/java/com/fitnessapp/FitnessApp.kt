@@ -3,8 +3,10 @@ package com.fitnessapp
 import android.app.Application
 import com.fitnessapp.data.db.FitnessDatabase
 import com.fitnessapp.data.repository.FoodRepository
+import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.WorkoutRepository
+import com.fitnessapp.data.repository.StepsRepository
+import com.fitnessapp.data.repository.WaterRepository
 
 class FitnessApp : Application() {
 
@@ -12,9 +14,11 @@ class FitnessApp : Application() {
         private set
     lateinit var sleepRepository: SleepRepository
         private set
-    lateinit var workoutRepository: WorkoutRepository
+    lateinit var waterRepository: WaterRepository
         private set
-    lateinit var settingsRepository: com.fitnessapp.data.repository.SettingsRepository
+    lateinit var stepsRepository: StepsRepository
+        private set
+    lateinit var settingsRepository: SettingsRepository
         private set
 
     override fun onCreate() {
@@ -23,9 +27,8 @@ class FitnessApp : Application() {
         val database = FitnessDatabase.getInstance(this)
         foodRepository = FoodRepository(database.foodEntryDao())
         sleepRepository = SleepRepository(database.sleepEntryDao())
-        workoutRepository = WorkoutRepository(database.workoutEntryDao())
-
-        val sharedPreferences = getSharedPreferences("fitness_prefs", android.content.Context.MODE_PRIVATE)
-        settingsRepository = com.fitnessapp.data.repository.SettingsRepository(sharedPreferences)
+        waterRepository = WaterRepository(database.waterEntryDao())
+        stepsRepository = StepsRepository(database.stepsEntryDao())
+        settingsRepository = SettingsRepository(database.userGoalsDao())
     }
 }

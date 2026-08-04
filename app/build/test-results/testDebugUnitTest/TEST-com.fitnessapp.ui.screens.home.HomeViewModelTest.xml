@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.fitnessapp.ui.screens.home.HomeViewModelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-03T19:58:03.736Z" hostname="USER_05" time="0.062">
+  <properties/>
+  <testcase name="testHomeViewModelAggregationAndQuickActions" classname="com.fitnessapp.ui.screens.home.HomeViewModelTest" time="0.061"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
