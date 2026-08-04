@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.9] - 2026-08-04
+
+- **Gradle JDK 21 Compatibility**: Configured `org.gradle.java.home` to point to RedHat Java 21 JDK, resolving Java 25 (class major version 69) Kotlin DSL semantic analysis errors in IDE build scripts.
+
 ## [1.1.8] - 2026-08-04
 
 - **Camera AI Meal Scanner**: Point phone camera at meal, snap photo, and receive an instant on-device nutritional estimate (dish name, calories, protein, carbs, fat, fiber) with a fully editable review dialog before saving to Room DB (`CameraFoodEstimator.kt`).
