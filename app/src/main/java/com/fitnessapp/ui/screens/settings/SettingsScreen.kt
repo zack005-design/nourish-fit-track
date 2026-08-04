@@ -732,7 +732,7 @@ fun SettingsScreen(
                     )
                 }
                 Text(
-                    "Nourish Fit Track v1.4.3 (Build 36)",
+                    "Nourish Fit Track v1.0.0 (Build 1)",
                     fontSize = 11.sp,
                     color = TextSecondary
                 )
