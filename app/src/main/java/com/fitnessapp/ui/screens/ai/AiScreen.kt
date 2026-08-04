@@ -28,8 +28,6 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -66,7 +64,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fitnessapp.ai.CameraFoodEstimator
 import com.fitnessapp.ai.InsightCard
 import com.fitnessapp.ai.InsightSeverity
 import com.fitnessapp.data.db.entity.FoodEntry
@@ -91,7 +88,6 @@ import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
-import com.fitnessapp.util.VoiceSpeechManager
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,15 +121,6 @@ fun AiScreen(
 
     // Action Plan Checkboxes State
     val checkedActions = remember { mutableStateListOf(false, false, false) }
-
-    // Camera AI Dialog State
-    var showCameraDialog by remember { mutableStateOf(false) }
-    var cameraEstName by remember { mutableStateOf("") }
-    var cameraEstCalories by remember { mutableStateOf("") }
-    var cameraEstProtein by remember { mutableStateOf("") }
-    var cameraEstCarbs by remember { mutableStateOf("") }
-    var cameraEstFat by remember { mutableStateOf("") }
-    var cameraEstFiber by remember { mutableStateOf("") }
 
     val handleAskAi = {
         if (userPromptText.isNotBlank()) {
@@ -263,35 +250,16 @@ fun AiScreen(
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                         keyboardActions = KeyboardActions(onSend = { handleAskAi() }),
                         trailingIcon = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                IconButton(
-                                    onClick = {
-                                        try {
-                                            val intent = VoiceSpeechManager.createSpeechIntent("Ask Nourish AI...")
-                                            context.startActivity(intent)
-                                        } catch (e: Exception) {
-                                            onShowSnackbar("Speech recognition not available on this device")
-                                        }
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Mic,
-                                        contentDescription = "Voice Input",
-                                        tint = AccentBlue,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                                IconButton(
-                                    onClick = { handleAskAi() },
-                                    enabled = userPromptText.isNotBlank()
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.Send,
-                                        contentDescription = "Send",
-                                        tint = if (userPromptText.isNotBlank()) AccentGreen else TextSecondary,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
+                            IconButton(
+                                onClick = { handleAskAi() },
+                                enabled = userPromptText.isNotBlank()
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.Send,
+                                    contentDescription = "Send",
+                                    tint = if (userPromptText.isNotBlank()) AccentGreen else TextSecondary,
+                                    modifier = Modifier.size(20.dp)
+                                )
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(
@@ -334,71 +302,7 @@ fun AiScreen(
                 }
             }
 
-            // 2. Quick Action Chips Row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                // Camera Scanner Chip
-                AppCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable {
-                            val est = CameraFoodEstimator.estimateMealFromPhoto(null)
-                            cameraEstName = est.dishName
-                            cameraEstCalories = est.calories.toString()
-                            cameraEstProtein = est.proteinGrams.toInt().toString()
-                            cameraEstCarbs = est.carbsGrams.toInt().toString()
-                            cameraEstFat = est.fatGrams.toInt().toString()
-                            cameraEstFiber = est.fiberGrams.toInt().toString()
-                            showCameraDialog = true
-                        },
-                    backgroundColor = SurfaceCard,
-                    borderColor = AccentGreen.copy(alpha = 0.3f)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PhotoCamera,
-                            contentDescription = null,
-                            tint = AccentGreen,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Scan Meal", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = TextPrimary)
-                    }
-                }
 
-                // Voice Log Chip
-                AppCard(
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable {
-                            try {
-                                val intent = VoiceSpeechManager.createSpeechIntent("Speak meal or water intake...")
-                                context.startActivity(intent)
-                            } catch (e: Exception) {
-                                onShowSnackbar("Voice recognizer intent launched")
-                            }
-                        },
-                    backgroundColor = SurfaceCard,
-                    borderColor = AccentBlue.copy(alpha = 0.3f)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Mic,
-                            contentDescription = null,
-                            tint = AccentBlue,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Voice Log", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = TextPrimary)
-                    }
-                }
-            }
 
             // 3. Daily Wellness Score Card (0-100 Dial + Sub Scores)
             AppCard(
@@ -634,53 +538,6 @@ fun AiScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
         }
-    }
-
-    // Camera AI Review Modal
-    if (showCameraDialog) {
-        AlertDialog(
-            onDismissRequest = { showCameraDialog = false },
-            title = { Text("Camera AI Food Estimation", fontWeight = FontWeight.Bold) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("AI identified dish:", fontSize = 12.sp, color = TextSecondary)
-                    OutlinedTextField(value = cameraEstName, onValueChange = { cameraEstName = it }, label = { Text("Dish Name") })
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        OutlinedTextField(value = cameraEstCalories, onValueChange = { cameraEstCalories = it }, label = { Text("Calories") }, modifier = Modifier.weight(1f))
-                        OutlinedTextField(value = cameraEstProtein, onValueChange = { cameraEstProtein = it }, label = { Text("Protein (g)") }, modifier = Modifier.weight(1f))
-                    }
-                }
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        val food = FoodEntry(
-                            name = cameraEstName.ifBlank { "AI Scanned Meal" },
-                            calories = cameraEstCalories.toIntOrNull() ?: 450,
-                            proteinGrams = cameraEstProtein.toFloatOrNull() ?: 25f,
-                            carbsGrams = cameraEstCarbs.toFloatOrNull() ?: 40f,
-                            fatGrams = cameraEstFat.toFloatOrNull() ?: 15f,
-                            fiberGrams = cameraEstFiber.toFloatOrNull() ?: 5f,
-                            mealType = "Scan",
-                            dateMillis = System.currentTimeMillis()
-                        )
-                        scope.launch {
-                            foodRepository.insert(food)
-                            onShowSnackbar("Saved ${food.name} to Food Log")
-                            showCameraDialog = false
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreen)
-                ) {
-                    Text("Save to Food Log", color = BackgroundDark, fontWeight = FontWeight.Bold)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showCameraDialog = false }) {
-                    Text("Cancel", color = TextSecondary)
-                }
-            }
-        )
     }
 }
 
