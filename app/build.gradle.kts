@@ -13,8 +13,8 @@ android {
         applicationId = "com.fitnessapp"
         minSdk = 26
         targetSdk = 34
-        versionCode = 17
-        versionName = "1.2.4"
+        versionCode = 18
+        versionName = "1.2.5"
     }
 
     buildTypes {

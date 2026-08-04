@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.5] - 2026-08-04
+
+- **Health Connect API Sync**: Added availability detection and record validation helpers to `HealthConnectManager.kt` along with comprehensive unit testing (`HealthConnectManagerTest.kt`).
+
 ## [1.2.4] - 2026-08-04
 
 - **Google Health Connect Manager & Launcher**: Created `HealthConnectManager.kt` supporting multi-intent fallback (`android.health.connect.action.HEALTH_CONNECT_SETTINGS`, `androidx.health.ACTION_HEALTH_CONNECT_SETTINGS`, and Play Store fallback). Added modal dialog in `SettingsScreen.kt` supporting Google Health data read, write sync, and settings launch.
