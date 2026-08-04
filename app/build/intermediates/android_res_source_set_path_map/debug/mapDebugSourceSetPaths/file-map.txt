@@ -1,9 +1,0 @@
-com.fitnessapp-pngs-0 C:\Users\aniru\Music\Fitness\app\build\generated\res\pngs\debug
-com.fitnessapp-resValues-1 C:\Users\aniru\Music\Fitness\app\build\generated\res\resValues\debug
-com.fitnessapp-updated_navigation_xml-2 C:\Users\aniru\Music\Fitness\app\build\generated\updated_navigation_xml\debug
-com.fitnessapp-packageDebugResources-3 C:\Users\aniru\Music\Fitness\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.fitnessapp-packageDebugResources-4 C:\Users\aniru\Music\Fitness\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.fitnessapp-debug-5 C:\Users\aniru\Music\Fitness\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.fitnessapp-debug-6 C:\Users\aniru\Music\Fitness\app\src\debug\res
-com.fitnessapp-main-7 C:\Users\aniru\Music\Fitness\app\src\main\res
-gradleHome-0 C:\Users\aniru\.gradle

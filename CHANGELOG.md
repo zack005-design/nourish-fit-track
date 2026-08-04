@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.0] - 2026-08-04
+
+- **Official Release v1.0.0**: Production release of Nourish Fitness app featuring live OpenFoodFacts food search & barcode matching, Google Health Connect SDK integration, on-device AI Wellness Coach, interactive trends & analytics, background hardware step tracker, and local JSON/CSV data export.
+- **Git Repo Cleanup**: Cleaned build artifacts from repository index and updated `.gitignore` for clean open-source repository distribution.
+
 ## [1.5.1] - 2026-08-04
 
 - **Cleaned Wearable Dependencies**: Removed wearable-specific telemetry readers (`HeartRateRecord`, `readWearableSteps`, `readWearableSleep`) from `HealthConnectManager.kt`.
