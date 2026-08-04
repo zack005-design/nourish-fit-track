@@ -2,8 +2,14 @@ package com.fitnessapp.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -12,6 +18,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import com.fitnessapp.ui.theme.AccentGreen
+import com.fitnessapp.ui.theme.SurfaceCard
+import com.fitnessapp.ui.theme.TextTertiary
+
+
 
 
 import androidx.compose.material.icons.Icons
@@ -75,8 +87,8 @@ import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.TextTertiary
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+
 
 sealed class Screen(
     val route: String,
@@ -150,65 +162,70 @@ fun FitnessNavGraph(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 10.dp)
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 12.dp)
                         .navigationBarsPadding(),
                     contentAlignment = Alignment.Center
                 ) {
-                    NavigationBar(
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(64.dp)
-                            .clip(RoundedCornerShape(28.dp))
-                            .background(SurfaceCard.copy(alpha = 0.88f))
-                            .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(28.dp)),
-                        containerColor = Color.Transparent,
-                        windowInsets = WindowInsets(0, 0, 0, 0)
+                            .height(68.dp)
+                            .clip(RoundedCornerShape(34.dp))
+                            .background(SurfaceCard.copy(alpha = 0.92f))
+                            .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(34.dp))
+                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         bottomNavItems.forEach { screen ->
                             val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-                            NavigationBarItem(
-                                icon = {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .clip(RoundedCornerShape(26.dp))
+                                    .background(if (selected) AccentGreen.copy(alpha = 0.18f) else Color.Transparent)
+                                    .clickable {
+                                        if (currentDestination?.route != screen.route) {
+                                            navController.navigate(screen.route) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
                                     Icon(
                                         imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
                                         contentDescription = screen.label,
-                                        modifier = Modifier.size(20.dp)
+                                        tint = if (selected) AccentGreen else TextTertiary,
+                                        modifier = Modifier.size(22.dp)
                                     )
-                                },
-                                label = {
+                                    Spacer(modifier = Modifier.height(2.dp))
                                     Text(
                                         text = screen.label,
-                                        fontSize = 10.sp,
-                                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                                        fontSize = 11.sp,
+                                        fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Medium,
+                                        color = if (selected) AccentGreen else TextTertiary,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis
                                     )
-                                },
-                                alwaysShowLabel = true,
-                                selected = selected,
-                                colors = NavigationBarItemDefaults.colors(
-                                    selectedIconColor = AccentGreen,
-                                    selectedTextColor = AccentGreen,
-                                    indicatorColor = AccentGreen.copy(alpha = 0.18f),
-                                    unselectedIconColor = TextTertiary,
-                                    unselectedTextColor = TextTertiary
-                                ),
-                                onClick = {
-                                    if (currentDestination?.route != screen.route) {
-                                        navController.navigate(screen.route) {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
-                                            }
-                                            launchSingleTop = true
-                                            restoreState = true
-                                        }
-                                    }
                                 }
-                            )
+                            }
                         }
                     }
                 }
             }
         }
+
 
     ) { innerPadding ->
         NavHost(

@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.9] - 2026-08-04
+
+- **Bottom Navigation Capsule Bar**: Rebuilt bottom navigation bar with pixel-perfect custom floating capsule layout (`68.dp` height, `34.dp` rounded corners, `22.dp` crisp icons, `11.sp` labels, and emerald pill active tab glows) preventing label cutoff and clipping across all screen densities.
+
 ## [1.3.8] - 2026-08-04
+
 
 - **Ultra-Premium Design Overhaul**: Redesigned theme color tokens with space dark surfaces (`#0B0E14`), ultra-vibrant neon accents (`#00E676` Emerald, `#00B0FF` Cyan, `#FF6D00` Amber), floating translucent navigation capsule bar with pill indicator glows, and elevated hero header with 7-Day streak badge.
 
