@@ -17,9 +17,10 @@ val TextTertiary = Color(0xFF64748B)
 val AccentOrange = Color(0xFFFF6D00)   // Calories / Energy
 val AccentGreen = Color(0xFF00E676)    // Protein / Recovery / Active
 val AccentBlue = Color(0xFF00B0FF)     // Hydration / Primary
-val AccentPurple = Color(0xFFD500F9)   // Sleep / REM stage
+val AccentPurple = Color(0xFF7B61FF)   // Sleep / REM stage — iOS-style soft indigo
 val AccentYellow = Color(0xFFFFD600)   // Healthy Fats / Tips
 val AccentRed = Color(0xFFFF1744)      // Critical Alerts / Warnings
+
 
 // Brand Gradient Tokens
 val BrandGradientStart = Color(0xFF00E676) // Emerald Green

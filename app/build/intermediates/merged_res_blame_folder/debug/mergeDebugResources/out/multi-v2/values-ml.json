@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fitnessapp-mergeDebugResources-64:/values-ml/values-ml.xml",
+            "outputFile": "com.fitnessapp-mergeDebugResources-65:/values-ml/values-ml.xml",
             "map": [
                 {
                     "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\eae44f3c2a227493538f6365334406a2\\transformed\\ui-release\\res\\values-ml\\values-ml.xml",

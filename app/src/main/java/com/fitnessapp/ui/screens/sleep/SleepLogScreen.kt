@@ -227,8 +227,80 @@ fun SleepLogScreen(
         ) {
             Spacer(modifier = Modifier.height(4.dp))
 
+            // ─── 0. WEEKLY SLEEP BAR CHART ─────────────────────────────────────────────
+            if (uiState.weeklySleepDays.isNotEmpty()) {
+                AppCard(contentPadding = 16.dp) {
+                    Text(
+                        text = "7-Day Sleep",
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "Target: ${uiState.sleepTargetHours.toInt()}h per night",
+                        fontSize = 11.sp,
+                        color = TextSecondary
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    val maxHours = maxOf(uiState.sleepTargetHours, uiState.weeklySleepDays.maxOfOrNull { it.hours } ?: 1f, 1f)
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        uiState.weeklySleepDays.forEach { day ->
+                            val fraction = (day.hours / maxHours).coerceIn(0f, 1f)
+                            val barColor = if (day.isToday) AccentPurple else AccentPurple.copy(alpha = 0.45f)
+                            Column(
+                                modifier = Modifier.weight(1f),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                // hour label
+                                if (day.hours > 0f) {
+                                    Text(
+                                        text = "${day.hours.toInt()}h",
+                                        fontSize = 9.sp,
+                                        color = if (day.isToday) AccentPurple else TextSecondary,
+                                        fontWeight = if (day.isToday) FontWeight.Bold else FontWeight.Normal
+                                    )
+                                } else {
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+                                // bar
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(60.dp),
+                                    contentAlignment = Alignment.BottomCenter
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth(0.55f)
+                                            .fillMaxHeight(fraction.coerceAtLeast(0.05f))
+                                            .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                                            .background(barColor)
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = day.dayLabel,
+                                    fontSize = 10.sp,
+                                    color = if (day.isToday) AccentPurple else TextSecondary,
+                                    fontWeight = if (day.isToday) FontWeight.Bold else FontWeight.Normal
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
             // ─── 1. HERO SLEEP CARD (Dynamic according to logged status) ────────────────
             val isSleepLogged = uiState.entries.isNotEmpty()
+
 
             if (isSleepLogged) {
                 val hoursInt = uiState.totalSleepHours.toInt()

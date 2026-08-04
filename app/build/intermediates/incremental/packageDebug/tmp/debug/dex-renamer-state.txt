@@ -1,4 +1,4 @@
-#Tue Aug 04 19:42:23 IST 2026
+#Tue Aug 04 20:29:21 IST 2026
 base.0=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\5\\classes.dex
@@ -9,6 +9,7 @@ base.14=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug
 base.15=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\global_synthetics_dex\\debug\\generateDebugGlobalSynthetics\\classes.dex
 base.16=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 base.17=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes3.dex
+base.18=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes4.dex
 base.2=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\11\\classes.dex
 base.3=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
 base.4=C\:\\Users\\aniru\\Music\\Fitness\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\13\\classes.dex
@@ -27,6 +28,7 @@ path.14=9/classes.dex
 path.15=classes.dex
 path.16=classes2.dex
 path.17=classes3.dex
+path.18=classes4.dex
 path.2=11/classes.dex
 path.3=12/classes.dex
 path.4=13/classes.dex
@@ -45,6 +47,7 @@ renamed.14=classes15.dex
 renamed.15=classes16.dex
 renamed.16=classes17.dex
 renamed.17=classes18.dex
+renamed.18=classes19.dex
 renamed.2=classes3.dex
 renamed.3=classes4.dex
 renamed.4=classes5.dex

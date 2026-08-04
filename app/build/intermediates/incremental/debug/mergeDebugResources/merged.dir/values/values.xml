@@ -1842,8 +1842,9 @@
     <style name="Theme.FitnessApp" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">#0B0E14</item>
         <item name="android:colorBackground">#0B0E14</item>
-        <item name="android:statusBarColor">#0B0E14</item>
-        <item name="android:navigationBarColor">#0B0E14</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>

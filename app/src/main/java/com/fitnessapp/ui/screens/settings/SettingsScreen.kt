@@ -120,10 +120,12 @@ fun SettingsScreen(
         contract = PermissionController.createRequestPermissionResultContract()
     ) { grantedPermissions ->
         if (grantedPermissions.containsAll(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)) {
-            onShowSnackbar("Google Health Connect permissions granted!")
+            scope.launch {
+                val msg = viewModel.syncToHealthConnect(context)
+                onShowSnackbar(msg)
+            }
         } else {
-            HealthConnectManager.openHealthConnect(context)
-            onShowSnackbar("Opened Google Health Connect Settings")
+            onShowSnackbar("Some Health Connect permissions were denied. Open Settings to grant them.")
         }
     }
 
@@ -385,21 +387,14 @@ fun SettingsScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                scope.launch {
-                                    val msg = HealthConnectManager.syncAllLocalDataToGoogleHealth(
-                                        context = context,
-                                        foods = emptyList(),
-                                        waters = emptyList(),
-                                        sleeps = emptyList()
-                                    )
-                                    try {
-                                        permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
-                                    } catch (e: Exception) {
-                                        HealthConnectManager.openHealthConnect(context)
-                                    }
-                                    onShowSnackbar(msg)
+                                try {
+                                    permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
+                                } catch (e: Exception) {
+                                    HealthConnectManager.openHealthConnect(context)
+                                    onShowSnackbar("Opening Google Health Connect settings")
                                 }
                             },
+
 
                         verticalAlignment = Alignment.CenterVertically
                     ) {

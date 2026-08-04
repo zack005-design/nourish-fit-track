@@ -1,6 +1,8 @@
 package com.fitnessapp.ui.screens.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fitnessapp.data.db.entity.UserGoals
@@ -9,8 +11,11 @@ import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
+import com.fitnessapp.util.DateUtils
+import com.fitnessapp.util.HealthConnectManager
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -64,6 +69,22 @@ class SettingsViewModel(
             stepsRepository.clearAll()
             onCleared()
         }
+    }
+
+    /**
+     * Fetches today's real data from Room DB and writes it to Google Health Connect.
+     */
+    suspend fun syncToHealthConnect(context: Context): String {
+        val today = DateUtils.todayStartMillis()
+        val foods = foodRepository.getEntriesForDate(today).firstOrNull() ?: emptyList()
+        val waters = waterRepository.getEntriesForDate(today).firstOrNull() ?: emptyList()
+        val sleeps = sleepRepository.getEntriesForDate(today).firstOrNull() ?: emptyList()
+        return HealthConnectManager.syncAllLocalDataToGoogleHealth(
+            context = context,
+            foods = foods,
+            waters = waters,
+            sleeps = sleeps
+        )
     }
 
     class Factory(

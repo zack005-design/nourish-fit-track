@@ -1,324 +1,353 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.fitnessapp"
-4    android:versionCode="22"
-5    android:versionName="1.2.9" >
+4    android:versionCode="35"
+5    android:versionName="1.4.2" >
 6
 7    <uses-sdk
 7-->INJECTED
 8        android:minSdkVersion="26"
 8-->INJECTED
-9        android:targetSdkVersion="34" />
+9        android:targetSdkVersion="35" />
 9-->INJECTED
 10
 11    <!-- Health Connect permissions -->
-12    <uses-permission android:name="android.permission.health.READ_STEPS" />
-12-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:5:5-75
-12-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:5:22-73
-13    <uses-permission android:name="android.permission.health.WRITE_STEPS" />
-13-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:6:5-76
-13-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:6:22-74
-14    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+12    <uses-permission android:name="android.permission.health.READ_NUTRITION" />
+12-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:5:5-79
+12-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:5:22-77
+13    <uses-permission android:name="android.permission.health.WRITE_NUTRITION" />
+13-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:6:5-80
+13-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:6:22-78
+14    <uses-permission android:name="android.permission.health.READ_STEPS" />
 14-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:7:5-75
 14-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:7:22-73
-15    <uses-permission android:name="android.permission.health.WRITE_SLEEP" />
+15    <uses-permission android:name="android.permission.health.WRITE_STEPS" />
 15-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:8:5-76
 15-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:8:22-74
-16    <uses-permission android:name="android.permission.health.WRITE_HYDRATION" />
-16-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:9:5-80
-16-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:9:22-78
-17    <uses-permission android:name="android.permission.health.READ_HYDRATION" />
-17-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:10:5-79
-17-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:10:22-77
-18
-19    <!-- Sensor & Sleep Tracking Permissions -->
-20    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-20-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:13:5-78
-20-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:13:22-76
-21    <uses-permission android:name="android.permission.BODY_SENSORS" />
-21-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:14:5-70
-21-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:14:22-68
-22    <uses-permission android:name="android.permission.WAKE_LOCK" />
-22-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:15:5-67
-22-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:15:22-65
-23
-24    <!-- Camera -->
-25    <uses-permission android:name="android.permission.CAMERA" />
-25-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:18:5-64
-25-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:18:22-62
-26
-27    <uses-feature
-27-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:19:5-84
-28        android:name="android.hardware.camera"
-28-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:19:19-57
-29        android:required="false" />
-29-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:19:58-82
-30
-31    <!-- Scoped Storage (read media images for AI) -->
-32    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-32-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:22:5-75
-32-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:22:22-73
-33
-34    <!-- Legacy read storage for API < 33 -->
-35    <uses-permission
-35-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:5-106
-36        android:name="android.permission.READ_EXTERNAL_STORAGE"
-36-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:22-77
-37        android:maxSdkVersion="32" />
-37-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:78-104
-38
-39    <!-- Internet (needed for MediaPipe model download on first run) -->
-40    <uses-permission android:name="android.permission.INTERNET" />
-40-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:28:5-66
-40-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:28:22-64
-41
-42    <!-- Allow the app to query Health Connect -->
-43    <queries>
-43-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:31:5-39:15
-44        <package android:name="com.google.android.apps.healthdata" />
-44-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:32:9-69
-44-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:32:18-67
-45
-46        <intent>
-46-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:33:9-35:18
-47            <action android:name="android.health.connect.action.HEALTH_CONNECT_SETTINGS" />
-47-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:34:13-92
-47-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:34:21-89
-48        </intent>
-49        <intent>
-49-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:36:9-38:18
-50            <action android:name="androidx.health.ACTION_HEALTH_CONNECT_SETTINGS" />
-50-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:37:13-85
-50-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:37:21-82
-51        </intent>
-52    </queries>
-53
-54    <permission
-54-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
-55        android:name="com.fitnessapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-55-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
-56        android:protectionLevel="signature" />
-56-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
-57
-58    <uses-permission android:name="com.fitnessapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
-58-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
-58-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
-59    <!-- <uses-sdk android:minSdkVersion="14"/> -->
-60    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-60-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:25:5-79
-60-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:25:22-76
-61
-62    <application
-62-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:41:5-82:19
-63        android:name="com.fitnessapp.FitnessApp"
-63-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:42:9-35
-64        android:allowBackup="true"
-64-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:43:9-35
-65        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-65-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
-66        android:debuggable="true"
-67        android:extractNativeLibs="false"
-67-->INJECTED
-68        android:icon="@drawable/ic_launcher"
-68-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:44:9-45
-69        android:label="Nourish"
-69-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:46:9-32
-70        android:roundIcon="@drawable/ic_launcher"
-70-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:45:9-50
-71        android:supportsRtl="true"
-71-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:47:9-35
-72        android:theme="@style/Theme.FitnessApp" >
-72-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:48:9-48
-73        <activity
-73-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:49:9-57:20
-74            android:name="com.fitnessapp.MainActivity"
-74-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:50:13-41
-75            android:exported="true"
-75-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:51:13-36
-76            android:theme="@style/Theme.FitnessApp" >
-76-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:52:13-52
-77            <intent-filter>
-77-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:53:13-56:29
-78                <action android:name="android.intent.action.MAIN" />
-78-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:54:17-69
-78-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:54:25-66
-79
-80                <category android:name="android.intent.category.LAUNCHER" />
-80-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:55:17-77
-80-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:55:27-74
-81            </intent-filter>
-82        </activity>
-83
-84        <!-- Home Screen Widget -->
-85        <receiver
-85-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:60:9-70:20
-86            android:name="com.fitnessapp.widget.NourishAppWidget"
-86-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:61:13-52
-87            android:exported="true"
-87-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:62:13-36
-88            android:label="Nourish Daily Tracker" >
-88-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:63:13-50
-89            <intent-filter>
-89-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:64:13-66:29
-90                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-90-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:65:17-84
-90-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:65:25-81
-91            </intent-filter>
-92
-93            <meta-data
-93-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:67:13-69:63
-94                android:name="android.appwidget.provider"
-94-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:68:17-58
-95                android:resource="@xml/nourish_widget_info" />
-95-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:69:17-60
-96        </receiver>
-97
-98        <!-- FileProvider for sharing CameraX captures with MediaPipe -->
-99        <provider
-99-->INJECTED
-100            android:name="androidx.core.content.FileProvider"
-100-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:74:13-62
-101            android:authorities="com.fitnessapp.fileprovider"
-101-->INJECTED
-102            android:exported="false"
-102-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:76:13-37
-103            android:grantUriPermissions="true" >
-103-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:77:13-47
-104            <meta-data
-104-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:78:13-80:62
-105                android:name="android.support.FILE_PROVIDER_PATHS"
-105-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:79:17-67
-106                android:resource="@xml/file_provider_paths" />
-106-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:80:17-60
-107        </provider>
-108
-109        <service
-109-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:24:9-33:19
-110            android:name="androidx.camera.core.impl.MetadataHolderService"
-110-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:25:13-75
-111            android:enabled="false"
-111-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:26:13-36
-112            android:exported="false" >
-112-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:27:13-37
-113            <meta-data
-113-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:30:13-32:89
-114                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
-114-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:31:17-103
-115                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
-115-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:32:17-86
-116        </service>
-117
-118        <provider
-118-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-119            android:name="androidx.startup.InitializationProvider"
-119-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-120            android:authorities="com.fitnessapp.androidx-startup"
-120-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-121            android:exported="false" >
-121-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-122            <meta-data
-122-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-123                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-123-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-124                android:value="androidx.startup" />
-124-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-125            <meta-data
-125-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\33e94121a4383f2528b4eeb753d8725a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
-126                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-126-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\33e94121a4383f2528b4eeb753d8725a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
-127                android:value="androidx.startup" />
-127-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\33e94121a4383f2528b4eeb753d8725a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+16    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+16-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:9:5-75
+16-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:9:22-73
+17    <uses-permission android:name="android.permission.health.WRITE_SLEEP" />
+17-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:10:5-76
+17-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:10:22-74
+18    <uses-permission android:name="android.permission.health.WRITE_HYDRATION" />
+18-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:11:5-80
+18-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:11:22-78
+19    <uses-permission android:name="android.permission.health.READ_HYDRATION" />
+19-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:12:5-79
+19-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:12:22-77
+20
+21    <!-- Sensor & Sleep Tracking Permissions -->
+22    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+22-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:16:5-78
+22-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:16:22-76
+23    <uses-permission android:name="android.permission.BODY_SENSORS" />
+23-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:17:5-70
+23-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:17:22-68
+24    <uses-permission android:name="android.permission.WAKE_LOCK" />
+24-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:18:5-67
+24-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:18:22-65
+25
+26    <!-- Camera -->
+27    <uses-permission android:name="android.permission.CAMERA" />
+27-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:21:5-64
+27-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:21:22-62
+28
+29    <uses-feature
+29-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:22:5-84
+30        android:name="android.hardware.camera"
+30-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:22:19-57
+31        android:required="false" />
+31-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:22:58-82
+32
+33    <!-- Scoped Storage (read media images for AI) -->
+34    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+34-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:5-75
+34-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:25:22-73
+35
+36    <!-- Legacy read storage for API < 33 -->
+37    <uses-permission
+37-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:28:5-106
+38        android:name="android.permission.READ_EXTERNAL_STORAGE"
+38-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:28:22-77
+39        android:maxSdkVersion="32" />
+39-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:28:78-104
+40
+41    <!-- Internet (needed for MediaPipe model download on first run) -->
+42    <uses-permission android:name="android.permission.INTERNET" />
+42-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:31:5-66
+42-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:31:22-64
+43
+44    <!-- Allow the app to query Health Connect -->
+45    <queries>
+45-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:34:5-42:15
+46        <package android:name="com.google.android.apps.healthdata" />
+46-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:35:9-69
+46-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:35:18-67
+47
+48        <intent>
+48-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:36:9-38:18
+49            <action android:name="android.health.connect.action.HEALTH_CONNECT_SETTINGS" />
+49-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:37:13-92
+49-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:37:21-89
+50        </intent>
+51        <intent>
+51-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:39:9-41:18
+52            <action android:name="androidx.health.ACTION_HEALTH_CONNECT_SETTINGS" />
+52-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:40:13-85
+52-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:40:21-82
+53        </intent>
+54    </queries>
+55
+56    <permission
+56-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
+57        android:name="com.fitnessapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+57-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
+58        android:protectionLevel="signature" />
+58-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
+59
+60    <uses-permission android:name="com.fitnessapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
+60-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
+60-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
+61    <!-- <uses-sdk android:minSdkVersion="14"/> -->
+62    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+62-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:25:5-79
+62-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:25:22-76
+63
+64    <application
+64-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:44:5-91:19
+65        android:name="com.fitnessapp.FitnessApp"
+65-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:45:9-35
+66        android:allowBackup="true"
+66-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:46:9-35
+67        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+67-->[androidx.core:core:1.12.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\b4348aa3e23ea92a09cd48123161dc99\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
+68        android:debuggable="true"
+69        android:extractNativeLibs="false"
+69-->INJECTED
+70        android:icon="@drawable/ic_launcher"
+70-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:47:9-45
+71        android:label="Nourish"
+71-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:49:9-32
+72        android:roundIcon="@drawable/ic_launcher"
+72-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:48:9-50
+73        android:supportsRtl="true"
+73-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:50:9-35
+74        android:theme="@style/Theme.FitnessApp" >
+74-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:51:9-48
+75        <activity
+75-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:52:9-60:20
+76            android:name="com.fitnessapp.MainActivity"
+76-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:53:13-41
+77            android:exported="true"
+77-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:54:13-36
+78            android:theme="@style/Theme.FitnessApp" >
+78-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:55:13-52
+79            <intent-filter>
+79-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:56:13-59:29
+80                <action android:name="android.intent.action.MAIN" />
+80-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:57:17-69
+80-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:57:25-66
+81
+82                <category android:name="android.intent.category.LAUNCHER" />
+82-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:58:17-77
+82-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:58:27-74
+83            </intent-filter>
+84        </activity>
+85
+86        <!-- Home Screen Widget -->
+87        <receiver
+87-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:63:9-73:20
+88            android:name="com.fitnessapp.widget.NourishAppWidget"
+88-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:64:13-52
+89            android:exported="true"
+89-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:65:13-36
+90            android:label="Nourish Daily Tracker" >
+90-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:66:13-50
+91            <intent-filter>
+91-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:67:13-69:29
+92                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+92-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:68:17-84
+92-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:68:25-81
+93            </intent-filter>
+94
+95            <meta-data
+95-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:70:13-72:63
+96                android:name="android.appwidget.provider"
+96-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:71:17-58
+97                android:resource="@xml/nourish_widget_info" />
+97-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:72:17-60
+98        </receiver>
+99
+100        <!-- Daily Alarm Reminder Receiver -->
+101        <receiver
+101-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:76:9-78:40
+102            android:name="com.fitnessapp.util.ReminderReceiver"
+102-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:77:13-50
+103            android:exported="false" />
+103-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:78:13-37
+104
+105        <!-- FileProvider for sharing CameraX captures with MediaPipe -->
+106        <provider
+106-->INJECTED
+107            android:name="androidx.core.content.FileProvider"
+107-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:83:13-62
+108            android:authorities="com.fitnessapp.fileprovider"
+108-->INJECTED
+109            android:exported="false"
+109-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:85:13-37
+110            android:grantUriPermissions="true" >
+110-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:86:13-47
+111            <meta-data
+111-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:87:13-89:62
+112                android:name="android.support.FILE_PROVIDER_PATHS"
+112-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:88:17-67
+113                android:resource="@xml/file_provider_paths" />
+113-->C:\Users\aniru\Music\Fitness\app\src\main\AndroidManifest.xml:89:17-60
+114        </provider>
+115
+116        <service
+116-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:24:9-32:19
+117            android:name="androidx.health.platform.client.impl.sdkservice.HealthDataSdkService"
+117-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:25:13-96
+118            android:enabled="true"
+118-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:26:13-35
+119            android:exported="true" >
+119-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:27:13-36
+120            <intent-filter>
+120-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:29:13-31:29
+121                <action android:name="androidx.health.platform.client.ACTION_BIND_SDK_SERVICE" />
+121-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:30:17-98
+121-->[androidx.health.connect:connect-client:1.1.0-alpha10] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cc33b86d44461835cb18933fbd411e8b\transformed\connect-client-1.1.0-alpha10\AndroidManifest.xml:30:25-95
+122            </intent-filter>
+123        </service>
+124        <service
+124-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:24:9-33:19
+125            android:name="androidx.camera.core.impl.MetadataHolderService"
+125-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:25:13-75
+126            android:enabled="false"
+126-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:26:13-36
+127            android:exported="false" >
+127-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:27:13-37
 128            <meta-data
-128-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
-129                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-129-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
-130                android:value="androidx.startup" />
-130-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
-131        </provider>
+128-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:30:13-32:89
+129                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+129-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:31:17-103
+130                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+130-->[androidx.camera:camera-camera2:1.4.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\72fac03f3d178912f7d919252d4bd20c\transformed\camera-camera2-1.4.1\AndroidManifest.xml:32:17-86
+131        </service>
 132
-133        <activity
-133-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\8a444ad26e91025ac08c07ffaab0eda8\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
-134            android:name="androidx.compose.ui.tooling.PreviewActivity"
-134-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\8a444ad26e91025ac08c07ffaab0eda8\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
-135            android:exported="true" />
-135-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\8a444ad26e91025ac08c07ffaab0eda8\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
-136
-137        <service
-137-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
-138            android:name="androidx.room.MultiInstanceInvalidationService"
-138-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
-139            android:directBootAware="true"
-139-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
-140            android:exported="false" />
-140-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
-141
-142        <receiver
-142-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
-143            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-143-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
-144            android:directBootAware="false"
-144-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
-145            android:enabled="true"
-145-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
-146            android:exported="true"
-146-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
-147            android:permission="android.permission.DUMP" >
-147-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
-148            <intent-filter>
-148-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
-149                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-149-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
-149-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
-150            </intent-filter>
-151            <intent-filter>
-151-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
-152                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-152-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
-152-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
-153            </intent-filter>
-154            <intent-filter>
-154-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
-155                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-155-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
-155-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
-156            </intent-filter>
-157            <intent-filter>
-157-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
-158                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-158-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
-158-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
-159            </intent-filter>
-160        </receiver>
-161
-162        <service
-162-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:29:9-35:19
-163            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
-163-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:30:13-103
-164            android:exported="false" >
-164-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:31:13-37
-165            <meta-data
-165-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:32:13-34:39
-166                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
-166-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:33:17-94
-167                android:value="cct" />
-167-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:34:17-36
-168        </service>
-169        <service
-169-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:26:9-30:19
-170            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
-170-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:27:13-117
-171            android:exported="false"
-171-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:28:13-37
-172            android:permission="android.permission.BIND_JOB_SERVICE" >
-172-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:29:13-69
-173        </service>
-174
-175        <receiver
-175-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:32:9-34:40
-176            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
-176-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:33:13-132
-177            android:exported="false" />
-177-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:34:13-37
-178    </application>
-179
-180</manifest>
+133        <provider
+133-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+134            android:name="androidx.startup.InitializationProvider"
+134-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+135            android:authorities="com.fitnessapp.androidx-startup"
+135-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+136            android:exported="false" >
+136-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+137            <meta-data
+137-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+138                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+138-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+139                android:value="androidx.startup" />
+139-->[androidx.emoji2:emoji2:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\35bc7fa5cd2088c29307673440e80c7f\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+140            <meta-data
+140-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\33e94121a4383f2528b4eeb753d8725a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+141                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+141-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\33e94121a4383f2528b4eeb753d8725a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+142                android:value="androidx.startup" />
+142-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\33e94121a4383f2528b4eeb753d8725a\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+143            <meta-data
+143-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+144                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+144-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+145                android:value="androidx.startup" />
+145-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+146        </provider>
+147
+148        <activity
+148-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\8a444ad26e91025ac08c07ffaab0eda8\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+149            android:name="androidx.compose.ui.tooling.PreviewActivity"
+149-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\8a444ad26e91025ac08c07ffaab0eda8\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+150            android:exported="true" />
+150-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\8a444ad26e91025ac08c07ffaab0eda8\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+151
+152        <service
+152-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
+153            android:name="androidx.room.MultiInstanceInvalidationService"
+153-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
+154            android:directBootAware="true"
+154-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
+155            android:exported="false" />
+155-->[androidx.room:room-runtime:2.6.1] C:\Users\aniru\.gradle\caches\9.5.0\transforms\d449e29f9b22e03e1c3d18598ca41688\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
+156
+157        <receiver
+157-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+158            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+158-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+159            android:directBootAware="false"
+159-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+160            android:enabled="true"
+160-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+161            android:exported="true"
+161-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+162            android:permission="android.permission.DUMP" >
+162-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+163            <intent-filter>
+163-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+164                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+164-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+164-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+165            </intent-filter>
+166            <intent-filter>
+166-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+167                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+167-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+167-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+168            </intent-filter>
+169            <intent-filter>
+169-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+170                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+170-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+170-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+171            </intent-filter>
+172            <intent-filter>
+172-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+173                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+173-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+173-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\e2d3e4bf11cfa296307c9316910cfa89\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+174            </intent-filter>
+175        </receiver>
+176
+177        <service
+177-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:29:9-35:19
+178            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+178-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:30:13-103
+179            android:exported="false" >
+179-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:31:13-37
+180            <meta-data
+180-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:32:13-34:39
+181                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+181-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:33:17-94
+182                android:value="cct" />
+182-->[com.google.android.datatransport:transport-backend-cct:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\5772981f12d2297b6667e264aa35ba6b\transformed\transport-backend-cct-3.1.0\AndroidManifest.xml:34:17-36
+183        </service>
+184        <service
+184-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:26:9-30:19
+185            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+185-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:27:13-117
+186            android:exported="false"
+186-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:28:13-37
+187            android:permission="android.permission.BIND_JOB_SERVICE" >
+187-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:29:13-69
+188        </service>
+189
+190        <receiver
+190-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:32:9-34:40
+191            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+191-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:33:13-132
+192            android:exported="false" />
+192-->[com.google.android.datatransport:transport-runtime:3.1.0] C:\Users\aniru\.gradle\caches\9.5.0\transforms\cdf8e6d73be37800c264006cab2e88a5\transformed\transport-runtime-3.1.0\AndroidManifest.xml:34:13-37
+193    </application>
+194
+195</manifest>

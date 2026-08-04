@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fitnessapp"
-    android:versionCode="22"
-    android:versionName="1.2.9" >
+    android:versionCode="35"
+    android:versionName="1.4.2" >
 
     <uses-sdk
         android:minSdkVersion="26"
-        android:targetSdkVersion="34" />
+        android:targetSdkVersion="35" />
 
     <!-- Health Connect permissions -->
+    <uses-permission android:name="android.permission.health.READ_NUTRITION" />
+    <uses-permission android:name="android.permission.health.WRITE_NUTRITION" />
     <uses-permission android:name="android.permission.health.READ_STEPS" />
     <uses-permission android:name="android.permission.health.WRITE_STEPS" />
     <uses-permission android:name="android.permission.health.READ_SLEEP" />
@@ -95,6 +97,11 @@
                 android:resource="@xml/nourish_widget_info" />
         </receiver>
 
+        <!-- Daily Alarm Reminder Receiver -->
+        <receiver
+            android:name="com.fitnessapp.util.ReminderReceiver"
+            android:exported="false" />
+
         <!-- FileProvider for sharing CameraX captures with MediaPipe -->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -106,6 +113,14 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
+        <service
+            android:name="androidx.health.platform.client.impl.sdkservice.HealthDataSdkService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="androidx.health.platform.client.ACTION_BIND_SDK_SERVICE" />
+            </intent-filter>
+        </service>
         <service
             android:name="androidx.camera.core.impl.MetadataHolderService"
             android:enabled="false"

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fitnessapp-mergeDebugResources-64:/values-zu/values-zu.xml",
+            "outputFile": "com.fitnessapp-mergeDebugResources-65:/values-zu/values-zu.xml",
             "map": [
                 {
                     "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\b4348aa3e23ea92a09cd48123161dc99\\transformed\\core-1.12.0\\res\\values-zu\\values-zu.xml",

@@ -1,6 +1,19 @@
 # Changelog
 
+## [1.4.2] - 2026-08-04
+
+- **Bottom Nav Streamlined**: Reduced from 6 to 4 tabs (Home, Nutrition, Sleep, Settings) for iOS-style minimal navigation
+- **Camera Removed**: Cleaned all `CameraFoodEstimator`, `PhotoCamera`, `QrCodeScanner` imports from `AddFoodScreen.kt`
+- **Health Connect Sync Fixed**: `syncToHealthConnect()` in `SettingsViewModel` now fetches real Room DB data — food, water, sleep — before writing to Google Health Connect; permission dialog fires first
+- **Sleep Purple Fixed**: Changed `AccentPurple` from harsh `#D500F9` neon to soft iOS indigo `#7B61FF`
+- **Bevel Card Depth**: `AppCard` now uses `.shadow(elevation=8dp)` + stronger `0.28f` white highlight for true depth
+- **Real Streak Counter**: `HomeViewModel` computes consecutive logged days from food entries; replaces hardcoded "7 Days"
+- **Health Connect Status Dot**: Live green/grey dot on Home header showing whether Health Connect is installed
+- **Nutrition FAB**: Added green `FloatingActionButton` on `FoodLogScreen` for quick food entry
+- **7-Day Sleep Chart**: Added weekly bar chart at top of Sleep tab using existing `weeklySleepDays` data from `SleepViewModel`
+
 ## [1.4.1] - 2026-08-04
+
 
 - **Google Health Connect In-App Permission Prompt**: Integrated `PermissionController.createRequestPermissionResultContract()` launcher with `READ_NUTRITION` and `WRITE_NUTRITION` manifest declarations in `AndroidManifest.xml` and `SettingsScreen.kt` for instant interactive permission prompting.
 

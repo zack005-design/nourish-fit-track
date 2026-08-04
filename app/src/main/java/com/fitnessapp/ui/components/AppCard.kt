@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -18,8 +19,8 @@ import com.fitnessapp.ui.theme.BorderSubtle
 import com.fitnessapp.ui.theme.SurfaceCard
 
 /**
- * Reusable iOS Apple Health Glass Bevel Card container.
- * Features rounded corners, elevated dark surface, and a sleek translucent bevel border gradient.
+ * iOS Apple Health Bevel Card with inner glow, drop shadow depth, and gradient border highlight.
+ * Achieves an elevated glass-like look aligned with Apple Fitness / Health aesthetics.
  */
 @Composable
 fun AppCard(
@@ -31,21 +32,39 @@ fun AppCard(
     content: @Composable ColumnScope.() -> Unit
 ) {
     val shape = RoundedCornerShape(cornerRadius)
+
+    // Bevel border: bright top-left highlight, subtle bottom-right shadow edge
     val bevelBorderBrush = Brush.linearGradient(
         colors = listOf(
-            Color.White.copy(alpha = 0.18f),
-            borderColor,
-            Color.White.copy(alpha = 0.04f)
+            Color.White.copy(alpha = 0.28f),  // top-left inner light
+            Color.White.copy(alpha = 0.10f),
+            borderColor.copy(alpha = 0.6f),
+            Color.Black.copy(alpha = 0.25f)   // bottom-right shadow edge
+        )
+    )
+
+    // Inner surface: very subtle radial inner-glow on top for depth
+    val innerGlowBrush = Brush.verticalGradient(
+        colors = listOf(
+            backgroundColor.copy(alpha = 1.0f),
+            backgroundColor.copy(alpha = 0.97f)
         )
     )
 
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .shadow(
+                elevation = 8.dp,
+                shape = shape,
+                ambientColor = Color.Black.copy(alpha = 0.5f),
+                spotColor = Color.Black.copy(alpha = 0.4f)
+            )
             .clip(shape)
-            .background(backgroundColor)
+            .background(innerGlowBrush)
             .border(1.dp, bevelBorderBrush, shape)
             .padding(contentPadding),
         content = content
     )
 }
+

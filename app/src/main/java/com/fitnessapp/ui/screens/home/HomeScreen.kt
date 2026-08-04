@@ -86,6 +86,7 @@ import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
+import com.fitnessapp.util.HealthConnectManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -119,6 +120,7 @@ fun HomeScreen(
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     var showDatePicker by remember { mutableStateOf(false) }
+    val isHCAvailable = remember { HealthConnectManager.isHealthConnectAvailable(context) }
 
     // Full date string — no "Today" label; always shows "Tuesday, 4 August"
     val formattedDate = remember(uiState.selectedDateMillis) {
@@ -218,23 +220,39 @@ fun HomeScreen(
                     }
                 }
 
-                // 7-Day Streak Pill Badge
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(AccentOrange.copy(alpha = 0.15f))
-                        .border(1.dp, AccentOrange.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                // Streak pill badge + Health Connect status
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "🔥", fontSize = 13.sp)
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "7 Days",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = AccentOrange
-                        )
+                    // Health Connect status dot
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(if (isHCAvailable) AccentGreen else Color(0xFF4A5568))
+                    )
+
+                    // Real streak badge
+                    if (uiState.logStreak > 0) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(AccentOrange.copy(alpha = 0.15f))
+                                .border(1.dp, AccentOrange.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = "🔥", fontSize = 13.sp)
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = "${uiState.logStreak}d",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = AccentOrange
+                                )
+                            }
+                        }
                     }
                 }
             }

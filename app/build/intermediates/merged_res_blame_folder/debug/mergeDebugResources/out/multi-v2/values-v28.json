@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.fitnessapp-mergeDebugResources-64:/values-v28/values-v28.xml",
+            "outputFile": "com.fitnessapp-mergeDebugResources-65:/values-v28/values-v28.xml",
             "map": [
                 {
                     "source": "C:\\Users\\aniru\\.gradle\\caches\\9.5.0\\transforms\\58b4ee7201048af10aa97731ae83c372\\transformed\\appcompat-1.1.0\\res\\values-v28\\values-v28.xml",

@@ -1,5 +1,6 @@
 package com.fitnessapp.ui.screens.home
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.util.DateUtils
+import com.fitnessapp.util.HealthConnectManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,6 +24,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 data class HomeUiState(
     val selectedDateMillis: Long = DateUtils.todayStartMillis(),
@@ -34,6 +38,8 @@ data class HomeUiState(
     val sleepScore: Int = 0,
     val stepsCount: Int = 0,
     val userGoals: UserGoals = UserGoals(),
+    val logStreak: Int = 0,
+    val isHealthConnectAvailable: Boolean = false,
     val aiInsightPrimary: String = "Welcome to Nourish! Start by logging your meals, water, or steps today.",
     val aiInsightSecondary: String = "Tap the + icon on Water or Steps to record your progress."
 )
@@ -102,7 +108,11 @@ class HomeViewModel(
         }
     }
 
-    val uiState: StateFlow<HomeUiState> = combine(_selectedDateMillis, macrosFlow, microsFlow, activityFlow) { date, macros, micros, activity ->
+    private val allFoodEntriesFlow = foodRepository.getAllEntries()
+
+    val uiState: StateFlow<HomeUiState> = combine(
+        _selectedDateMillis, macrosFlow, microsFlow, activityFlow, allFoodEntriesFlow
+    ) { date, macros, micros, activity, allEntries ->
         val calories = macros.calories ?: 0
         val protein = macros.protein ?: 0f
         val carbs = macros.carbs ?: 0f
@@ -120,6 +130,23 @@ class HomeViewModel(
         val totalWaterL = waterMl / 1000f
         val stepsCount = activity.stepsEntry?.count ?: 0
         val goals = activity.goals
+
+        // Compute consecutive log streak from food entry history
+        val loggedDays = allEntries
+            .map { entry ->
+                val cal = Calendar.getInstance().apply { timeInMillis = entry.dateMillis }
+                cal.set(Calendar.HOUR_OF_DAY, 0); cal.set(Calendar.MINUTE, 0)
+                cal.set(Calendar.SECOND, 0); cal.set(Calendar.MILLISECOND, 0)
+                cal.timeInMillis
+            }
+            .toSortedSet(reverseOrder())
+
+        var streak = 0
+        var checkDay = DateUtils.todayStartMillis()
+        while (loggedDays.contains(checkDay)) {
+            streak++
+            checkDay -= TimeUnit.DAYS.toMillis(1)
+        }
 
         val hasAnyData = calories > 0 || protein > 0f || waterMl > 0 || stepsCount > 0 || sleepEntry != null
 
@@ -146,6 +173,7 @@ class HomeViewModel(
             sleepScore = sleepEntry?.quality ?: 0,
             stepsCount = stepsCount,
             userGoals = goals,
+            logStreak = streak,
             aiInsightPrimary = primaryInsight,
             aiInsightSecondary = secondaryInsight
         )

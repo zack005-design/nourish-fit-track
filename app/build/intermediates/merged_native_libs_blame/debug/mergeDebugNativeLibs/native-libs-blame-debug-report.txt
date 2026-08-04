@@ -6,4 +6,4 @@ lib/x86/libimage_processing_util_jni.so->androidx.camera:camera-core:1.4.1
 lib/x86/libsurface_util_jni.so->androidx.camera:camera-core:1.4.1
 lib/x86_64/libimage_processing_util_jni.so->androidx.camera:camera-core:1.4.1
 lib/x86_64/libsurface_util_jni.so->androidx.camera:camera-core:1.4.1
-lib/arm64-v8a/libllm_inference_engine_jni.so->com.google.mediapipe:tasks-genai:0.10.14
+lib/arm64-v8a/libllm_inference_engine_jni.so->com.google.mediapipe:tasks-genai:0.10.20

@@ -32,16 +32,14 @@ import com.fitnessapp.ui.theme.TextTertiary
 
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Restaurant
-import androidx.compose.material.icons.outlined.BarChart
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Bedtime
 import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Restaurant
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -90,8 +88,6 @@ import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.TextTertiary
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.ui.unit.sp
 
 
@@ -102,13 +98,13 @@ sealed class Screen(
     val unselectedIcon: ImageVector
 ) {
     data object Splash : Screen("splash", "Splash", Icons.Filled.GridView, Icons.Outlined.GridView)
-    data object Overview : Screen("overview", "Overview", Icons.Filled.GridView, Icons.Outlined.GridView)
+    data object Overview : Screen("overview", "Home", Icons.Filled.GridView, Icons.Outlined.GridView)
     data object Nutrition : Screen("nutrition", "Nutrition", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
     data object NutritionDetails : Screen("nutrition_details", "Nutrition Details", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
     data object Sleep : Screen("sleep", "Sleep", Icons.Filled.Bedtime, Icons.Outlined.Bedtime)
-    data object Ai : Screen("ai", "AI", Icons.Filled.AutoAwesome, Icons.Outlined.AutoAwesome)
-    data object Analytics : Screen("analytics", "Analytics", Icons.Filled.BarChart, Icons.Outlined.BarChart)
-    data object More : Screen("more", "More", Icons.Filled.Menu, Icons.Outlined.Menu)
+    data object Ai : Screen("ai", "AI", Icons.Filled.GridView, Icons.Outlined.GridView)
+    data object Analytics : Screen("analytics", "Analytics", Icons.Filled.GridView, Icons.Outlined.GridView)
+    data object More : Screen("more", "Settings", Icons.Filled.Settings, Icons.Outlined.Settings)
     data object AddFood : Screen("add_food", "Add Food", Icons.Filled.Restaurant, Icons.Outlined.Restaurant)
     data object AddSleep : Screen("add_sleep", "Add Sleep", Icons.Filled.Bedtime, Icons.Outlined.Bedtime)
 }
@@ -117,8 +113,6 @@ val bottomNavItems = listOf(
     Screen.Overview,
     Screen.Nutrition,
     Screen.Sleep,
-    Screen.Ai,
-    Screen.Analytics,
     Screen.More
 )
 
