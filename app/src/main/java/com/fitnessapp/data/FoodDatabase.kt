@@ -423,6 +423,35 @@ object FoodDatabase {
         FoodItem("Filter Coffee (No Sugar)", "Kerala - Beverages", "1 cup", 40, 2f, 4f, 3f, 0f),
         FoodItem("Masala Chai (No Sugar)", "Kerala - Beverages", "1 cup", 50, 2f, 5f, 3f, 0f),
         FoodItem("Ginger Tea (No Sugar)", "Kerala - Beverages", "1 cup", 15, 1f, 2f, 1f, 0f),
-        FoodItem("Lemon Tea (No Sugar)", "Kerala - Beverages", "1 cup", 5, 0f, 1f, 0f, 0f)
+        FoodItem("Lemon Tea (No Sugar)", "Kerala - Beverages", "1 cup", 5, 0f, 1f, 0f, 0f),
+
+        // ─── TAMIL NADU SPECIALTIES ──────────────────────────────────────────────
+        FoodItem("Kothu Parotta (Egg/Chicken)", "Tamil Nadu", "1 plate", 550, 22f, 58f, 24f, 2f),
+        FoodItem("Ambur Chicken Biryani", "Tamil Nadu", "1 plate", 620, 28f, 72f, 22f, 2f),
+        FoodItem("Dindigul Mutton Biryani", "Tamil Nadu", "1 plate", 680, 30f, 75f, 26f, 2f),
+        FoodItem("Chettinad Egg Curry", "Tamil Nadu", "1 cup", 240, 14f, 8f, 16f, 1f),
+        FoodItem("Kuzhi Paniyaram (Kara)", "Tamil Nadu", "6 pcs", 220, 5f, 32f, 8f, 2f),
+        FoodItem("Kuzhi Paniyaram (Sweet)", "Tamil Nadu", "6 pcs", 260, 4f, 42f, 8f, 2f),
+        FoodItem("Pepper Rasam (Milagu)", "Tamil Nadu", "1 cup", 35, 1f, 5f, 1f, 1f),
+        FoodItem("Karuvadu Fry (Dry Fish)", "Tamil Nadu", "1 serving", 180, 20f, 2f, 10f, 0f),
+        FoodItem("Sambar Sadam (Rice)", "Tamil Nadu", "1 cup", 260, 6f, 44f, 6f, 3f),
+        FoodItem("Paruthi Paal", "Tamil Nadu", "1 glass", 180, 4f, 24f, 8f, 2f),
+
+        // ─── KARNATAKA SPECIALTIES ───────────────────────────────────────────────
+        FoodItem("Davangere Benne Dosa", "Karnataka", "1 pc", 380, 6f, 42f, 20f, 2f),
+        FoodItem("Mangalore Anjal Fish Curry", "Karnataka", "1 cup", 280, 24f, 6f, 18f, 1f),
+        FoodItem("Jolada Rotti", "Karnataka", "1 pc", 140, 4f, 30f, 1f, 4f),
+        FoodItem("Ennegai (Stuffed Eggplant)", "Karnataka", "1 cup", 210, 4f, 18f, 14f, 5f),
+        FoodItem("Maddur Vada", "Karnataka", "2 pcs", 280, 5f, 32f, 14f, 2f),
+        FoodItem("Ragi Mudde with Saaru", "Karnataka", "1 ball + curry", 240, 6f, 46f, 3f, 5f),
+        FoodItem("Holige / Obbattu (Puran Poli)", "Karnataka", "1 pc", 290, 6f, 48f, 8f, 3f),
+        FoodItem("Dharwad Peda", "Karnataka", "2 pcs", 220, 4f, 30f, 9f, 0.5f),
+
+        // ─── NORTH INDIAN DELICACIES ────────────────────────────────────────────
+        FoodItem("Amritsari Kulcha with Chole", "North Indian", "1 plate", 580, 16f, 75f, 22f, 6f),
+        FoodItem("Paneer Tikka (Tandoori)", "North Indian", "6 pcs", 290, 18f, 8f, 20f, 2f),
+        FoodItem("Jeera Rice with Dal Tadka", "North Indian", "1 plate", 380, 10f, 62f, 10f, 4f),
+        FoodItem("Shahi Paneer", "North Indian", "1 cup", 380, 14f, 16f, 28f, 2f),
+        FoodItem("Rajma Chawal Combo", "North Indian", "1 plate", 420, 14f, 68f, 8f, 8f)
     )
 }

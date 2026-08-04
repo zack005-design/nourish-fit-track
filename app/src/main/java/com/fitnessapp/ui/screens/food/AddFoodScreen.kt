@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -128,7 +130,7 @@ fun AddFoodScreen(
     var selectedMealType by remember { mutableStateOf(defaultMealType) }
 
     val mealTypes = listOf("Breakfast", "Lunch", "Dinner", "Snack")
-    val categories = listOf("All", "Kerala", "Protein", "Grain", "Vegetable", "Fruit", "Snacks", "Beverages")
+    val categories = listOf("All", "Kerala", "Tamil Nadu", "Karnataka", "South Indian", "North Indian", "Protein", "Grain", "Vegetable", "Fruit", "Snacks", "Beverages")
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(entryId) {
@@ -180,6 +182,10 @@ fun AddFoodScreen(
             val matchesCategory = when (selectedCat) {
                 "All" -> true
                 "Kerala" -> item.category.contains("Kerala", ignoreCase = true)
+                "Tamil Nadu" -> item.category.contains("Tamil", ignoreCase = true)
+                "Karnataka" -> item.category.contains("Karnataka", ignoreCase = true)
+                "South Indian" -> item.category.contains("South", ignoreCase = true) || item.category.contains("Kerala", ignoreCase = true) || item.category.contains("Tamil", ignoreCase = true) || item.category.contains("Karnataka", ignoreCase = true)
+                "North Indian" -> item.category.contains("North", ignoreCase = true)
                 "Snacks" -> item.category.contains("Snack", ignoreCase = true)
                 else -> item.category.contains(selectedCat, ignoreCase = true)
             }
@@ -844,15 +850,14 @@ fun AddFoodScreen(
 
             // ─── 5. CATEGORY FILTER BAR ────────────────────────────────────────────
             if (!isCustomMode) {
-                Row(
+                androidx.compose.foundation.lazy.LazyRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    categories.take(4).forEachIndexed { index, cat ->
+                    itemsIndexed(categories) { index, cat ->
                         val isSelected = selectedCategoryIndex == index
                         Box(
                             modifier = Modifier
-                                .weight(1f)
                                 .height(36.dp)
                                 .clip(RoundedCornerShape(18.dp))
                                 .background(if (isSelected) AccentGreen else SurfaceCardAlt)
@@ -861,7 +866,8 @@ fun AddFoodScreen(
                                     color = if (isSelected) AccentGreen else Color(0xFF2C3242),
                                     shape = RoundedCornerShape(18.dp)
                                 )
-                                .clickable { selectedCategoryIndex = index },
+                                .clickable { selectedCategoryIndex = index }
+                                .padding(horizontal = 14.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(

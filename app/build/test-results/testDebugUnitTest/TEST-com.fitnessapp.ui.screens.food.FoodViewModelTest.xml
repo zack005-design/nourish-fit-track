@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ui.screens.food.FoodViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-04T16:50:03.500Z" hostname="USER_05" time="0.188">
+<testsuite name="com.fitnessapp.ui.screens.food.FoodViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-04T16:55:04.251Z" hostname="USER_05" time="0.202">
   <properties/>
-  <testcase name="testDeleteAndRestoreEntry" classname="com.fitnessapp.ui.screens.food.FoodViewModelTest" time="0.18"/>
-  <testcase name="testFoodViewModelTotalsCalculation" classname="com.fitnessapp.ui.screens.food.FoodViewModelTest" time="0.007"/>
+  <testcase name="testDeleteAndRestoreEntry" classname="com.fitnessapp.ui.screens.food.FoodViewModelTest" time="0.194"/>
+  <testcase name="testFoodViewModelTotalsCalculation" classname="com.fitnessapp.ui.screens.food.FoodViewModelTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
