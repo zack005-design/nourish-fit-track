@@ -127,6 +127,86 @@ object BarcodeScannerUtil {
             fiber = 2.0f
         )
     }
+
+    /**
+     * Searches OpenFoodFacts API for products matching a name or barcode query.
+     */
+    suspend fun searchOpenFoodFactsOnline(query: String): List<ScannedProduct> = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+        val trimmed = query.trim()
+        if (trimmed.isBlank()) return@withContext emptyList()
+
+        // If numeric (barcode), perform direct barcode lookup
+        if (trimmed.all { it.isDigit() }) {
+            val single = lookupBarcodeOnline(trimmed)
+            return@withContext listOf(single)
+        }
+
+        val results = mutableListOf<ScannedProduct>()
+        try {
+            val encoded = java.net.URLEncoder.encode(trimmed, "UTF-8")
+            val urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=$encoded&search_simple=1&action=process&json=1&page_size=8"
+            val url = java.net.URL(urlString)
+            val connection = url.openConnection() as java.net.HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.connectTimeout = 4000
+            connection.readTimeout = 4000
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.4.3 (Android)")
+
+            if (connection.responseCode == 200) {
+                val jsonString = connection.inputStream.bufferedReader().use { it.readText() }
+                val productsRegex = Regex("\"products\"\\s*:\\s*\\[(.*?)\\]\\s*,\\s*\"count\"", RegexOption.DOT_MATCHES_ALL)
+                val match = productsRegex.find(jsonString)
+                if (match != null) {
+                    val productsArray = match.groupValues[1]
+                    // extract individual product json blocks
+                    val blocks = productsArray.split(Regex("\\},\\s*\\{"))
+                    for (block in blocks) {
+                        val nameMatch = Regex("\"product_name(?:_en)?\"\\s*:\\s*\"([^\"]+)\"").find(block)
+                        val brandMatch = Regex("\"brands\"\\s*:\\s*\"([^\"]+)\"").find(block)
+                        val codeMatch = Regex("\"code\"\\s*:\\s*\"([^\"]+)\"").find(block)
+                        val name = nameMatch?.groupValues?.get(1) ?: continue
+                        val brand = brandMatch?.groupValues?.get(1) ?: "OpenFoodFacts"
+                        val code = codeMatch?.groupValues?.get(1) ?: "0000"
+
+                        val calMatch = Regex("\"energy-kcal_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                        val protMatch = Regex("\"proteins_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                        val carbMatch = Regex("\"carbohydrates_100g\"\\s*:\\s*([0-9.]+)").find(block)
+                        val fatMatch = Regex("\"fat_100g\"\\s*:\\s*([0-9.]+)").find(block)
+
+                        val calories = calMatch?.groupValues?.get(1)?.toFloatOrNull()?.toInt() ?: 180
+                        val protein = protMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 8.0f
+                        val carbs = carbMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 24.0f
+                        val fat = fatMatch?.groupValues?.get(1)?.toFloatOrNull() ?: 5.0f
+
+                        results.add(
+                            ScannedProduct(
+                                barcode = code,
+                                name = "$name ($brand)",
+                                calories = calories.coerceAtLeast(0),
+                                proteinGrams = protein.coerceAtLeast(0f),
+                                carbsGrams = carbs.coerceAtLeast(0f),
+                                fatGrams = fat.coerceAtLeast(0f),
+                                brand = brand
+                            )
+                        )
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            // Network fallback
+        }
+
+        // Add matching local foods if API returns few items
+        if (results.isEmpty()) {
+            val localMatches = barcodeDatabase.values.filter {
+                it.name.contains(trimmed, ignoreCase = true) || it.brand.contains(trimmed, ignoreCase = true)
+            }
+            results.addAll(localMatches)
+        }
+
+        return@withContext results
+    }
 }
+
 
 

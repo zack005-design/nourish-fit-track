@@ -82,6 +82,7 @@ import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
 import com.fitnessapp.ui.theme.TextTertiary
+import com.fitnessapp.util.BarcodeScannerUtil
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -110,6 +111,10 @@ fun AddFoodScreen(
     var customSugar by remember { mutableStateOf("4") }
     var customSodium by remember { mutableStateOf("150") }
     var customCholesterol by remember { mutableStateOf("0") }
+
+    // OpenFoodFacts API Search State
+    var apiResults by remember { mutableStateOf<List<BarcodeScannerUtil.ScannedProduct>>(emptyList()) }
+    var isSearchingApi by remember { mutableStateOf(false) }
 
     val haptic = LocalHapticFeedback.current
 
@@ -411,6 +416,123 @@ fun AddFoodScreen(
                         contentDescription = "Custom Meal Mode",
                         tint = if (isCustomMode) BackgroundDark else TextPrimary
                     )
+                }
+            }
+
+            // OpenFoodFacts API Live Search Button
+            if (searchQuery.isNotBlank() && !isCustomMode) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(AccentBlue.copy(alpha = 0.15f))
+                        .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(14.dp))
+                        .clickable {
+                            if (!isSearchingApi) {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                isSearchingApi = true
+                                scope.launch {
+                                    val results = BarcodeScannerUtil.searchOpenFoodFactsOnline(searchQuery)
+                                    apiResults = results
+                                    isSearchingApi = false
+                                    if (results.isNotEmpty()) {
+                                        val firstProduct = results.first()
+                                        selectedItem = BarcodeScannerUtil.toFoodItem(firstProduct)
+                                        onShowSnackbar("Found ${results.size} items on OpenFoodFacts API")
+                                    } else {
+                                        onShowSnackbar("No OpenFoodFacts results for '$searchQuery'")
+                                    }
+                                }
+                            }
+                        }
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (isSearchingApi) "⚡ Querying OpenFoodFacts API..." else "⚡ Search '$searchQuery' on OpenFoodFacts API",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = AccentBlue
+                        )
+                    }
+                }
+            }
+
+            // OpenFoodFacts API Results Container
+            if (apiResults.isNotEmpty() && !isCustomMode) {
+                AppCard(
+                    backgroundColor = SurfaceCardAlt,
+                    borderColor = AccentBlue.copy(alpha = 0.4f),
+                    contentPadding = 16.dp
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "OpenFoodFacts API Results (${apiResults.size})",
+                            style = MaterialTheme.typography.titleSmall,
+                            fontWeight = FontWeight.Bold,
+                            color = AccentBlue
+                        )
+                        Text(
+                            text = "Clear",
+                            fontSize = 11.sp,
+                            color = TextSecondary,
+                            modifier = Modifier.clickable { apiResults = emptyList() }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    apiResults.forEach { product ->
+                        val foodItem = remember(product) { BarcodeScannerUtil.toFoodItem(product) }
+                        val isSelected = selectedItem?.name == foodItem.name
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(if (isSelected) AccentBlue.copy(alpha = 0.2f) else Color.Transparent)
+                                .clickable {
+                                    selectedItem = foodItem
+                                    servings = 1.0f
+                                    onShowSnackbar("Selected ${product.name}")
+                                }
+                                .padding(horizontal = 10.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = product.name,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Text(
+                                    text = "Brand: ${product.brand} • ${product.proteinGrams}g Protein • ${product.carbsGrams}g Carbs",
+                                    fontSize = 11.sp,
+                                    color = TextSecondary
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(AccentOrange.copy(alpha = 0.15f))
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
+                                Text(
+                                    text = "${product.calories} kcal",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AccentOrange
+                                )
+                            }
+                        }
+                    }
                 }
             }
 

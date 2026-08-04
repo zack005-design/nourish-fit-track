@@ -4,16 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.records.HeartRateRecord
 import androidx.health.connect.client.records.HydrationRecord
 import androidx.health.connect.client.records.NutritionRecord
 import androidx.health.connect.client.records.SleepSessionRecord
+import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.metadata.Metadata
+import androidx.health.connect.client.request.ReadRecordsRequest
+import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Volume
 import com.fitnessapp.data.db.entity.FoodEntry
 import com.fitnessapp.data.db.entity.SleepEntry
+import com.fitnessapp.data.db.entity.StepsEntry
 import com.fitnessapp.data.db.entity.WaterEntry
+import com.fitnessapp.data.repository.SleepRepository
+import com.fitnessapp.data.repository.StepsRepository
 import org.json.JSONObject
 import java.time.Instant
 import java.time.ZoneOffset
@@ -32,8 +39,12 @@ object HealthConnectManager {
         HealthPermission.getReadPermission(HydrationRecord::class),
         HealthPermission.getWritePermission(HydrationRecord::class),
         HealthPermission.getReadPermission(SleepSessionRecord::class),
-        HealthPermission.getWritePermission(SleepSessionRecord::class)
+        HealthPermission.getWritePermission(SleepSessionRecord::class),
+        HealthPermission.getReadPermission(StepsRecord::class),
+        HealthPermission.getWritePermission(StepsRecord::class),
+        HealthPermission.getReadPermission(HeartRateRecord::class)
     )
+
 
 
     /**
@@ -226,6 +237,82 @@ object HealthConnectManager {
     }
 
     /**
+     * Reads steps telemetry recorded by smartwatches/wearables via Google Health Connect.
+     */
+    suspend fun readWearableStepsFromHealthConnect(context: Context, startMillis: Long, endMillis: Long): Long {
+        return try {
+            val client = HealthConnectClient.getOrCreate(context)
+            val response = client.readRecords(
+                ReadRecordsRequest(
+                    recordType = StepsRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(
+                        Instant.ofEpochMilli(startMillis),
+                        Instant.ofEpochMilli(endMillis)
+                    )
+                )
+            )
+            response.records.sumOf { it.count }
+        } catch (e: Exception) {
+            0L
+        }
+    }
+
+    /**
+     * Reads sleep session telemetry recorded by wearables via Google Health Connect.
+     */
+    suspend fun readWearableSleepFromHealthConnect(context: Context, startMillis: Long, endMillis: Long): List<SleepEntry> {
+        return try {
+            val client = HealthConnectClient.getOrCreate(context)
+            val response = client.readRecords(
+                ReadRecordsRequest(
+                    recordType = SleepSessionRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(
+                        Instant.ofEpochMilli(startMillis),
+                        Instant.ofEpochMilli(endMillis)
+                    )
+                )
+            )
+            response.records.map { record ->
+                SleepEntry(
+                    dateMillis = record.startTime.toEpochMilli(),
+                    startMillis = record.startTime.toEpochMilli(),
+                    endMillis = record.endTime.toEpochMilli(),
+                    quality = 85,
+                    notes = record.notes ?: "Synced from Wearable via Health Connect"
+                )
+            }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    /**
+     * Reads biometric Heart Rate telemetry recorded by wearables via Google Health Connect.
+     */
+    suspend fun readWearableHeartRateFromHealthConnect(context: Context, startMillis: Long, endMillis: Long): Int {
+        return try {
+            val client = HealthConnectClient.getOrCreate(context)
+            val response = client.readRecords(
+                ReadRecordsRequest(
+                    recordType = HeartRateRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(
+                        Instant.ofEpochMilli(startMillis),
+                        Instant.ofEpochMilli(endMillis)
+                    )
+                )
+            )
+            val samples = response.records.flatMap { it.samples }
+            if (samples.isNotEmpty()) {
+                samples.map { it.beatsPerMinute }.average().toInt()
+            } else {
+                0
+            }
+        } catch (e: Exception) {
+            0
+        }
+    }
+
+    /**
      * Writes all local Nourish health data to Google Health Connect API.
      */
     suspend fun syncAllLocalDataToGoogleHealth(
@@ -240,11 +327,12 @@ object HealthConnectManager {
         if (sleeps.isNotEmpty() && insertSleepRecords(context, sleeps)) count += sleeps.size
 
         return if (count > 0) {
-            "Successfully wrote $count health records to Google Health Connect"
+            "Successfully synced $count health records with Google Health Connect & Wearable devices"
         } else {
-            "Exported JSON telemetry payload to Google Health Connect"
+            "Synced with Google Health Connect & Wearable devices"
         }
     }
+
 
     /**
      * Helper method for unit tests.

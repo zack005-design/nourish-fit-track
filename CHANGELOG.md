@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.5.0] - 2026-08-04
+- **OpenFoodFacts Live API Search**: Integrated live REST API food product search in `AddFoodScreen.kt`. Search any packaged food or barcode, fetch live nutrition info (Calories, Protein, Carbs, Fat, Brand), select items, and save directly to local Room DB food log.
+- **Biometric & Wearable Sync**: Enhanced `HealthConnectManager.kt` with bi-directional wearable sync capabilities (`StepsRecord`, `SleepSessionRecord`, `HeartRateRecord`). Enables reading smartwatch telemetry (Galaxy Watch, Apple Watch, Pixel Watch, Oura via Health Connect) into app database.
+
 ## [1.4.3] - 2026-08-04
+
 - **Manifest cleanup**: Removed `CAMERA`, `READ_MEDIA_IMAGES`, `READ_EXTERNAL_STORAGE` permissions — no longer needed since camera scanner was removed
 - **Health Connect rationale**: Added `ViewPermissionUsageActivity` alias required by Google Play for apps using health permissions (opens privacy rationale screen from Health Connect settings)
 - Removed orphaned `FileProvider` block (was only needed for CameraX file sharing)

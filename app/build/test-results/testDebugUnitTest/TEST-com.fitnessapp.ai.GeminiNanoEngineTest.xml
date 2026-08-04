@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.ai.GeminiNanoEngineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T16:38:19.562Z" hostname="USER_05" time="0.007">
+<testsuite name="com.fitnessapp.ai.GeminiNanoEngineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-08-04T16:42:04.084Z" hostname="USER_05" time="0.008">
   <properties/>
-  <testcase name="testPromptFormatting" classname="com.fitnessapp.ai.GeminiNanoEngineTest" time="0.007"/>
+  <testcase name="testPromptFormatting" classname="com.fitnessapp.ai.GeminiNanoEngineTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
