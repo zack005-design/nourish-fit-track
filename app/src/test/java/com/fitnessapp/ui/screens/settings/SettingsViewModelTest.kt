@@ -47,16 +47,16 @@ class SettingsViewModelTest {
 
     private class FakeFoodDao : FoodEntryDao {
         val list = MutableStateFlow<List<FoodEntry>>(emptyList())
-        override fun getEntriesForDateRange(s: Long, e: Long) = list
+        override fun getEntriesForDateRange(startOfDay: Long, endOfDay: Long) = list
         override fun getAllEntries() = list
-        override fun getTotalCaloriesForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalProteinForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalCarbsForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalFatForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalFiberForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalSugarForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalSodiumForDateRange(s: Long, e: Long) = list.map { null }
-        override fun getTotalCholesterolForDateRange(s: Long, e: Long) = list.map { null }
+        override fun getTotalCaloriesForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalProteinForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalCarbsForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalFatForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalFiberForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalSugarForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalSodiumForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
+        override fun getTotalCholesterolForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
         override fun insert(entry: FoodEntry) = 1L
         override fun update(entry: FoodEntry) = 1
         override fun delete(entry: FoodEntry) = 1
@@ -66,8 +66,8 @@ class SettingsViewModelTest {
 
     private class FakeWaterDao : WaterEntryDao {
         val list = MutableStateFlow<List<WaterEntry>>(emptyList())
-        override fun getEntriesForDateRange(s: Long, e: Long) = list
-        override fun getTotalWaterForDateRange(s: Long, e: Long) = list.map { null }
+        override fun getEntriesForDateRange(startOfDay: Long, endOfDay: Long) = list
+        override fun getTotalWaterForDateRange(startOfDay: Long, endOfDay: Long) = list.map { null }
         override fun getAllWaterEntries() = list
         override fun insert(entry: WaterEntry) = 1L
         override fun update(entry: WaterEntry) = 1
@@ -77,7 +77,7 @@ class SettingsViewModelTest {
 
     private class FakeSleepDao : SleepEntryDao {
         val list = MutableStateFlow<List<SleepEntry>>(emptyList())
-        override fun getEntriesForDateRange(s: Long, e: Long) = list
+        override fun getEntriesForDateRange(startOfDay: Long, endOfDay: Long) = list
         override fun getAllEntries() = list
         override fun insert(entry: SleepEntry) = 1L
         override fun update(entry: SleepEntry) = 1
@@ -88,7 +88,7 @@ class SettingsViewModelTest {
 
     private class FakeStepsDao : StepsEntryDao {
         val state = MutableStateFlow<StepsEntry?>(null)
-        override fun getStepsForDateRange(s: Long, e: Long) = state
+        override fun getStepsForDateRange(startOfDay: Long, endOfDay: Long) = state
         override fun getAllStepsEntries() = state.map { if (it == null) emptyList() else listOf(it) }
         override fun insert(entry: StepsEntry) = 1L
         override fun update(entry: StepsEntry) = 1
