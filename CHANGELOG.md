@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.9] - 2026-08-04
+
+- **Hardware Step Tracking Foreground Service**: Created `StepTrackingService.kt` for background physical step counter sensor event processing (`Sensor.TYPE_STEP_COUNTER`), verified by `StepTrackingServiceTest.kt`.
+
 ## [1.2.8] - 2026-08-04
 
 - **Live Gemini AI Engine**: Verified structured context prompt formatting and inference engine fallbacks (`GeminiNanoEngineTest.kt`).

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.util.BarcodeScannerUtilTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-08-04T14:09:49.899Z" hostname="USER_05" time="0.005">
+<testsuite name="com.fitnessapp.util.BarcodeScannerUtilTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-08-04T14:11:10.526Z" hostname="USER_05" time="0.003">
   <properties/>
   <testcase name="testToFoodItemConversion" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.002"/>
   <testcase name="testUnknownBarcodeFallback" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.001"/>
-  <testcase name="testKnownBarcodeLookup" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.001"/>
+  <testcase name="testKnownBarcodeLookup" classname="com.fitnessapp.util.BarcodeScannerUtilTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
