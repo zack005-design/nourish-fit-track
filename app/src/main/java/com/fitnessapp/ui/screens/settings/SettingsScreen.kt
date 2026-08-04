@@ -4,7 +4,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.health.connect.client.PermissionController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,12 +22,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DeleteForever
-import androidx.compose.material.icons.filled.DirectionsRun
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Lock
@@ -61,6 +60,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -115,6 +115,7 @@ fun SettingsScreen(
     val userGoals by viewModel.userGoals.collectAsStateWithLifecycle()
 
     var showClearDataModal by remember { mutableStateOf(false) }
+    val isHCAvailable = remember { HealthConnectManager.isHealthConnectAvailable(context) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = PermissionController.createRequestPermissionResultContract()
@@ -129,8 +130,8 @@ fun SettingsScreen(
         }
     }
 
-
     val handleSave = { cal: Int, prot: Float, water: Int, sleep: Float, steps: Int ->
+        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         viewModel.saveGoals(
             calorieGoal = cal,
             proteinGoal = prot,
@@ -156,7 +157,7 @@ fun SettingsScreen(
                             modifier = Modifier
                                 .size(36.dp)
                                 .clip(CircleShape)
-                                .background(AccentPurple.copy(alpha = 0.2f))
+                                .background(AccentPurple.copy(alpha = 0.18f))
                                 .border(1.dp, AccentPurple.copy(alpha = 0.4f), CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
@@ -169,8 +170,8 @@ fun SettingsScreen(
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "More & Account",
-                            style = MaterialTheme.typography.titleMedium,
+                            text = "Settings",
+                            style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = TextPrimary
                         )
@@ -189,12 +190,13 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             // 1. User Profile Header Card
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentPurple.copy(alpha = 0.3f)
+                borderColor = AccentPurple.copy(alpha = 0.35f),
+                contentPadding = 18.dp
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -206,7 +208,7 @@ fun SettingsScreen(
                             .clip(CircleShape)
                             .background(
                                 Brush.linearGradient(
-                                    listOf(AccentPurple.copy(alpha = 0.4f), AccentBlue.copy(alpha = 0.4f))
+                                    listOf(AccentPurple.copy(alpha = 0.45f), AccentBlue.copy(alpha = 0.45f))
                                 )
                             )
                             .border(1.5.dp, AccentPurple, CircleShape),
@@ -222,36 +224,35 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.width(14.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Fitness Athlete",
+                            text = "Fitness Profile",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = TextPrimary
                         )
-                        Spacer(modifier = Modifier.height(2.dp))
+                        Spacer(modifier = Modifier.height(3.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(6.dp))
-                                    .background(AccentOrange.copy(alpha = 0.15f))
-                                    .padding(horizontal = 6.dp, vertical = 2.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(AccentGreen.copy(alpha = 0.15f))
+                                    .border(1.dp, AccentGreen.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 8.dp, vertical = 2.dp)
                             ) {
                                 Text(
-                                    text = "🔥 7 Day Streak",
+                                    text = "On-Device Engine Active",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = AccentOrange
+                                    color = AccentGreen
                                 )
                             }
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(text = "PRO Member", fontSize = 11.sp, color = AccentGreen, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
             }
 
-            // 2. Interactive Daily Health Goals
+            // 2. Interactive Daily Target Goals
             Text(
-                text = "Daily Target Goals",
+                text = "Daily Targets",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
@@ -259,11 +260,12 @@ fun SettingsScreen(
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentGreen.copy(alpha = 0.3f)
+                borderColor = AccentGreen.copy(alpha = 0.35f),
+                contentPadding = 18.dp
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     GoalAdjusterRow(
                         title = "Daily Calorie Target",
@@ -343,7 +345,7 @@ fun SettingsScreen(
                     GoalAdjusterRow(
                         title = "Daily Step Target",
                         valueText = "${userGoals.dailyStepsGoal} steps",
-                        icon = Icons.Default.DirectionsRun,
+                        icon = Icons.AutoMirrored.Filled.DirectionsRun,
                         iconTint = AccentGreen,
                         onDecrement = {
                             handleSave(
@@ -377,16 +379,18 @@ fun SettingsScreen(
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentBlue.copy(alpha = 0.3f)
+                borderColor = AccentBlue.copy(alpha = 0.35f),
+                contentPadding = 18.dp
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                 try {
                                     permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
                                 } catch (e: Exception) {
@@ -394,23 +398,45 @@ fun SettingsScreen(
                                     onShowSnackbar("Opening Google Health Connect settings")
                                 }
                             },
-
-
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(36.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(AccentBlue.copy(alpha = 0.15f)),
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AccentBlue.copy(alpha = 0.15f))
+                                .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(imageVector = Icons.Default.Sync, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(20.dp))
+                            Icon(
+                                imageVector = Icons.Default.Sync,
+                                contentDescription = null,
+                                tint = AccentBlue,
+                                modifier = Modifier.size(20.dp)
+                            )
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("Google Health Connect", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = TextPrimary)
-                            Text("Sync Nutrition, Hydration & Sleep telemetry", fontSize = 12.sp, color = TextSecondary)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    "Google Health Connect",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .size(7.dp)
+                                        .clip(CircleShape)
+                                        .background(if (isHCAvailable) AccentGreen else Color(0xFF4A5568))
+                                )
+                            }
+                            Text(
+                                if (isHCAvailable) "Tap to grant permissions & sync health data" else "Health Connect app not installed",
+                                fontSize = 12.sp,
+                                color = TextSecondary
+                            )
                         }
                         Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
                     }
@@ -421,17 +447,33 @@ fun SettingsScreen(
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(36.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(AccentGreen.copy(alpha = 0.15f)),
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AccentGreen.copy(alpha = 0.15f))
+                                .border(1.dp, AccentGreen.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(imageVector = Icons.Default.DirectionsRun, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(20.dp))
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
+                                contentDescription = null,
+                                tint = AccentGreen,
+                                modifier = Modifier.size(20.dp)
+                            )
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("Hardware Step Counter Sensor", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = TextPrimary)
-                            Text("Sensor.TYPE_STEP_COUNTER • Active", fontSize = 12.sp, color = AccentGreen)
+                            Text(
+                                "Step Sensor Telemetry",
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = TextPrimary
+                            )
+                            Text(
+                                "Sensor.TYPE_STEP_COUNTER • Active",
+                                fontSize = 12.sp,
+                                color = AccentGreen,
+                                fontWeight = FontWeight.SemiBold
+                            )
                         }
                     }
                 }
@@ -439,7 +481,7 @@ fun SettingsScreen(
 
             // 4. Notifications & Push Reminders
             Text(
-                text = "Notifications & Reminders",
+                text = "Push Notifications",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary
@@ -447,34 +489,51 @@ fun SettingsScreen(
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentOrange.copy(alpha = 0.3f)
+                borderColor = AccentOrange.copy(alpha = 0.35f),
+                contentPadding = 18.dp
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             ReminderNotificationHelper.sendReminderNotification(
                                 context,
                                 "Hydration Reminder 💧",
                                 "Don't forget to log 500ml water to hit your daily goal!"
                             )
-                            onShowSnackbar("Sent test hydration push reminder")
+                            onShowSnackbar("Test hydration notification dispatched!")
                         },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(AccentOrange.copy(alpha = 0.15f)),
+                            .size(40.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(AccentOrange.copy(alpha = 0.15f))
+                            .border(1.dp, AccentOrange.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(imageVector = Icons.Default.AddAlert, contentDescription = null, tint = AccentOrange, modifier = Modifier.size(20.dp))
+                        Icon(
+                            imageVector = Icons.Default.AddAlert,
+                            contentDescription = null,
+                            tint = AccentOrange,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Test Local Push Reminder", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = TextPrimary)
-                        Text("Trigger instant Android system notification", fontSize = 12.sp, color = TextSecondary)
+                        Text(
+                            "Test Hydration Push Reminder",
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = TextPrimary
+                        )
+                        Text(
+                            "Trigger instant Android system notification",
+                            fontSize = 12.sp,
+                            color = TextSecondary
+                        )
                     }
                     Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
                 }
@@ -490,55 +549,90 @@ fun SettingsScreen(
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentRed.copy(alpha = 0.3f)
+                borderColor = AccentRed.copy(alpha = 0.35f),
+                contentPadding = 18.dp
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                onShowSnackbar("Exported health database JSON to local storage")
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onShowSnackbar("Exported health database backup to local storage")
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(36.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(AccentBlue.copy(alpha = 0.15f)),
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AccentBlue.copy(alpha = 0.15f))
+                                .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(imageVector = Icons.Default.Download, contentDescription = null, tint = AccentBlue, modifier = Modifier.size(20.dp))
+                            Icon(
+                                imageVector = Icons.Default.Download,
+                                contentDescription = null,
+                                tint = AccentBlue,
+                                modifier = Modifier.size(20.dp)
+                            )
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("Export Health Log (JSON)", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = TextPrimary)
-                            Text("Download local backup file", fontSize = 12.sp, color = TextSecondary)
+                            Text(
+                                "Export Health Log (JSON)",
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = TextPrimary
+                            )
+                            Text(
+                                "Download local backup file",
+                                fontSize = 12.sp,
+                                color = TextSecondary
+                            )
                         }
                     }
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { showClearDataModal = true },
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                showClearDataModal = true
+                            },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(36.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(AccentRed.copy(alpha = 0.15f)),
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(AccentRed.copy(alpha = 0.15f))
+                                .border(1.dp, AccentRed.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(imageVector = Icons.Default.DeleteForever, contentDescription = null, tint = AccentRed, modifier = Modifier.size(20.dp))
+                            Icon(
+                                imageVector = Icons.Default.DeleteForever,
+                                contentDescription = null,
+                                tint = AccentRed,
+                                modifier = Modifier.size(20.dp)
+                            )
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("Clear All Local Data", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = AccentRed)
-                            Text("Reset database tables & preference storage", fontSize = 12.sp, color = TextSecondary)
+                            Text(
+                                "Clear All Local Data",
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = AccentRed
+                            )
+                            Text(
+                                "Reset database tables & preference storage",
+                                fontSize = 12.sp,
+                                color = TextSecondary
+                            )
                         }
                     }
                 }
@@ -548,27 +642,53 @@ fun SettingsScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 12.dp),
+                    .padding(vertical = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Lock, contentDescription = null, tint = AccentGreen, modifier = Modifier.size(14.dp))
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = null,
+                        tint = AccentGreen,
+                        modifier = Modifier.size(14.dp)
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("100% On-Device Privacy Guaranteed", fontSize = 12.sp, color = AccentGreen, fontWeight = FontWeight.Medium)
+                    Text(
+                        "100% On-Device Privacy Guaranteed",
+                        fontSize = 12.sp,
+                        color = AccentGreen,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
-                Text("Nourish Fit Track v1.3.2 (Build 25)", fontSize = 11.sp, color = TextSecondary)
+                Text(
+                    "Nourish Fit Track v1.4.3 (Build 36)",
+                    fontSize = 11.sp,
+                    color = TextSecondary
+                )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 
     if (showClearDataModal) {
         AlertDialog(
             onDismissRequest = { showClearDataModal = false },
-            title = { Text("Clear All Database Records?", fontWeight = FontWeight.Bold) },
-            text = { Text("This will remove all food, water, sleep, and step logs from local SQLite storage. This action cannot be undone.", color = TextSecondary) },
+            containerColor = SurfaceCardAlt,
+            title = {
+                Text(
+                    "Clear All Database Records?",
+                    color = TextPrimary,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Text(
+                    "This will remove all food, water, sleep, and step logs from local SQLite storage. This action cannot be undone.",
+                    color = TextSecondary
+                )
+            },
             confirmButton = {
                 Button(
                     onClick = {
@@ -579,7 +699,7 @@ fun SettingsScreen(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = AccentRed)
                 ) {
-                    Text("Clear All Data", color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("Clear All Data", color = BackgroundDark, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -606,38 +726,69 @@ private fun GoalAdjusterRow(
     ) {
         Box(
             modifier = Modifier
-                .size(36.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(iconTint.copy(alpha = 0.15f)),
+                .size(38.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(iconTint.copy(alpha = 0.15f))
+                .border(1.dp, iconTint.copy(alpha = 0.35f), RoundedCornerShape(10.dp)),
             contentAlignment = Alignment.Center
         ) {
-            Icon(imageVector = icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(20.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = iconTint,
+                modifier = Modifier.size(20.dp)
+            )
         }
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, color = TextPrimary)
-            Text(valueText, fontSize = 13.sp, color = iconTint, fontWeight = FontWeight.SemiBold)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = TextPrimary
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = valueText,
+                fontSize = 13.sp,
+                color = iconTint,
+                fontWeight = FontWeight.ExtraBold
+            )
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(
-                onClick = onDecrement,
+            Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(34.dp)
                     .clip(CircleShape)
                     .background(SurfaceCardAlt)
+                    .border(1.dp, Color(0xFF2C3242), CircleShape)
+                    .clickable(onClick = onDecrement),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(imageVector = Icons.Default.Remove, contentDescription = "Decrement", tint = TextPrimary, modifier = Modifier.size(16.dp))
+                Icon(
+                    imageVector = Icons.Default.Remove,
+                    contentDescription = "Decrement",
+                    tint = TextPrimary,
+                    modifier = Modifier.size(16.dp)
+                )
             }
-            Spacer(modifier = Modifier.width(8.dp))
-            IconButton(
-                onClick = onIncrement,
+            Spacer(modifier = Modifier.width(10.dp))
+            Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(34.dp)
                     .clip(CircleShape)
-                    .background(SurfaceCardAlt)
+                    .background(iconTint.copy(alpha = 0.2f))
+                    .border(1.dp, iconTint.copy(alpha = 0.4f), CircleShape)
+                    .clickable(onClick = onIncrement),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Increment", tint = TextPrimary, modifier = Modifier.size(16.dp))
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Increment",
+                    tint = iconTint,
+                    modifier = Modifier.size(16.dp)
+                )
             }
         }
     }
