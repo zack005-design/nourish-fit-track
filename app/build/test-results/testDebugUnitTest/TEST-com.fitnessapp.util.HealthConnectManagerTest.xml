@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fitnessapp.util.HealthConnectManagerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-08-04T14:08:25.955Z" hostname="USER_05" time="0.009">
+<testsuite name="com.fitnessapp.util.HealthConnectManagerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-08-04T14:09:49.909Z" hostname="USER_05" time="0.007">
   <properties/>
   <testcase name="testWriteDataToHealthConnectWithZeroRecords" classname="com.fitnessapp.util.HealthConnectManagerTest" time="0.001"/>
-  <testcase name="testWriteDataToHealthConnectWithRecords" classname="com.fitnessapp.util.HealthConnectManagerTest" time="0.008"/>
-  <testcase name="testReadDataFromHealthConnectWithoutContext" classname="com.fitnessapp.util.HealthConnectManagerTest" time="0.0"/>
+  <testcase name="testWriteDataToHealthConnectWithRecords" classname="com.fitnessapp.util.HealthConnectManagerTest" time="0.004"/>
+  <testcase name="testReadDataFromHealthConnectWithoutContext" classname="com.fitnessapp.util.HealthConnectManagerTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

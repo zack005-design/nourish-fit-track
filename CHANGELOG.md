@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.8] - 2026-08-04
+
+- **Live Gemini AI Engine**: Verified structured context prompt formatting and inference engine fallbacks (`GeminiNanoEngineTest.kt`).
+
 ## [1.2.7] - 2026-08-04
 
 - **Barcode Food Scanner & OpenFoodFacts Lookup**: Added `BarcodeScannerUtil.kt` for EAN-13/UPC barcode string parsing and OpenFoodFacts product dataset matching, backed by `BarcodeScannerUtilTest.kt`.
