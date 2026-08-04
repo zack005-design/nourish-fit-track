@@ -1,7 +1,18 @@
 package com.fitnessapp.ui.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
@@ -136,55 +147,69 @@ fun FitnessNavGraph(
         },
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar(
-                    modifier = Modifier.frostedGlass(
-                        backgroundColor = SurfaceCard.copy(alpha = 0.85f),
-                        fallbackColor = SurfaceCard
-                    ),
-                    containerColor = Color.Transparent
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp)
+                        .navigationBarsPadding(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    bottomNavItems.forEach { screen ->
-                        val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
-                                    contentDescription = screen.label
-                                )
-                            },
-                            label = {
-                                Text(
-                                    text = screen.label,
-                                    fontSize = 10.sp,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            },
-                            alwaysShowLabel = true,
-                            selected = selected,
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = AccentGreen,
-                                selectedTextColor = AccentGreen,
-                                indicatorColor = AccentGreen.copy(alpha = 0.15f),
-                                unselectedIconColor = TextTertiary,
-                                unselectedTextColor = TextTertiary
-                            ),
-                            onClick = {
-                                if (currentDestination?.route != screen.route) {
-                                    navController.navigate(screen.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
+                    NavigationBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(64.dp)
+                            .clip(RoundedCornerShape(28.dp))
+                            .background(SurfaceCard.copy(alpha = 0.88f))
+                            .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(28.dp)),
+                        containerColor = Color.Transparent,
+                        windowInsets = WindowInsets(0, 0, 0, 0)
+                    ) {
+                        bottomNavItems.forEach { screen ->
+                            val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
+                                        contentDescription = screen.label,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                },
+                                label = {
+                                    Text(
+                                        text = screen.label,
+                                        fontSize = 10.sp,
+                                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                },
+                                alwaysShowLabel = true,
+                                selected = selected,
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = AccentGreen,
+                                    selectedTextColor = AccentGreen,
+                                    indicatorColor = AccentGreen.copy(alpha = 0.18f),
+                                    unselectedIconColor = TextTertiary,
+                                    unselectedTextColor = TextTertiary
+                                ),
+                                onClick = {
+                                    if (currentDestination?.route != screen.route) {
+                                        navController.navigate(screen.route) {
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
                                     }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
         }
+
     ) { innerPadding ->
         NavHost(
             navController = navController,

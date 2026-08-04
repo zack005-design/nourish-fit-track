@@ -1,6 +1,11 @@
 # Changelog
 
+## [1.3.8] - 2026-08-04
+
+- **Ultra-Premium Design Overhaul**: Redesigned theme color tokens with space dark surfaces (`#0B0E14`), ultra-vibrant neon accents (`#00E676` Emerald, `#00B0FF` Cyan, `#FF6D00` Amber), floating translucent navigation capsule bar with pill indicator glows, and elevated hero header with 7-Day streak badge.
+
 ## [1.3.7] - 2026-08-04
+
 
 - **Native Google Health Connect Client SDK Writer**: Integrated `androidx.health.connect:connect-client:1.1.0-alpha10` and compiled against Android 35 SDK. Implemented `insertNutritionRecords`, `insertHydrationRecords`, and `insertSleepRecords` to write local Room DB entries directly to Google Health Connect API.
 

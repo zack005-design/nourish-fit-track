@@ -2,28 +2,28 @@ package com.fitnessapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Premium iOS Apple Health Theme Color Tokens
-val BackgroundDark = Color(0xFF0E1116)
-val SurfaceCard = Color(0xFF181C24)
-val SurfaceCardAlt = Color(0xFF202632)
-val BorderSubtle = Color(0xFF2A3140)
+// Premium Apple Health / Whoop / Oura Space Theme Color Tokens
+val BackgroundDark = Color(0xFF0B0E14)
+val SurfaceCard = Color(0xFF141923)
+val SurfaceCardAlt = Color(0xFF1C2230)
+val BorderSubtle = Color(0xFF2B3446)
 
 // Typography Color Tokens (Apple Human Interface Guidelines)
-val TextPrimary = Color(0xFFFFFFFF)
-val TextSecondary = Color(0xFF8E8E93)
-val TextTertiary = Color(0xFF636366)
+val TextPrimary = Color(0xFFF8FAFC)
+val TextSecondary = Color(0xFF94A3B8)
+val TextTertiary = Color(0xFF64748B)
 
-// iOS System Vibrant Accent Tokens
-val AccentOrange = Color(0xFFFF9F0A)   // Calories
-val AccentGreen = Color(0xFF30D158)    // Protein, steps, active tab, success
-val AccentBlue = Color(0xFF0A84FF)     // Water, sleep, primary actions
-val AccentPurple = Color(0xFFBF5AF2)   // Fiber, sleep stage
-val AccentYellow = Color(0xFFFFD60A)   // Fats
-val AccentRed = Color(0xFFFF453A)      // Sodium, cholesterol, destructive actions
+// Ultra-Vibrant Neon Accent Tokens
+val AccentOrange = Color(0xFFFF6D00)   // Calories / Energy
+val AccentGreen = Color(0xFF00E676)    // Protein / Recovery / Active
+val AccentBlue = Color(0xFF00B0FF)     // Hydration / Primary
+val AccentPurple = Color(0xFFD500F9)   // Sleep / REM stage
+val AccentYellow = Color(0xFFFFD600)   // Healthy Fats / Tips
+val AccentRed = Color(0xFFFF1744)      // Critical Alerts / Warnings
 
 // Brand Gradient Tokens
-val BrandGradientStart = Color(0xFFFF9F0A) // Vibrant iOS Orange
-val BrandGradientEnd = Color(0xFF0A84FF)   // iOS System Blue
+val BrandGradientStart = Color(0xFF00E676) // Emerald Green
+val BrandGradientEnd = Color(0xFF00B0FF)   // Cyan Blue
 
 // Backwards-compatibility aliases
 val DarkBackground = BackgroundDark
@@ -31,5 +31,5 @@ val DarkSurface = SurfaceCard
 val DarkSurfaceVariant = SurfaceCardAlt
 val CaloriesColor = AccentOrange
 val ProteinColor = AccentGreen
-val SleepColor = AccentBlue
+val SleepColor = AccentPurple
 val WaterColor = AccentBlue

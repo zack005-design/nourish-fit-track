@@ -164,29 +164,81 @@ fun HomeScreen(
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Premium Hero Header
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { showDatePicker = true },
+                    .padding(vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher),
-                    contentDescription = "Nourish Logo",
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable { showDatePicker = true }
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(42.dp)
+                            .clip(CircleShape)
+                            .background(AccentOrange.copy(alpha = 0.18f))
+                            .border(1.5.dp, AccentOrange.copy(alpha = 0.5f), CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_launcher),
+                            contentDescription = "Nourish Logo",
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = "Daily Overview",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = TextSecondary
+                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = formattedDate,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = TextPrimary
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Icon(
+                                imageVector = Icons.Default.CalendarToday,
+                                contentDescription = "Change Date",
+                                tint = AccentGreen,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
+                    }
+                }
+
+                // 7-Day Streak Pill Badge
+                Box(
                     modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = formattedDate,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = TextPrimary
-                    )
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(AccentOrange.copy(alpha = 0.15f))
+                        .border(1.dp, AccentOrange.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
+                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = "🔥", fontSize = 13.sp)
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "7 Days",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = AccentOrange
+                        )
+                    }
                 }
             }
+
 
             // Main Calorie Gauge (Apple Fitness Ring Aesthetic)
             val calorieGoal = uiState.userGoals.dailyCalorieGoal
