@@ -42,3 +42,4 @@ string sleep_log_empty_message
 string sleep_log_empty_title
 string sleep_log_title
 style Theme.FitnessApp
+xml file_provider_paths
