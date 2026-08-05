@@ -81,6 +81,7 @@ import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
 import com.fitnessapp.ui.theme.TextTertiary
 import com.fitnessapp.util.DateUtils
+import com.fitnessapp.util.HealthConnectManager
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -383,6 +384,8 @@ fun AddSleepScreen(
 
             Spacer(modifier = Modifier.height(4.dp))
 
+    val context = androidx.compose.ui.platform.LocalContext.current
+
             // ─── 5. SAVE PRIMARY ACTION BUTTON ────────────────────────────────────
             Button(
                 onClick = {
@@ -395,12 +398,15 @@ fun AddSleepScreen(
                             notes = notes.trim(),
                             dateMillis = existingDateMillis
                         )
-                        if (entryId != null && entryId > 0) {
+                        val insertedId = if (entryId != null && entryId > 0) {
                             sleepRepository.update(entry)
+                            entryId
                         } else {
                             sleepRepository.insert(entry)
                         }
-                        onShowSnackbar("Sleep session saved successfully")
+                        val entryToSync = entry.copy(id = if (entry.id == 0L) insertedId else entry.id)
+                        HealthConnectManager.insertSleepRecords(context, listOf(entryToSync))
+                        onShowSnackbar("Sleep session saved & synced to Google Health!")
                         onBack()
                     }
                 },

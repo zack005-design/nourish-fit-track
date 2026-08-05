@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.3] - 2026-08-05
+
+- **Sleep Tracking Foreground Service (`SleepTrackingService`)**: Created dedicated foreground service with `PARTIAL_WAKE_LOCK` to keep sensor listeners active continuously overnight when phone is locked.
+- **Auto Health Connect Sync**: Integrated automatic immediate Google Health Connect sync (`insertSleepRecords`, `insertNutritionRecords`, `insertHydrationRecords`) whenever sleep, food, or water entries are saved in app screens.
+- **Whoop / Bevel / Apple Health Design System**: Redesigned color tokens (`Color.kt`) to matte obsidian black background (`#090B10`), tech dark card surfaces (`#131722`), hairline stealth borders (`#263044`), Whoop Electric Emerald (`#10B981`), and Bevel Electric Cyan (`#0EA5E9`), removing multi-color rainbow clutter.
+
 ## [1.5.2] - 2026-08-05
 
 - **Google Health Connect Data Sync Fixes**: Added missing `insertStepsRecords` to push step telemetry to Health Connect; updated all records to use system `ZoneOffset` instead of UTC to prevent timestamp shifting; enabled full historical sync of food, water, sleep, and step logs in `SettingsViewModel`.

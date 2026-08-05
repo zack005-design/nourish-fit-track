@@ -562,6 +562,7 @@ fun SleepLogScreen(
 
                     Button(
                         onClick = {
+                            com.fitnessapp.service.SleepTrackingService.startService(context)
                             sensorTracker.startTracking()
                             showSensorLiveSheet = true
                         },
@@ -861,31 +862,17 @@ fun SleepLogScreen(
             sensorState = sensorState,
             onStopAndSave = { endState ->
                 showSensorLiveSheet = false
-                val start = endState.startTimeMillis
-                val end = System.currentTimeMillis()
-                val elapsedMinutes = ((end - start) / (1000 * 60)).coerceAtLeast(1).toInt()
-                val qualityScore = when {
-                    endState.motionEventsCount > 20 -> 2
-                    endState.motionEventsCount > 10 -> 3
-                    endState.motionEventsCount > 4 -> 4
-                    else -> 5
-                }
-                val notesStr = "Xiaomi 17T sensor track · ${endState.motionEventsCount} motion events · ${String.format(Locale.US, "%.1f", endState.ambientLux)} lux"
-
-                scope.launch {
-                    val entry = SleepEntry(
-                        startMillis = start,
-                        endMillis = end,
-                        quality = qualityScore,
-                        notes = notesStr,
-                        dateMillis = DateUtils.todayStartMillis()
-                    )
-                    sleepRepository.insert(entry)
-                    onShowSnackbar("Xiaomi 17T sleep session saved successfully!")
+                sensorTracker.stopTracking()
+                com.fitnessapp.service.SleepTrackingService.stopAndSaveService(context, sleepRepository) { savedEntry ->
+                    onShowSnackbar("Overnight sleep session saved & synced to Google Health!")
                 }
             },
             onDismiss = {
                 sensorTracker.stopTracking()
+                val stopIntent = android.content.Intent(context, com.fitnessapp.service.SleepTrackingService::class.java).apply {
+                    action = com.fitnessapp.service.SleepTrackingService.ACTION_STOP_SLEEP_TRACKING
+                }
+                context.startService(stopIntent)
                 showSensorLiveSheet = false
             }
         )

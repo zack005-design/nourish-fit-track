@@ -183,14 +183,17 @@ class HomeViewModel(
         initialValue = HomeUiState()
     )
 
-    fun addWater(amountMl: Int) {
+    fun addWater(amountMl: Int, context: Context? = null) {
         viewModelScope.launch {
-            waterRepository.insert(
-                WaterEntry(
-                    dateMillis = _selectedDateMillis.value,
-                    amountMl = amountMl
-                )
+            val entry = WaterEntry(
+                dateMillis = _selectedDateMillis.value,
+                amountMl = amountMl
             )
+            val insertedId = waterRepository.insert(entry)
+            context?.let { ctx ->
+                val entryToSync = entry.copy(id = insertedId)
+                HealthConnectManager.insertHydrationRecords(ctx, listOf(entryToSync))
+            }
         }
     }
 

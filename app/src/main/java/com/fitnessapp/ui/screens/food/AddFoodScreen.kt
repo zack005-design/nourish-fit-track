@@ -85,6 +85,7 @@ import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
 import com.fitnessapp.ui.theme.TextTertiary
 import com.fitnessapp.util.BarcodeScannerUtil
+import com.fitnessapp.util.HealthConnectManager
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -322,26 +323,28 @@ fun AddFoodScreen(
                     )
                     .padding(16.dp)
             ) {
+                val context = androidx.compose.ui.platform.LocalContext.current
                 Button(
                     onClick = {
                         scope.launch {
-                            foodRepository.insert(
-                                FoodEntry(
-                                    id = entryId ?: 0L,
-                                    name = finalName,
-                                    calories = finalCalories,
-                                    proteinGrams = finalProtein,
-                                    carbsGrams = finalCarbs,
-                                    fatGrams = finalFat,
-                                    fiberGrams = finalFiber,
-                                    sugarGrams = finalSugar,
-                                    sodiumMg = finalSodium,
-                                    cholesterolMg = finalCholesterol,
-                                    mealType = selectedMealType,
-                                    dateMillis = System.currentTimeMillis()
-                                )
+                            val entry = FoodEntry(
+                                id = entryId ?: 0L,
+                                name = finalName,
+                                calories = finalCalories,
+                                proteinGrams = finalProtein,
+                                carbsGrams = finalCarbs,
+                                fatGrams = finalFat,
+                                fiberGrams = finalFiber,
+                                sugarGrams = finalSugar,
+                                sodiumMg = finalSodium,
+                                cholesterolMg = finalCholesterol,
+                                mealType = selectedMealType,
+                                dateMillis = System.currentTimeMillis()
                             )
-                            onShowSnackbar(if (entryId != null) "Meal updated successfully" else "$finalName added to food log")
+                            val insertedId = foodRepository.insert(entry)
+                            val entryToSync = entry.copy(id = if (entry.id == 0L) insertedId else entry.id)
+                            HealthConnectManager.insertNutritionRecords(context, listOf(entryToSync))
+                            onShowSnackbar(if (entryId != null) "Meal updated & synced to Google Health" else "$finalName added & synced to Google Health!")
                             onBack()
                         }
                     },

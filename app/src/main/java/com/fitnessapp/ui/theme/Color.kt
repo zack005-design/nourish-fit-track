@@ -2,29 +2,28 @@ package com.fitnessapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Premium Apple Health / Whoop / Oura Space Theme Color Tokens
-val BackgroundDark = Color(0xFF0B0E14)
-val SurfaceCard = Color(0xFF141923)
-val SurfaceCardAlt = Color(0xFF1C2230)
-val BorderSubtle = Color(0xFF2B3446)
+// Premium Whoop / Bevel / Apple Health Minimalist Dark Stealth Tokens
+val BackgroundDark = Color(0xFF090B10)
+val SurfaceCard = Color(0xFF131722)
+val SurfaceCardAlt = Color(0xFF1B2130)
+val BorderSubtle = Color(0xFF263044)
 
 // Typography Color Tokens (Apple Human Interface Guidelines)
 val TextPrimary = Color(0xFFF8FAFC)
 val TextSecondary = Color(0xFF94A3B8)
 val TextTertiary = Color(0xFF64748B)
 
-// Ultra-Vibrant Neon Accent Tokens
-val AccentOrange = Color(0xFFFF6D00)   // Calories / Energy
-val AccentGreen = Color(0xFF00E676)    // Protein / Recovery / Active
-val AccentBlue = Color(0xFF00B0FF)     // Hydration / Primary
-val AccentPurple = Color(0xFF7B61FF)   // Sleep / REM stage — iOS-style soft indigo
-val AccentYellow = Color(0xFFFFD600)   // Healthy Fats / Tips
-val AccentRed = Color(0xFFFF1744)      // Critical Alerts / Warnings
+// Whoop / Bevel / Apple Health Refined Accent Tokens
+val AccentOrange = Color(0xFFF97316)   // Energy / Calories — Refined Warm Ember
+val AccentGreen = Color(0xFF10B981)    // Whoop Recovery / Protein — Signature Electric Emerald
+val AccentBlue = Color(0xFF0EA5E9)     // Hydration / Tech Telemetry — Bevel Electric Cyan
+val AccentPurple = Color(0xFF6366F1)   // Sleep — Midnight Indigo
+val AccentYellow = Color(0xFFEAB308)   // Warm Gold
+val AccentRed = Color(0xFFEF4444)      // Critical Alert / Red
 
-
-// Brand Gradient Tokens
-val BrandGradientStart = Color(0xFF00E676) // Emerald Green
-val BrandGradientEnd = Color(0xFF00B0FF)   // Cyan Blue
+// Brand Gradient Tokens (Whoop Electric Emerald -> Tech Cyan)
+val BrandGradientStart = Color(0xFF10B981) // Electric Emerald
+val BrandGradientEnd = Color(0xFF0EA5E9)   // Tech Cyan
 
 // Backwards-compatibility aliases
 val DarkBackground = BackgroundDark
