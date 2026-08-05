@@ -152,12 +152,27 @@ object HealthConnectManager {
     }
 
     /**
+     * Checks if all required Health Connect permissions are granted.
+     */
+    suspend fun hasAllPermissions(context: Context): Boolean {
+        if (!isHealthConnectAvailable(context)) return false
+        return try {
+            val client = HealthConnectClient.getOrCreate(context)
+            val granted = client.permissionController.getGrantedPermissions()
+            granted.containsAll(HEALTH_CONNECT_PERMISSIONS)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
      * Inserts FoodEntry items into Google Health Connect as NutritionRecords.
      */
     suspend fun insertNutritionRecords(context: Context, foods: List<FoodEntry>): Boolean {
         if (foods.isEmpty()) return false
         return try {
             val client = HealthConnectClient.getOrCreate(context)
+            val zoneOffset = java.time.ZoneId.systemDefault().rules.getOffset(Instant.now())
             val records = foods.map { food ->
                 val startInstant = Instant.ofEpochMilli(food.dateMillis)
                 val endInstant = startInstant.plusSeconds(60)
@@ -169,9 +184,9 @@ object HealthConnectManager {
                     totalFat = Mass.grams(food.fatGrams.toDouble()),
                     dietaryFiber = Mass.grams(food.fiberGrams.toDouble()),
                     startTime = startInstant,
-                    startZoneOffset = ZoneOffset.UTC,
+                    startZoneOffset = zoneOffset,
                     endTime = endInstant,
-                    endZoneOffset = ZoneOffset.UTC,
+                    endZoneOffset = zoneOffset,
                     metadata = Metadata(clientRecordId = "food_${food.id}")
                 )
             }
@@ -189,15 +204,16 @@ object HealthConnectManager {
         if (waters.isEmpty()) return false
         return try {
             val client = HealthConnectClient.getOrCreate(context)
+            val zoneOffset = java.time.ZoneId.systemDefault().rules.getOffset(Instant.now())
             val records = waters.map { water ->
                 val startInstant = Instant.ofEpochMilli(water.dateMillis)
                 val endInstant = startInstant.plusSeconds(60)
                 HydrationRecord(
                     volume = Volume.liters(water.amountMl / 1000.0),
                     startTime = startInstant,
-                    startZoneOffset = ZoneOffset.UTC,
+                    startZoneOffset = zoneOffset,
                     endTime = endInstant,
-                    endZoneOffset = ZoneOffset.UTC,
+                    endZoneOffset = zoneOffset,
                     metadata = Metadata(clientRecordId = "water_${water.id}")
                 )
             }
@@ -215,14 +231,15 @@ object HealthConnectManager {
         if (sleeps.isEmpty()) return false
         return try {
             val client = HealthConnectClient.getOrCreate(context)
+            val zoneOffset = java.time.ZoneId.systemDefault().rules.getOffset(Instant.now())
             val records = sleeps.map { sleep ->
                 val startInstant = Instant.ofEpochMilli(sleep.startMillis)
                 val endInstant = Instant.ofEpochMilli(sleep.endMillis)
                 SleepSessionRecord(
                     startTime = startInstant,
-                    startZoneOffset = ZoneOffset.UTC,
+                    startZoneOffset = zoneOffset,
                     endTime = endInstant,
-                    endZoneOffset = ZoneOffset.UTC,
+                    endZoneOffset = zoneOffset,
                     notes = "Sleep quality rating: ${sleep.quality}/100",
                     metadata = Metadata(clientRecordId = "sleep_${sleep.id}")
                 )
@@ -235,8 +252,32 @@ object HealthConnectManager {
     }
 
     /**
-     * Reads steps telemetry recorded by smartwatches/wearables via Google Health Connect.
+     * Inserts StepsEntry items into Google Health Connect as StepsRecords.
      */
+    suspend fun insertStepsRecords(context: Context, steps: List<StepsEntry>): Boolean {
+        if (steps.isEmpty()) return false
+        return try {
+            val client = HealthConnectClient.getOrCreate(context)
+            val zoneOffset = java.time.ZoneId.systemDefault().rules.getOffset(Instant.now())
+            val records = steps.map { step ->
+                val startInstant = Instant.ofEpochMilli(step.dateMillis)
+                val endInstant = startInstant.plusSeconds(86399)
+                StepsRecord(
+                    count = step.count.toLong(),
+                    startTime = startInstant,
+                    startZoneOffset = zoneOffset,
+                    endTime = endInstant,
+                    endZoneOffset = zoneOffset,
+                    metadata = Metadata(clientRecordId = "steps_${step.id}_${step.dateMillis}")
+                )
+            }
+            client.insertRecords(records)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     /**
      * Writes all local Nourish health data to Google Health Connect API.
      */
@@ -244,17 +285,24 @@ object HealthConnectManager {
         context: Context,
         foods: List<FoodEntry>,
         waters: List<WaterEntry>,
-        sleeps: List<SleepEntry>
+        sleeps: List<SleepEntry>,
+        steps: List<StepsEntry> = emptyList()
     ): String {
         var count = 0
         if (foods.isNotEmpty() && insertNutritionRecords(context, foods)) count += foods.size
         if (waters.isNotEmpty() && insertHydrationRecords(context, waters)) count += waters.size
         if (sleeps.isNotEmpty() && insertSleepRecords(context, sleeps)) count += sleeps.size
+        if (steps.isNotEmpty() && insertStepsRecords(context, steps)) count += steps.size
 
         return if (count > 0) {
             "Successfully synced $count health records with Google Health Connect"
         } else {
-            "Synced with Google Health Connect"
+            val totalAvailable = foods.size + waters.size + sleeps.size + steps.size
+            if (totalAvailable == 0) {
+                "No local records to sync to Google Health Connect."
+            } else {
+                "Health Connect sync attempt completed ($totalAvailable local records available)."
+            }
         }
     }
 

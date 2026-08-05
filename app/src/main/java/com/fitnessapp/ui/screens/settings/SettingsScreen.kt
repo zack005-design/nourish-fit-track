@@ -418,11 +418,18 @@ fun SettingsScreen(
                             .fillMaxWidth()
                             .clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                try {
-                                    permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
-                                } catch (e: Exception) {
-                                    HealthConnectManager.openHealthConnect(context)
-                                    onShowSnackbar("Opening Google Health Connect settings")
+                                scope.launch {
+                                    if (HealthConnectManager.hasAllPermissions(context)) {
+                                        val msg = viewModel.syncToHealthConnect(context)
+                                        onShowSnackbar(msg)
+                                    } else {
+                                        try {
+                                            permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
+                                        } catch (e: Exception) {
+                                            HealthConnectManager.openHealthConnect(context)
+                                            onShowSnackbar("Opening Google Health Connect settings")
+                                        }
+                                    }
                                 }
                             },
                         verticalAlignment = Alignment.CenterVertically

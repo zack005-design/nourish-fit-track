@@ -189,18 +189,19 @@ class SettingsViewModel(
     }
 
     /**
-     * Fetches today's real data from Room DB and writes it to Google Health Connect.
+     * Fetches all accumulated health data from Room DB and writes it to Google Health Connect.
      */
     suspend fun syncToHealthConnect(context: Context): String {
-        val today = DateUtils.todayStartMillis()
-        val foods = foodRepository.getEntriesForDate(today).firstOrNull() ?: emptyList()
-        val waters = waterRepository.getEntriesForDate(today).firstOrNull() ?: emptyList()
-        val sleeps = sleepRepository.getEntriesForDate(today).firstOrNull() ?: emptyList()
+        val foods = foodRepository.getAllEntries().firstOrNull() ?: emptyList()
+        val waters = waterRepository.getAllWaterEntries().firstOrNull() ?: emptyList()
+        val sleeps = sleepRepository.getAllEntries().firstOrNull() ?: emptyList()
+        val steps = stepsRepository.getAllStepsEntries().firstOrNull() ?: emptyList()
         return HealthConnectManager.syncAllLocalDataToGoogleHealth(
             context = context,
             foods = foods,
             waters = waters,
-            sleeps = sleeps
+            sleeps = sleeps,
+            steps = steps
         )
     }
 

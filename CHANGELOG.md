@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.2] - 2026-08-05
+
+- **Google Health Connect Data Sync Fixes**: Added missing `insertStepsRecords` to push step telemetry to Health Connect; updated all records to use system `ZoneOffset` instead of UTC to prevent timestamp shifting; enabled full historical sync of food, water, sleep, and step logs in `SettingsViewModel`.
+
 ## [1.0.0] - 2026-08-04
 
 - **Official Release v1.0.0**: Production release of Nourish Fitness app featuring live OpenFoodFacts food search & barcode matching, Google Health Connect SDK integration, on-device AI Wellness Coach, interactive trends & analytics, background hardware step tracker, and local JSON/CSV data export.

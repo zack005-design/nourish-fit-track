@@ -26,4 +26,9 @@ class HealthConnectManagerTest {
         val result = HealthConnectManager.readDataFromHealthConnect(null)
         assertTrue(result.contains("Health Connect data sync active"))
     }
+
+    @Test
+    fun testHealthConnectPermissionsCount() {
+        assertEquals(8, HealthConnectManager.HEALTH_CONNECT_PERMISSIONS.size)
+    }
 }
