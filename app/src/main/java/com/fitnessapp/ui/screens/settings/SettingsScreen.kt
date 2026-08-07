@@ -22,15 +22,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.DirectionsRun
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Egg
+import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Settings
@@ -41,7 +44,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -74,11 +80,13 @@ import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.AccentRed
 import com.fitnessapp.ui.theme.BackgroundDark
+import com.fitnessapp.ui.theme.BorderSubtle
 import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
@@ -109,8 +117,11 @@ fun SettingsScreen(
     val haptic = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
     val userGoals by viewModel.userGoals.collectAsStateWithLifecycle()
+    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
 
     var showClearDataModal by remember { mutableStateOf(false) }
+    var showImportModal by remember { mutableStateOf(false) }
+    var importJsonText by remember { mutableStateOf("") }
     val isHCAvailable = remember { HealthConnectManager.isHealthConnectAvailable(context) }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -122,7 +133,7 @@ fun SettingsScreen(
                 onShowSnackbar(msg)
             }
         } else {
-            onShowSnackbar("Some Health Connect permissions were denied. Open Settings to grant them.")
+            onShowSnackbar("Some Health Connect permissions were denied.")
         }
     }
 
@@ -146,31 +157,22 @@ fun SettingsScreen(
                     backgroundColor = BackgroundDark.copy(alpha = 0.85f),
                     fallbackColor = BackgroundDark
                 ),
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(AccentPurple.copy(alpha = 0.18f))
-                                .border(1.dp, AccentPurple.copy(alpha = 0.4f), CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = null,
-                                tint = AccentPurple,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = "Settings",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = TextPrimary
                         )
                     }
+                },
+                title = {
+                    Text(
+                        text = "Settings",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
@@ -183,14 +185,14 @@ fun SettingsScreen(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Spacer(modifier = Modifier.height(4.dp))
 
             // 1. User Profile Header Card
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentPurple.copy(alpha = 0.35f),
+                borderColor = AccentCyan.copy(alpha = 0.35f),
                 contentPadding = 18.dp
             ) {
                 Row(
@@ -203,10 +205,10 @@ fun SettingsScreen(
                             .clip(CircleShape)
                             .background(
                                 Brush.linearGradient(
-                                    listOf(AccentPurple.copy(alpha = 0.45f), AccentBlue.copy(alpha = 0.45f))
+                                    listOf(AccentCyan.copy(alpha = 0.45f), AccentOrange.copy(alpha = 0.45f))
                                 )
                             )
-                            .border(1.5.dp, AccentPurple, CircleShape),
+                            .border(1.5.dp, AccentCyan, CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
@@ -219,50 +221,37 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.width(14.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Fitness Profile",
+                            text = "Nourish Fitness Profile",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = TextPrimary
                         )
-                        Spacer(modifier = Modifier.height(3.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(AccentGreen.copy(alpha = 0.15f))
-                                    .border(1.dp, AccentGreen.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
-                                    .padding(horizontal = 8.dp, vertical = 2.dp)
-                            ) {
-                                Text(
-                                    text = "On-Device Engine Active",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = AccentGreen
-                                )
-                            }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(AccentCyan.copy(alpha = 0.15f))
+                                .border(1.dp, AccentCyan.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                                .padding(horizontal = 8.dp, vertical = 2.dp)
+                        ) {
+                            Text(
+                                text = "On-Device Engine Active",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = AccentCyan
+                            )
                         }
                     }
                 }
             }
 
             // 2. Interactive Daily Target Goals
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Daily Targets",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
-
+            SectionHeader(title = "Wellness Targets") {
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
-                        .background(AccentPurple.copy(alpha = 0.2f))
-                        .border(1.dp, AccentPurple.copy(alpha = 0.45f), RoundedCornerShape(10.dp))
+                        .background(AccentCyan.copy(alpha = 0.15f))
+                        .border(1.dp, AccentCyan.copy(alpha = 0.4f), RoundedCornerShape(10.dp))
                         .clickable {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             viewModel.optimizeGoalsWithAi { msg ->
@@ -275,14 +264,14 @@ fun SettingsScreen(
                         text = "✨ AI Auto-Calibrate",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
-                        color = AccentPurple
+                        color = AccentCyan
                     )
                 }
             }
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentGreen.copy(alpha = 0.35f),
+                borderColor = BorderSubtle,
                 contentPadding = 18.dp
             ) {
                 Column(
@@ -306,6 +295,29 @@ fun SettingsScreen(
                             handleSave(
                                 userGoals.dailyCalorieGoal + 100,
                                 userGoals.dailyProteinGoal,
+                                userGoals.dailyWaterGoal,
+                                userGoals.dailySleepGoalHours
+                            )
+                        }
+                    )
+
+                    GoalAdjusterRow(
+                        title = "Daily Protein Target",
+                        valueText = "${userGoals.dailyProteinGoal.toInt()} g",
+                        icon = Icons.Default.Egg,
+                        iconTint = AccentGreen,
+                        onDecrement = {
+                            handleSave(
+                                userGoals.dailyCalorieGoal,
+                                (userGoals.dailyProteinGoal - 5f).coerceAtLeast(40f),
+                                userGoals.dailyWaterGoal,
+                                userGoals.dailySleepGoalHours
+                            )
+                        },
+                        onIncrement = {
+                            handleSave(
+                                userGoals.dailyCalorieGoal,
+                                userGoals.dailyProteinGoal + 5f,
                                 userGoals.dailyWaterGoal,
                                 userGoals.dailySleepGoalHours
                             )
@@ -360,335 +372,169 @@ fun SettingsScreen(
                 }
             }
 
-            // 3. Google Health Connect & Sensor Integration
-            Text(
-                text = "Integrations & Telemetry",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimary
-            )
+            // 3. App Visual Theme Selector
+            SectionHeader(title = "Appearance")
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentBlue.copy(alpha = 0.35f),
+                borderColor = BorderSubtle,
+                contentPadding = 16.dp
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = "App Visual Theme",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Select your preferred color mode for dark obsidian or light views",
+                        fontSize = 12.sp,
+                        color = TextSecondary
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(SurfaceCardAlt)
+                            .border(1.dp, BorderSubtle, RoundedCornerShape(16.dp))
+                            .padding(4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        val modes = listOf("OBSIDIAN" to "Obsidian", "SYSTEM" to "System", "LIGHT" to "Light")
+                        modes.forEach { (modeKey, label) ->
+                            val isSelected = themeMode.equals(modeKey, ignoreCase = true)
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(38.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(
+                                        if (isSelected) AccentCyan.copy(alpha = 0.2f) else Color.Transparent
+                                    )
+                                    .border(
+                                        width = if (isSelected) 1.dp else 0.dp,
+                                        color = if (isSelected) AccentCyan.copy(alpha = 0.5f) else Color.Transparent,
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                    .clickable {
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        viewModel.setThemeMode(modeKey)
+                                        onShowSnackbar("Applied $label theme")
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = label,
+                                    fontSize = 13.sp,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                    color = if (isSelected) AccentCyan else TextSecondary
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 4. Google Health Connect & Reminders
+            SectionHeader(title = "Sync & Reminders")
+
+            AppCard(
+                backgroundColor = SurfaceCard,
+                borderColor = BorderSubtle,
                 contentPadding = 18.dp
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                scope.launch {
-                                    if (HealthConnectManager.hasAllPermissions(context)) {
-                                        val msg = viewModel.syncToHealthConnect(context)
-                                        onShowSnackbar(msg)
-                                    } else {
-                                        try {
-                                            permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
-                                        } catch (e: Exception) {
-                                            HealthConnectManager.openHealthConnect(context)
-                                            onShowSnackbar("Opening Google Health Connect settings")
-                                        }
+                    SettingsNavigationRow(
+                        title = "Google Health Connect",
+                        subtitle = if (isHCAvailable) "Tap to grant permissions & sync health records" else "Health Connect app not installed",
+                        icon = Icons.Default.Sync,
+                        iconTint = AccentCyan,
+                        statusDotColor = if (isHCAvailable) AccentCyan else Color(0xFF4A5568),
+                        onClick = {
+                            scope.launch {
+                                if (HealthConnectManager.hasAllPermissions(context)) {
+                                    val msg = viewModel.syncToHealthConnect(context)
+                                    onShowSnackbar(msg)
+                                } else {
+                                    try {
+                                        permissionLauncher.launch(HealthConnectManager.HEALTH_CONNECT_PERMISSIONS)
+                                    } catch (e: Exception) {
+                                        HealthConnectManager.openHealthConnect(context)
+                                        onShowSnackbar("Opening Google Health Connect settings")
                                     }
                                 }
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(AccentBlue.copy(alpha = 0.15f))
-                                .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Sync,
-                                contentDescription = null,
-                                tint = AccentBlue,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    "Google Health Connect",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    color = TextPrimary
-                                )
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Box(
-                                    modifier = Modifier
-                                        .size(7.dp)
-                                        .clip(CircleShape)
-                                        .background(if (isHCAvailable) AccentGreen else Color(0xFF4A5568))
-                                )
                             }
-                            Text(
-                                if (isHCAvailable) "Tap to grant permissions & sync health data" else "Health Connect app not installed",
-                                fontSize = 12.sp,
-                                color = TextSecondary
-                            )
                         }
-                        Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
-                    }
+                    )
 
-                    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                val nextTheme = when (themeMode) {
-                                    "OBSIDIAN" -> "LIGHT"
-                                    "LIGHT" -> "SYSTEM"
-                                    else -> "OBSIDIAN"
-                                }
-                                viewModel.setThemeMode(nextTheme)
-                                onShowSnackbar("Theme set to $nextTheme mode")
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(AccentGreen.copy(alpha = 0.15f))
-                                .border(1.dp, AccentGreen.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = null,
-                                tint = AccentGreen,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                "App Visual Theme",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = TextPrimary
-                            )
-                            Text(
-                                "Current mode: $themeMode (Tap to toggle)",
-                                fontSize = 12.sp,
-                                color = AccentGreen,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-                        Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                viewModel.exportHealthData("json") { exportedStr ->
-                                    onShowSnackbar("Exported ${exportedStr.length} bytes of health logs (JSON)")
-                                }
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(AccentPurple.copy(alpha = 0.15f))
-                                .border(1.dp, AccentPurple.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Download,
-                                contentDescription = null,
-                                tint = AccentPurple,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                "Export Health Logs",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = TextPrimary
-                            )
-                            Text(
-                                "Export food, water, & sleep records to JSON",
-                                fontSize = 12.sp,
-                                color = TextSecondary
-                            )
-                        }
-                        Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
-                    }
-                }
-            }
-
-            // 4. Notifications & Push Reminders
-            Text(
-                text = "Push Notifications",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimary
-            )
-
-            AppCard(
-                backgroundColor = SurfaceCard,
-                borderColor = AccentOrange.copy(alpha = 0.35f),
-                contentPadding = 18.dp
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    SettingsNavigationRow(
+                        title = "Test Hydration Notification",
+                        subtitle = "Trigger instant Android system push reminder",
+                        icon = Icons.Default.AddAlert,
+                        iconTint = AccentOrange,
+                        onClick = {
                             ReminderNotificationHelper.sendReminderNotification(
                                 context,
                                 "Hydration Reminder 💧",
                                 "Don't forget to log 500ml water to hit your daily goal!"
                             )
                             onShowSnackbar("Test hydration notification dispatched!")
-                        },
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(AccentOrange.copy(alpha = 0.15f))
-                            .border(1.dp, AccentOrange.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.AddAlert,
-                            contentDescription = null,
-                            tint = AccentOrange,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            "Test Hydration Push Reminder",
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
-                        )
-                        Text(
-                            "Trigger instant Android system notification",
-                            fontSize = 12.sp,
-                            color = TextSecondary
-                        )
-                    }
-                    Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
+                        }
+                    )
                 }
             }
 
-            // 5. Data Management & Reset
-            Text(
-                text = "Data Management",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = TextPrimary
-            )
+            // 5. Data Privacy & Backup
+            SectionHeader(title = "Data Management")
 
             AppCard(
                 backgroundColor = SurfaceCard,
-                borderColor = AccentRed.copy(alpha = 0.35f),
+                borderColor = BorderSubtle,
                 contentPadding = 18.dp
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onShowSnackbar("Exported health database backup to local storage")
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(AccentBlue.copy(alpha = 0.15f))
-                                .border(1.dp, AccentBlue.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Download,
-                                contentDescription = null,
-                                tint = AccentBlue,
-                                modifier = Modifier.size(20.dp)
-                            )
+                    SettingsNavigationRow(
+                        title = "Export Health Backup (JSON)",
+                        subtitle = "Export food, water, and sleep logs to local JSON file",
+                        icon = Icons.Default.Download,
+                        iconTint = AccentCyan,
+                        onClick = {
+                            viewModel.exportHealthData("json") { jsonStr ->
+                                onShowSnackbar("Exported ${jsonStr.length} bytes to local backup")
+                            }
                         }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                "Export Health Log (JSON)",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = TextPrimary
-                            )
-                            Text(
-                                "Download local backup file",
-                                fontSize = 12.sp,
-                                color = TextSecondary
-                            )
-                        }
-                    }
+                    )
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                showClearDataModal = true
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(AccentRed.copy(alpha = 0.15f))
-                                .border(1.dp, AccentRed.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.DeleteForever,
-                                contentDescription = null,
-                                tint = AccentRed,
-                                modifier = Modifier.size(20.dp)
-                            )
+                    SettingsNavigationRow(
+                        title = "Import Health Backup (JSON)",
+                        subtitle = "Restore database records from a JSON backup file",
+                        icon = Icons.Default.FileUpload,
+                        iconTint = AccentPurple,
+                        onClick = {
+                            showImportModal = true
                         }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                "Clear All Local Data",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                color = AccentRed
-                            )
-                            Text(
-                                "Reset database tables & preference storage",
-                                fontSize = 12.sp,
-                                color = TextSecondary
-                            )
+                    )
+
+                    SettingsNavigationRow(
+                        title = "Clear All Local Data",
+                        subtitle = "Reset database tables and local stored preferences",
+                        icon = Icons.Default.DeleteForever,
+                        iconTint = AccentRed,
+                        titleColor = AccentRed,
+                        onClick = {
+                            showClearDataModal = true
                         }
-                    }
+                    )
                 }
             }
 
@@ -704,28 +550,29 @@ fun SettingsScreen(
                     Icon(
                         imageVector = Icons.Default.Lock,
                         contentDescription = null,
-                        tint = AccentGreen,
+                        tint = AccentCyan,
                         modifier = Modifier.size(14.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         "100% On-Device Privacy Guaranteed",
                         fontSize = 12.sp,
-                        color = AccentGreen,
+                        color = AccentCyan,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
                 Text(
-                    "Nourish Fit Track v1.0.0 (Build 1)",
+                    "Nourish Fit Track v1.5.7 (Build 7)",
                     fontSize = 11.sp,
                     color = TextSecondary
                 )
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 
+    // Modal: Clear Data Confirmation
     if (showClearDataModal) {
         AlertDialog(
             onDismissRequest = { showClearDataModal = false },
@@ -739,7 +586,7 @@ fun SettingsScreen(
             },
             text = {
                 Text(
-                    "This will remove all food, water, sleep, and step logs from local SQLite storage. This action cannot be undone.",
+                    "This will permanently erase all food, water, and sleep logs from local storage. This action cannot be undone.",
                     color = TextSecondary
                 )
             },
@@ -761,6 +608,158 @@ fun SettingsScreen(
                     Text("Cancel", color = TextSecondary)
                 }
             }
+        )
+    }
+
+    // Modal: Import Backup JSON
+    if (showImportModal) {
+        AlertDialog(
+            onDismissRequest = { showImportModal = false },
+            containerColor = SurfaceCardAlt,
+            title = {
+                Text(
+                    "Import JSON Backup",
+                    color = TextPrimary,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        "Paste your JSON backup payload below to restore health logs:",
+                        fontSize = 12.sp,
+                        color = TextSecondary
+                    )
+                    OutlinedTextField(
+                        value = importJsonText,
+                        onValueChange = { importJsonText = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(140.dp),
+                        placeholder = { Text("{ \"foodLogs\": [...], \"waterLogs\": [...] }", color = TextSecondary.copy(alpha = 0.5f), fontSize = 11.sp) },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedContainerColor = SurfaceCard,
+                            unfocusedContainerColor = SurfaceCard,
+                            focusedBorderColor = AccentCyan,
+                            unfocusedBorderColor = BorderSubtle,
+                            focusedTextColor = TextPrimary,
+                            unfocusedTextColor = TextPrimary
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (importJsonText.isNotBlank()) {
+                            viewModel.importHealthDataJson(importJsonText) { msg ->
+                                onShowSnackbar(msg)
+                                showImportModal = false
+                                importJsonText = ""
+                            }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentCyan)
+                ) {
+                    Text("Restore Backup", color = BackgroundDark, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showImportModal = false }) {
+                    Text("Cancel", color = TextSecondary)
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun SectionHeader(
+    title: String,
+    action: (@Composable () -> Unit)? = null
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = TextPrimary
+        )
+        action?.invoke()
+    }
+}
+
+@Composable
+private fun SettingsNavigationRow(
+    title: String,
+    subtitle: String,
+    icon: ImageVector,
+    iconTint: Color,
+    titleColor: Color = TextPrimary,
+    statusDotColor: Color? = null,
+    onClick: () -> Unit
+) {
+    val haptic = LocalHapticFeedback.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(iconTint.copy(alpha = 0.15f))
+                .border(1.dp, iconTint.copy(alpha = 0.35f), RoundedCornerShape(12.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = iconTint,
+                modifier = Modifier.size(20.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = titleColor
+                )
+                if (statusDotColor != null) {
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(7.dp)
+                            .clip(CircleShape)
+                            .background(statusDotColor)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = subtitle,
+                fontSize = 12.sp,
+                color = TextSecondary
+            )
+        }
+        Icon(
+            imageVector = Icons.Default.ChevronRight,
+            contentDescription = null,
+            tint = TextSecondary,
+            modifier = Modifier.size(20.dp)
         )
     }
 }
@@ -816,7 +815,7 @@ private fun GoalAdjusterRow(
                     .size(34.dp)
                     .clip(CircleShape)
                     .background(SurfaceCardAlt)
-                    .border(1.dp, Color(0xFF2C3242), CircleShape)
+                    .border(1.dp, BorderSubtle, CircleShape)
                     .clickable(onClick = onDecrement),
                 contentAlignment = Alignment.Center
             ) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.8] - 2026-08-07
+
+- **Settings Screen UI & UX Overhaul**: Redesigned `SettingsScreen.kt` with top bar back navigation (`onBack`), clean grouped Bevel Health settings sections, 3-mode segmented theme switcher (`Obsidian`, `System`, `Light`), added Protein target goal adjuster, pruned duplicate export buttons, and built an interactive JSON backup import modal dialog.
+
 ## [1.5.7] - 2026-08-07
 
 - **Bevel Health Minimalist UI Redesign**: Rebranded the entire application design system (`Color.kt`, `Theme.kt`, `AppCard.kt`, `nourish_widget_layout.xml`) to a refined Bevel Health aesthetic: Deep Obsidian background (`#08090C`), stealth dark card surfaces (`#11131A`), hairline dark borders (`#1E2230`), and Bevel Electric Ice Cyan highlights (`#00E5FF`), replacing multi-color rainbow clutter.
