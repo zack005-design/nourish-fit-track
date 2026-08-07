@@ -72,6 +72,7 @@ import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.AccentRed
+import com.fitnessapp.ui.theme.AccentYellow
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
@@ -180,7 +181,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .size(8.dp)
                             .clip(CircleShape)
-                            .background(if (isHCAvailable) AccentCyan else Color(0xFF4A5568))
+                            .background(if (isHCAvailable) AccentGreen else Color(0xFF4A5568))
                     )
 
                     // Real streak badge
@@ -188,8 +189,8 @@ fun HomeScreen(
                         Box(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(20.dp))
-                                .background(AccentOrange.copy(alpha = 0.15f))
-                                .border(1.dp, AccentOrange.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
+                                .background(AccentYellow.copy(alpha = 0.15f))
+                                .border(1.dp, AccentYellow.copy(alpha = 0.4f), RoundedCornerShape(20.dp))
                                 .padding(horizontal = 12.dp, vertical = 6.dp)
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -199,7 +200,7 @@ fun HomeScreen(
                                     text = "${uiState.logStreak}d",
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.ExtraBold,
-                                    color = AccentOrange
+                                    color = AccentYellow
                                 )
                             }
                         }

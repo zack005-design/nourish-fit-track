@@ -78,6 +78,7 @@ import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.AccentRed
 import com.fitnessapp.ui.theme.AccentYellow
+import com.fitnessapp.ui.theme.AppleSystemBlue
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
@@ -351,7 +352,7 @@ fun AddFoodScreen(
                         .fillMaxWidth()
                         .height(54.dp),
                     shape = RoundedCornerShape(27.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentCyan)
+                    colors = ButtonDefaults.buttonColors(containerColor = AppleSystemBlue)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,

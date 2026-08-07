@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.1] - 2026-08-07
+
+- **Full Application Apple Health & Fitness Overhaul**: Completed screen-by-screen Apple iOS 18 UI & UX overhaul across `HomeScreen.kt`, `FoodLogScreen.kt`, `AddFoodScreen.kt`, `SleepLogScreen.kt`, `AddSleepScreen.kt`, `AnalyticsScreen.kt`, `AiScreen.kt`, `SettingsScreen.kt`, and `SplashScreen.kt` with official Apple Activity Move Red (`#FA114F`), Exercise Green (`#00E676`), Stand Cyan (`#00C7BE`), Bedtime Indigo (`#5E5CE6`), and Apple System Blue (`#0A84FF`) accents.
+
 ## [1.6.0] - 2026-08-07
 
 - **Official Apple Fitness & Apple Health iOS Redesign**: Rebranded the entire application design tokens (`Color.kt`, `Theme.kt`, `AppCard.kt`, `NavGraph.kt`) to authentic Apple iOS Human Interface Guidelines: Pure Pitch OLED Black (`#000000`), iOS Grouped Inset Cards (`#1C1C1E`), Apple Move Coral Red (`#FA114F`), Apple Exercise Neon Green (`#00E676`), Apple Stand Cyan (`#00C7BE`), Apple Bedtime Indigo (`#5E5CE6`), and Apple System Blue (`#0A84FF`).

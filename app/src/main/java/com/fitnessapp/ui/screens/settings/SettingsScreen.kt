@@ -81,6 +81,7 @@ import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
 import com.fitnessapp.ui.theme.AccentCyan
+import com.fitnessapp.ui.theme.AppleSystemBlue
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -413,11 +414,11 @@ fun SettingsScreen(
                                     .height(38.dp)
                                     .clip(RoundedCornerShape(12.dp))
                                     .background(
-                                        if (isSelected) AccentCyan.copy(alpha = 0.2f) else Color.Transparent
+                                        if (isSelected) AppleSystemBlue.copy(alpha = 0.2f) else Color.Transparent
                                     )
                                     .border(
                                         width = if (isSelected) 1.dp else 0.dp,
-                                        color = if (isSelected) AccentCyan.copy(alpha = 0.5f) else Color.Transparent,
+                                        color = if (isSelected) AppleSystemBlue.copy(alpha = 0.5f) else Color.Transparent,
                                         shape = RoundedCornerShape(12.dp)
                                     )
                                     .clickable {
@@ -431,7 +432,7 @@ fun SettingsScreen(
                                     text = label,
                                     fontSize = 13.sp,
                                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                    color = if (isSelected) AccentCyan else TextSecondary
+                                    color = if (isSelected) AppleSystemBlue else TextSecondary
                                 )
                             }
                         }

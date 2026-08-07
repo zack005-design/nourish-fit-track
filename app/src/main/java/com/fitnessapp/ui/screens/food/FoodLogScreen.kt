@@ -120,7 +120,7 @@ fun FoodLogScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onAddClick,
-                containerColor = AccentCyan,
+                containerColor = AccentOrange,
                 contentColor = BackgroundDark,
                 shape = CircleShape,
                 modifier = Modifier
@@ -170,7 +170,7 @@ fun FoodLogScreen(
                                 .weight(1f)
                                 .height(36.dp)
                                 .clip(RoundedCornerShape(20.dp))
-                                .background(if (isSelected) AccentCyan.copy(alpha = 0.25f) else Color.Transparent)
+                                .background(if (isSelected) AccentOrange.copy(alpha = 0.25f) else Color.Transparent)
                                 .clickable { selectedTab = index },
                             contentAlignment = Alignment.Center
                         ) {
@@ -178,7 +178,7 @@ fun FoodLogScreen(
                                 text = title,
                                 fontSize = 13.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                color = if (isSelected) AccentCyan else TextSecondary
+                                color = if (isSelected) AccentOrange else TextSecondary
                             )
                         }
                     }

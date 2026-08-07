@@ -78,6 +78,7 @@ import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.AccentRed
 import com.fitnessapp.ui.theme.AccentYellow
+import com.fitnessapp.ui.theme.AppleSystemBlue
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.SurfaceCardAlt
@@ -159,13 +160,13 @@ fun AiScreen(
                                         listOf(AccentGreen.copy(alpha = 0.3f), AccentBlue.copy(alpha = 0.3f))
                                     )
                                 )
-                                .border(1.dp, AccentCyan.copy(alpha = 0.5f), CircleShape),
+                                .border(1.dp, AppleSystemBlue.copy(alpha = 0.5f), CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.AutoAwesome,
                                 contentDescription = null,
-                                tint = AccentCyan,
+                                tint = AppleSystemBlue,
                                 modifier = Modifier.size(20.dp)
                             )
                         }

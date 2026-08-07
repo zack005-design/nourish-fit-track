@@ -40,9 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fitnessapp.R
 import com.fitnessapp.ui.components.LinearBar
-import com.fitnessapp.ui.theme.AccentCyan
-import com.fitnessapp.ui.theme.BrandGradientEnd
-import com.fitnessapp.ui.theme.BrandGradientStart
+import com.fitnessapp.ui.theme.AccentGreen
+import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
@@ -96,7 +95,7 @@ fun SplashScreen(
                 .scale(scaleAnim.value)
                 .alpha(alphaAnim.value)
         ) {
-            // Glowing Pulse Emblem Container
+            // Glowing Pulse Emblem Container (Apple Fitness Rings Radial Glow)
             Box(
                 modifier = Modifier
                     .size(110.dp)
@@ -104,7 +103,7 @@ fun SplashScreen(
                     .background(
                         Brush.radialGradient(
                             colors = listOf(
-                                AccentCyan.copy(alpha = pulseAlpha * 0.35f),
+                                AccentOrange.copy(alpha = pulseAlpha * 0.35f),
                                 Color.Transparent
                             )
                         )
@@ -113,8 +112,8 @@ fun SplashScreen(
                         width = 2.dp,
                         brush = Brush.linearGradient(
                             colors = listOf(
-                                BrandGradientStart.copy(alpha = pulseAlpha),
-                                BrandGradientEnd.copy(alpha = pulseAlpha * 0.7f),
+                                AccentOrange.copy(alpha = pulseAlpha),
+                                AccentGreen.copy(alpha = pulseAlpha * 0.8f),
                                 Color.Transparent
                             )
                         ),
@@ -148,7 +147,7 @@ fun SplashScreen(
                 Icon(
                     imageVector = Icons.Default.AutoAwesome,
                     contentDescription = null,
-                    tint = AccentCyan,
+                    tint = AccentOrange,
                     modifier = Modifier.size(14.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
@@ -167,7 +166,7 @@ fun SplashScreen(
             Box(modifier = Modifier.width(140.dp)) {
                 LinearBar(
                     progressFraction = alphaAnim.value,
-                    barColor = AccentCyan,
+                    barColor = AccentOrange,
                     barHeight = 3.dp,
                     showPercentageText = false
                 )

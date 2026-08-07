@@ -58,6 +58,7 @@ import com.fitnessapp.ui.components.charts.LineChart
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
 import com.fitnessapp.ui.theme.AccentCyan
+import com.fitnessapp.ui.theme.AppleSystemBlue
 import com.fitnessapp.ui.theme.BorderSubtle
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
@@ -147,7 +148,7 @@ fun AnalyticsScreen(
                                 .weight(1f)
                                 .height(38.dp)
                                 .clip(RoundedCornerShape(20.dp))
-                                .background(if (isSelected) AccentCyan else Color.Transparent)
+                                .background(if (isSelected) AppleSystemBlue else Color.Transparent)
                                 .clickable { viewModel.setSelectedPeriod(index) },
                             contentAlignment = Alignment.Center
                         ) {
