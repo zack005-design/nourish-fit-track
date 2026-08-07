@@ -118,6 +118,9 @@ class CameraCapture(private val context: Context) {
             }
         }
         Log.d(TAG, "Tensor ready: [1, $targetSize, $targetSize, 3] (${tensor.size} floats)")
+        if (scaled != bitmap && !scaled.isRecycled) {
+            scaled.recycle()
+        }
         return tensor
     }
 

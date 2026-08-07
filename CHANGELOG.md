@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.6] - 2026-08-07
+
+- **Complete Hardware Step Tracking Removal**: Completely removed hardware step counter service, step entity/DAO/repository, step permissions, and step cards across UI screens as requested.
+- **Room Database Indexing & Migration (v6)**: Added `@Entity` indexing on `dateMillis` and `startMillis` for `FoodEntry`, `SleepEntry`, and `WaterEntry` tables. Added `MIGRATION_5_6` to drop `steps_entries` and create indexed schema.
+- **Offline Barcode Lookup Caching**: Created `ScannedBarcode` Room entity and DAO; updated `BarcodeScannerUtil` to cache fetched OpenFoodFacts barcodes offline for instant zero-latency scanned product lookups.
+- **Bitmap Allocation Optimization**: Recycled intermediate scaled bitmaps in `CameraCapture.kt` and `GeminiNanoEngine.kt` to eliminate GC pressure.
+- **JSON Data Backup & Restore**: Added full JSON backup import parser in `SettingsViewModel` and `SettingsScreen` to restore previous food, water, and sleep logs.
+- **Dynamic Theme Mode Switcher**: Added dark/light/system theme switcher state persistence to `SettingsRepository` and `SettingsScreen`.
+
 ## [1.5.5] - 2026-08-07
 
 - **Obsolete SDK Check Cleanup**: Removed redundant `Build.VERSION.SDK_INT >= Build.VERSION_CODES.O` version guards and unreachable legacy service start branches from `BootCompletedReceiver.kt` and `SleepTrackingService.kt`.

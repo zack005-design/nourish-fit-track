@@ -80,6 +80,9 @@ class GeminiNanoEngine private constructor(
         val scaled = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
         val byteCount = scaled.byteCount
         Log.d(TAG, "Image tensor ready: ${scaled.width}x${scaled.height}, ${byteCount}B")
+        if (scaled != bitmap && !scaled.isRecycled) {
+            scaled.recycle()
+        }
         return buildString {
             appendLine("[IMAGE ANALYSIS REQUEST]")
             appendLine("Analyze the image and respond to: $userInstruction")

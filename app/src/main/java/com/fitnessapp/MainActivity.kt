@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
                     foodRepository = app.foodRepository,
                     sleepRepository = app.sleepRepository,
                     waterRepository = app.waterRepository,
-                    stepsRepository = app.stepsRepository,
                     settingsRepository = app.settingsRepository
                 )
             }

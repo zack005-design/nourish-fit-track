@@ -70,7 +70,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.frostedGlass
@@ -95,7 +94,6 @@ fun SettingsScreen(
     foodRepository: FoodRepository,
     waterRepository: WaterRepository,
     sleepRepository: SleepRepository,
-    stepsRepository: StepsRepository,
     onBack: () -> Unit = {},
     onShowSnackbar: (String) -> Unit = {},
     viewModel: SettingsViewModel = viewModel(
@@ -103,8 +101,7 @@ fun SettingsScreen(
             settingsRepository,
             foodRepository,
             waterRepository,
-            sleepRepository,
-            stepsRepository
+            sleepRepository
         )
     )
 ) {
@@ -129,14 +126,13 @@ fun SettingsScreen(
         }
     }
 
-    val handleSave = { cal: Int, prot: Float, water: Int, sleep: Float, steps: Int ->
+    val handleSave = { cal: Int, prot: Float, water: Int, sleep: Float ->
         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         viewModel.saveGoals(
             calorieGoal = cal,
             proteinGoal = prot,
             waterGoal = water,
             sleepGoalHours = sleep,
-            stepsGoal = steps,
             onSaved = { onShowSnackbar("Target goals updated") }
         )
     }
@@ -303,8 +299,7 @@ fun SettingsScreen(
                                 (userGoals.dailyCalorieGoal - 100).coerceAtLeast(1000),
                                 userGoals.dailyProteinGoal,
                                 userGoals.dailyWaterGoal,
-                                userGoals.dailySleepGoalHours,
-                                userGoals.dailyStepsGoal
+                                userGoals.dailySleepGoalHours
                             )
                         },
                         onIncrement = {
@@ -312,8 +307,7 @@ fun SettingsScreen(
                                 userGoals.dailyCalorieGoal + 100,
                                 userGoals.dailyProteinGoal,
                                 userGoals.dailyWaterGoal,
-                                userGoals.dailySleepGoalHours,
-                                userGoals.dailyStepsGoal
+                                userGoals.dailySleepGoalHours
                             )
                         }
                     )
@@ -328,8 +322,7 @@ fun SettingsScreen(
                                 userGoals.dailyCalorieGoal,
                                 userGoals.dailyProteinGoal,
                                 (userGoals.dailyWaterGoal - 250).coerceAtLeast(500),
-                                userGoals.dailySleepGoalHours,
-                                userGoals.dailyStepsGoal
+                                userGoals.dailySleepGoalHours
                             )
                         },
                         onIncrement = {
@@ -337,8 +330,7 @@ fun SettingsScreen(
                                 userGoals.dailyCalorieGoal,
                                 userGoals.dailyProteinGoal,
                                 userGoals.dailyWaterGoal + 250,
-                                userGoals.dailySleepGoalHours,
-                                userGoals.dailyStepsGoal
+                                userGoals.dailySleepGoalHours
                             )
                         }
                     )
@@ -353,8 +345,7 @@ fun SettingsScreen(
                                 userGoals.dailyCalorieGoal,
                                 userGoals.dailyProteinGoal,
                                 userGoals.dailyWaterGoal,
-                                (userGoals.dailySleepGoalHours - 0.5f).coerceAtLeast(4f),
-                                userGoals.dailyStepsGoal
+                                (userGoals.dailySleepGoalHours - 0.5f).coerceAtLeast(4f)
                             )
                         },
                         onIncrement = {
@@ -362,33 +353,7 @@ fun SettingsScreen(
                                 userGoals.dailyCalorieGoal,
                                 userGoals.dailyProteinGoal,
                                 userGoals.dailyWaterGoal,
-                                userGoals.dailySleepGoalHours + 0.5f,
-                                userGoals.dailyStepsGoal
-                            )
-                        }
-                    )
-
-                    GoalAdjusterRow(
-                        title = "Daily Step Target",
-                        valueText = "${userGoals.dailyStepsGoal} steps",
-                        icon = Icons.AutoMirrored.Filled.DirectionsRun,
-                        iconTint = AccentGreen,
-                        onDecrement = {
-                            handleSave(
-                                userGoals.dailyCalorieGoal,
-                                userGoals.dailyProteinGoal,
-                                userGoals.dailyWaterGoal,
-                                userGoals.dailySleepGoalHours,
-                                (userGoals.dailyStepsGoal - 500).coerceAtLeast(2000)
-                            )
-                        },
-                        onIncrement = {
-                            handleSave(
-                                userGoals.dailyCalorieGoal,
-                                userGoals.dailyProteinGoal,
-                                userGoals.dailyWaterGoal,
-                                userGoals.dailySleepGoalHours,
-                                userGoals.dailyStepsGoal + 500
+                                userGoals.dailySleepGoalHours + 0.5f
                             )
                         }
                     )
@@ -474,8 +439,20 @@ fun SettingsScreen(
                         Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
                     }
 
+                    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                val nextTheme = when (themeMode) {
+                                    "OBSIDIAN" -> "LIGHT"
+                                    "LIGHT" -> "SYSTEM"
+                                    else -> "OBSIDIAN"
+                                }
+                                viewModel.setThemeMode(nextTheme)
+                                onShowSnackbar("Theme set to $nextTheme mode")
+                            },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -487,7 +464,7 @@ fun SettingsScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
+                                imageVector = Icons.Default.Settings,
                                 contentDescription = null,
                                 tint = AccentGreen,
                                 modifier = Modifier.size(20.dp)
@@ -496,18 +473,19 @@ fun SettingsScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Step Sensor Telemetry",
+                                "App Visual Theme",
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
                             )
                             Text(
-                                "Sensor.TYPE_STEP_COUNTER • Active",
+                                "Current mode: $themeMode (Tap to toggle)",
                                 fontSize = 12.sp,
                                 color = AccentGreen,
                                 fontWeight = FontWeight.SemiBold
                             )
                         }
+                        Icon(imageVector = Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
                     }
 
                     Row(

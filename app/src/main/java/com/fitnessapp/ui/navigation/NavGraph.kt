@@ -67,7 +67,6 @@ import androidx.navigation.navArgument
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.screens.ai.AiScreen
 import kotlinx.coroutines.launch
@@ -118,7 +117,6 @@ fun FitnessNavGraph(
     foodRepository: FoodRepository,
     sleepRepository: SleepRepository,
     waterRepository: WaterRepository,
-    stepsRepository: StepsRepository,
     settingsRepository: SettingsRepository
 ) {
     val navController = rememberNavController()
@@ -258,7 +256,6 @@ fun FitnessNavGraph(
                     foodRepository = foodRepository,
                     sleepRepository = sleepRepository,
                     waterRepository = waterRepository,
-                    stepsRepository = stepsRepository,
                     settingsRepository = settingsRepository,
                     onNavigateToFoodLog = { navController.navigate(Screen.Nutrition.route) },
                     onNavigateToSleepLog = { navController.navigate(Screen.Sleep.route) },
@@ -306,7 +303,6 @@ fun FitnessNavGraph(
                     waterRepository = waterRepository,
                     sleepRepository = sleepRepository,
                     settingsRepository = settingsRepository,
-                    stepsRepository = stepsRepository,
                     onShowSnackbar = onShowSnackbar
                 )
             }
@@ -317,7 +313,6 @@ fun FitnessNavGraph(
                     waterRepository = waterRepository,
                     sleepRepository = sleepRepository,
                     settingsRepository = settingsRepository,
-                    stepsRepository = stepsRepository,
                     onBack = { navController.popBackStack() }
                 )
             }
@@ -328,7 +323,6 @@ fun FitnessNavGraph(
                     foodRepository = foodRepository,
                     waterRepository = waterRepository,
                     sleepRepository = sleepRepository,
-                    stepsRepository = stepsRepository,
                     onBack = { navController.popBackStack() },
                     onShowSnackbar = onShowSnackbar
                 )

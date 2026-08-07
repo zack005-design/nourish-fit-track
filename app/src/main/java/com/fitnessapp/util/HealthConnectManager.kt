@@ -7,14 +7,12 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.records.HydrationRecord
 import androidx.health.connect.client.records.NutritionRecord
 import androidx.health.connect.client.records.SleepSessionRecord
-import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.metadata.Metadata
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Volume
 import com.fitnessapp.data.db.entity.FoodEntry
 import com.fitnessapp.data.db.entity.SleepEntry
-import com.fitnessapp.data.db.entity.StepsEntry
 import com.fitnessapp.data.db.entity.WaterEntry
 import org.json.JSONObject
 import java.time.Instant
@@ -33,9 +31,7 @@ object HealthConnectManager {
         HealthPermission.getReadPermission(HydrationRecord::class),
         HealthPermission.getWritePermission(HydrationRecord::class),
         HealthPermission.getReadPermission(SleepSessionRecord::class),
-        HealthPermission.getWritePermission(SleepSessionRecord::class),
-        HealthPermission.getReadPermission(StepsRecord::class),
-        HealthPermission.getWritePermission(StepsRecord::class)
+        HealthPermission.getWritePermission(SleepSessionRecord::class)
     )
 
 
@@ -247,52 +243,23 @@ object HealthConnectManager {
     }
 
     /**
-     * Inserts StepsEntry items into Google Health Connect as StepsRecords.
-     */
-    suspend fun insertStepsRecords(context: Context, steps: List<StepsEntry>): Boolean {
-        if (steps.isEmpty()) return false
-        return try {
-            val client = HealthConnectClient.getOrCreate(context)
-            val zoneOffset = java.time.ZoneId.systemDefault().rules.getOffset(Instant.now())
-            val records = steps.map { step ->
-                val startInstant = Instant.ofEpochMilli(step.dateMillis)
-                val endInstant = startInstant.plusSeconds(86399)
-                StepsRecord(
-                    count = step.count.toLong(),
-                    startTime = startInstant,
-                    startZoneOffset = zoneOffset,
-                    endTime = endInstant,
-                    endZoneOffset = zoneOffset,
-                    metadata = Metadata(clientRecordId = "steps_${step.id}_${step.dateMillis}")
-                )
-            }
-            client.insertRecords(records)
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    /**
      * Writes all local Nourish health data to Google Health Connect API.
      */
     suspend fun syncAllLocalDataToGoogleHealth(
         context: Context,
         foods: List<FoodEntry>,
         waters: List<WaterEntry>,
-        sleeps: List<SleepEntry>,
-        steps: List<StepsEntry> = emptyList()
+        sleeps: List<SleepEntry>
     ): String {
         var count = 0
         if (foods.isNotEmpty() && insertNutritionRecords(context, foods)) count += foods.size
         if (waters.isNotEmpty() && insertHydrationRecords(context, waters)) count += waters.size
         if (sleeps.isNotEmpty() && insertSleepRecords(context, sleeps)) count += sleeps.size
-        if (steps.isNotEmpty() && insertStepsRecords(context, steps)) count += steps.size
 
         return if (count > 0) {
             "Successfully synced $count health records with Google Health Connect"
         } else {
-            val totalAvailable = foods.size + waters.size + sleeps.size + steps.size
+            val totalAvailable = foods.size + waters.size + sleeps.size
             if (totalAvailable == 0) {
                 "No local records to sync to Google Health Connect."
             } else {

@@ -19,7 +19,7 @@ import java.util.Locale
 
 /**
  * Android Home Screen Widget for Nourish App.
- * Displays today's Calorie, Water, and Step progress right on the user's home screen.
+ * Displays today's Calorie, Protein, and Water progress right on the user's home screen.
  */
 class NourishAppWidget : AppWidgetProvider() {
 
@@ -44,13 +44,11 @@ class NourishAppWidget : AppWidgetProvider() {
 
                 val foodEntries = db.foodEntryDao().getEntriesForDateRange(todayStart, todayEnd).firstOrNull() ?: emptyList()
                 val calories = foodEntries.sumOf { it.calories }
+                val proteinGrams = foodEntries.sumOf { it.proteinGrams.toDouble() }.toInt()
 
                 val waterEntries = db.waterEntryDao().getEntriesForDateRange(todayStart, todayEnd).firstOrNull() ?: emptyList()
                 val waterMl = waterEntries.sumOf { it.amountMl }
                 val waterL = waterMl / 1000f
-
-                val stepsEntry = db.stepsEntryDao().getStepsForDateRange(todayStart, todayEnd).firstOrNull()
-                val steps = stepsEntry?.count ?: 0
 
                 val openIntent = Intent(context, MainActivity::class.java)
                 val pendingIntent = PendingIntent.getActivity(
@@ -64,7 +62,8 @@ class NourishAppWidget : AppWidgetProvider() {
                     val views = RemoteViews(context.packageName, R.layout.nourish_widget_layout)
                     views.setTextViewText(R.id.widget_calories_text, String.format(Locale.US, "%,d", calories))
                     views.setTextViewText(R.id.widget_water_text, String.format(Locale.US, "%.1f L", waterL))
-                    views.setTextViewText(R.id.widget_steps_text, String.format(Locale.US, "%,d", steps))
+                    views.setTextViewText(R.id.widget_steps_text, String.format(Locale.US, "%dg", proteinGrams))
+                    views.setTextViewText(R.id.widget_steps_sub, "Protein")
                     views.setOnClickPendingIntent(R.id.widget_calories_text, pendingIntent)
 
                     manager.updateAppWidget(appWidgetId, views)

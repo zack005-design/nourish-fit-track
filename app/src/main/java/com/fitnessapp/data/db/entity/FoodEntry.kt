@@ -1,9 +1,10 @@
 package com.fitnessapp.data.db.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "food_entries")
+@Entity(tableName = "food_entries", indices = [Index(value = ["dateMillis"])])
 data class FoodEntry(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

@@ -65,7 +65,6 @@ import com.fitnessapp.ai.InsightSeverity
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.LinearBar
@@ -92,15 +91,13 @@ fun AiScreen(
     waterRepository: WaterRepository,
     sleepRepository: SleepRepository,
     settingsRepository: SettingsRepository,
-    stepsRepository: StepsRepository,
     onShowSnackbar: (String) -> Unit = {},
     analyticsViewModel: AnalyticsViewModel = viewModel(
         factory = AnalyticsViewModel.Factory(
             foodRepository,
             waterRepository,
             sleepRepository,
-            settingsRepository,
-            stepsRepository
+            settingsRepository
         )
     )
 ) {

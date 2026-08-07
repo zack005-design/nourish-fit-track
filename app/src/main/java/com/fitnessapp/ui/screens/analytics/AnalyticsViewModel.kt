@@ -9,7 +9,6 @@ import com.fitnessapp.data.db.entity.UserGoals
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.charts.BarChartItem
 import com.fitnessapp.ui.components.charts.DonutSlice
@@ -46,8 +45,7 @@ class AnalyticsViewModel(
     private val foodRepository: FoodRepository,
     private val waterRepository: WaterRepository,
     private val sleepRepository: SleepRepository,
-    private val settingsRepository: SettingsRepository,
-    private val stepsRepository: StepsRepository
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _selectedPeriodIndex = MutableStateFlow(0)
@@ -169,24 +167,19 @@ class AnalyticsViewModel(
         initialValue = AnalyticsUiState()
     )
 
-    // ── AI Coach State (Whoop / Google Health style deep insights) ────────────
+    // ── AI Coach State ───────────────────────────────────────────────────────
 
     val aiCoachState: StateFlow<AiCoachReport> = combine(
         foodRepository.getAllEntries(),
         waterRepository.getAllWaterEntries(),
         sleepRepository.getAllEntries(),
-        stepsRepository.getAllStepsEntries(),
         settingsRepository.userGoals
-    ) { foodEntries, waterEntries, sleepEntries, stepsEntries, goals ->
-        val todayStart = DateUtils.todayStartMillis()
-        val todaySteps = stepsEntries.filter { it.dateMillis >= todayStart }
-            .maxByOrNull { it.count }?.count ?: 0
-        HealthIntelligenceEngine.buildReportWithSteps(
+    ) { foodEntries, waterEntries, sleepEntries, goals ->
+        HealthIntelligenceEngine.buildReport(
             foodEntries = foodEntries,
             waterEntries = waterEntries,
             sleepEntries = sleepEntries,
-            goals = goals,
-            todaySteps = todaySteps
+            goals = goals
         )
     }.stateIn(
         scope = viewModelScope,
@@ -198,13 +191,12 @@ class AnalyticsViewModel(
         private val foodRepository: FoodRepository,
         private val waterRepository: WaterRepository,
         private val sleepRepository: SleepRepository,
-        private val settingsRepository: SettingsRepository,
-        private val stepsRepository: StepsRepository
+        private val settingsRepository: SettingsRepository
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return AnalyticsViewModel(
-                foodRepository, waterRepository, sleepRepository, settingsRepository, stepsRepository
+                foodRepository, waterRepository, sleepRepository, settingsRepository
             ) as T
         }
     }

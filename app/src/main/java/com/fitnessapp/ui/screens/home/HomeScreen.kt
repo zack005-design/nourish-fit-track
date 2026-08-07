@@ -61,7 +61,6 @@ import com.fitnessapp.widget.NourishAppWidget
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.LinearBar
@@ -87,7 +86,6 @@ fun HomeScreen(
     foodRepository: FoodRepository,
     sleepRepository: SleepRepository,
     waterRepository: WaterRepository,
-    stepsRepository: StepsRepository,
     settingsRepository: SettingsRepository,
     onNavigateToFoodLog: () -> Unit,
     onNavigateToSleepLog: () -> Unit,
@@ -102,7 +100,6 @@ fun HomeScreen(
             foodRepository,
             sleepRepository,
             waterRepository,
-            stepsRepository,
             settingsRepository
         )
     )
@@ -417,102 +414,6 @@ fun HomeScreen(
                     progressFraction = (sleepHours / 8f).coerceIn(0f, 1f),
                     progressColor = AccentPurple,
                     onClick = onNavigateToSleepLog
-                )
-            }
-
-            // Steps Card
-            val stepsGoal = uiState.userGoals.dailyStepsGoal
-            val stepsProgress = if (stepsGoal > 0) uiState.stepsCount.toFloat() / stepsGoal else 0f
-            val sparklineData = listOf(0.4f, 0.6f, 0.3f, 0.8f, 0.5f, 0.9f, stepsProgress.coerceIn(0.1f, 1f))
-
-            AppCard {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.DirectionsRun,
-                            contentDescription = null,
-                            tint = AccentGreen,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Steps",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
-                        )
-                    }
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "${(stepsProgress * 100).toInt()}%",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = AccentGreen
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Box(
-                            modifier = Modifier
-                                .size(28.dp)
-                                .clip(CircleShape)
-                                .background(AccentGreen.copy(alpha = 0.2f))
-                                .clickable {
-                                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    viewModel.addSteps(1000)
-                                    NourishAppWidget.updateAllWidgets(context)
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Add Steps",
-                                tint = AccentGreen,
-                                modifier = Modifier.size(16.dp)
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text(
-                            text = String.format(Locale.US, "%,d", uiState.stepsCount),
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextPrimary
-                        )
-                        Text(
-                            text = " / ${String.format(Locale.US, "%,d", stepsGoal)}",
-                            fontSize = 13.sp,
-                            color = TextSecondary,
-                            modifier = Modifier.padding(bottom = 2.dp)
-                        )
-                    }
-
-                    Sparkline(
-                        values = sparklineData,
-                        barColor = AccentGreen,
-                        chartWidth = 90.dp
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                LinearBar(
-                    progressFraction = stepsProgress,
-                    barColor = AccentGreen,
-                    barHeight = 6.dp,
-                    showPercentageText = false
                 )
             }
 

@@ -43,13 +43,35 @@ object BarcodeScannerUtil {
 
     /**
      * Performs a live online lookup via OpenFoodFacts REST API.
-     * Falls back to offline database if unnetworked or not found.
+     * Falls back to offline database and Room cache if unnetworked or not found.
      */
-    suspend fun lookupBarcodeOnline(barcode: String): ScannedProduct = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+    suspend fun lookupBarcodeOnline(barcode: String, context: android.content.Context? = null): ScannedProduct = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
         val cleaned = barcode.trim()
         val localMatch = barcodeDatabase[cleaned]
         if (localMatch != null) return@withContext localMatch
 
+        // 1. Check local Room cache if context available
+        if (context != null) {
+            try {
+                val db = com.fitnessapp.data.db.FitnessDatabase.getInstance(context)
+                val cached = db.scannedBarcodeDao().getBarcode(cleaned)
+                if (cached != null) {
+                    return@withContext ScannedProduct(
+                        barcode = cached.barcode,
+                        name = cached.name,
+                        calories = cached.calories,
+                        proteinGrams = cached.protein,
+                        carbsGrams = cached.carbs,
+                        fatGrams = cached.fat,
+                        brand = cached.brand
+                    )
+                }
+            } catch (e: Exception) {
+                // Ignore DB read error
+            }
+        }
+
+        // 2. Try OpenFoodFacts API
         try {
             val urlString = "https://world.openfoodfacts.org/api/v0/product/$cleaned.json"
             val url = java.net.URL(urlString)
@@ -57,16 +79,37 @@ object BarcodeScannerUtil {
             connection.requestMethod = "GET"
             connection.connectTimeout = 3000
             connection.readTimeout = 3000
-            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.1 (Android; contact@nourishapp.org)")
+            connection.setRequestProperty("User-Agent", "NourishFitnessApp/1.5.5 (Android; contact@nourishapp.org)")
 
             if (connection.responseCode == 200) {
                 val stream = connection.inputStream
                 val jsonString = stream.bufferedReader().use { it.readText() }
                 val parsed = parseJsonFromOpenFoodFacts(cleaned, jsonString)
-                if (parsed != null) return@withContext parsed
+                if (parsed != null) {
+                    // Cache fetched result into Room DB
+                    if (context != null) {
+                        try {
+                            val db = com.fitnessapp.data.db.FitnessDatabase.getInstance(context)
+                            db.scannedBarcodeDao().insertBarcode(
+                                com.fitnessapp.data.db.entity.ScannedBarcode(
+                                    barcode = parsed.barcode,
+                                    name = parsed.name,
+                                    brand = parsed.brand,
+                                    calories = parsed.calories,
+                                    protein = parsed.proteinGrams,
+                                    carbs = parsed.carbsGrams,
+                                    fat = parsed.fatGrams
+                                )
+                            )
+                        } catch (e: Exception) {
+                            // Ignore DB write error
+                        }
+                    }
+                    return@withContext parsed
+                }
             }
         } catch (e: Exception) {
-            // Network or parsing failure — fallback to local lookup
+            // Network failure
         }
         return@withContext lookupBarcode(cleaned)
     }

@@ -49,7 +49,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.RingProgress
@@ -78,10 +77,9 @@ fun AnalyticsScreen(
     waterRepository: WaterRepository,
     sleepRepository: SleepRepository,
     settingsRepository: SettingsRepository,
-    stepsRepository: StepsRepository,
     onBack: () -> Unit = {},
     viewModel: AnalyticsViewModel = viewModel(
-        factory = AnalyticsViewModel.Factory(foodRepository, waterRepository, sleepRepository, settingsRepository, stepsRepository)
+        factory = AnalyticsViewModel.Factory(foodRepository, waterRepository, sleepRepository, settingsRepository)
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

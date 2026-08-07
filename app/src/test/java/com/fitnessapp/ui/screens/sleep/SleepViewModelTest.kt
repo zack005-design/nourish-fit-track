@@ -83,7 +83,7 @@ class SleepViewModelTest {
         val fakeGoalsDao = FakeUserGoalsDao()
 
         val sleepRepo = SleepRepository(fakeSleepDao, mainDispatcherRule.testDispatcher)
-        val settingsRepo = SettingsRepository(fakeGoalsDao, mainDispatcherRule.testDispatcher)
+        val settingsRepo = SettingsRepository(fakeGoalsDao, ioDispatcher = mainDispatcherRule.testDispatcher)
 
         val today = DateUtils.todayStartMillis()
         val eightHoursMs = 8 * 3600 * 1000L
@@ -117,7 +117,7 @@ class SleepViewModelTest {
         val fakeGoalsDao = FakeUserGoalsDao()
 
         val sleepRepo = SleepRepository(fakeSleepDao, mainDispatcherRule.testDispatcher)
-        val settingsRepo = SettingsRepository(fakeGoalsDao, mainDispatcherRule.testDispatcher)
+        val settingsRepo = SettingsRepository(fakeGoalsDao, ioDispatcher = mainDispatcherRule.testDispatcher)
 
         val today = DateUtils.todayStartMillis()
         val entry = SleepEntry(

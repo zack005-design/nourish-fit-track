@@ -5,7 +5,6 @@ import com.fitnessapp.data.db.FitnessDatabase
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 
 class FitnessApp : Application() {
@@ -15,8 +14,6 @@ class FitnessApp : Application() {
     lateinit var sleepRepository: SleepRepository
         private set
     lateinit var waterRepository: WaterRepository
-        private set
-    lateinit var stepsRepository: StepsRepository
         private set
     lateinit var settingsRepository: SettingsRepository
         private set
@@ -28,7 +25,6 @@ class FitnessApp : Application() {
         foodRepository = FoodRepository(database.foodEntryDao())
         sleepRepository = SleepRepository(database.sleepEntryDao())
         waterRepository = WaterRepository(database.waterEntryDao())
-        stepsRepository = StepsRepository(database.stepsEntryDao())
-        settingsRepository = SettingsRepository(database.userGoalsDao())
+        settingsRepository = SettingsRepository(database.userGoalsDao(), this)
     }
 }

@@ -114,9 +114,9 @@ object HealthIntelligenceEngine {
         val nutritionScore = computeNutritionScore(todayCalories, todayProtein, todayFiber, goals)
         val hydrationScore = computeHydrationScore(todayWaterMl, goals.dailyWaterGoal)
         val sleepScore = computeSleepScore(todaySleepHours, todaySleep?.quality ?: 0, goals.dailySleepGoalHours)
-        val activityScore = 50 // Steps not passed here; caller can supply this
+        val activityScore = 100
 
-        val overallScore = if (!hasData) 0 else (nutritionScore * 0.30 + hydrationScore * 0.25 + sleepScore * 0.30 + activityScore * 0.15).toInt()
+        val overallScore = if (!hasData) 0 else (nutritionScore * 0.40 + hydrationScore * 0.30 + sleepScore * 0.30).toInt()
 
         // Yesterday overall score for delta
         val yNutritionScore = yesterdayData?.let {
@@ -128,7 +128,7 @@ object HealthIntelligenceEngine {
         val ySleepScore = yesterdayData?.let {
             computeSleepScore(it.sleepHours, it.sleepQuality, goals.dailySleepGoalHours)
         } ?: 0
-        val yOverallScore = (yNutritionScore * 0.30 + yHydrationScore * 0.25 + ySleepScore * 0.30 + 50 * 0.15).toInt()
+        val yOverallScore = (yNutritionScore * 0.40 + yHydrationScore * 0.30 + ySleepScore * 0.30).toInt()
         val scoreDelta = overallScore - yOverallScore
 
         // ── Insight Cards ─────────────────────────────────────────────────────
@@ -328,63 +328,6 @@ object HealthIntelligenceEngine {
         )
     }
 
-    /**
-     * Also allows injecting stepsCount for activity score calculation.
-     */
-    fun buildReportWithSteps(
-        foodEntries: List<FoodEntry>,
-        waterEntries: List<WaterEntry>,
-        sleepEntries: List<SleepEntry>,
-        goals: UserGoals,
-        todaySteps: Int
-    ): AiCoachReport {
-        val base = buildReport(foodEntries, waterEntries, sleepEntries, goals)
-        val stepsScore = computeActivityScore(todaySteps, goals.dailyStepsGoal)
-        val todayStart = DateUtils.todayStartMillis()
-        val todayFood = foodEntries.filter { it.dateMillis >= todayStart }
-        val todaySleep = sleepEntries.filter { it.dateMillis >= todayStart }.firstOrNull()
-        val todayCalories = todayFood.sumOf { it.calories }
-        val todayProtein = todayFood.sumOf { it.proteinGrams.toDouble() }.toFloat()
-        val todayFiber = todayFood.sumOf { it.fiberGrams.toDouble() }.toFloat()
-        val todayWaterMl = waterEntries.filter { it.dateMillis >= todayStart }.sumOf { it.amountMl }
-        val todaySleepHours = todaySleep?.let { (it.endMillis - it.startMillis) / (1000f * 60f * 60f) } ?: 0f
-
-        val hasData = todayCalories > 0 || todayWaterMl > 0 || todaySleep != null || todaySteps > 0
-        val nutritionScore = computeNutritionScore(todayCalories, todayProtein, todayFiber, goals)
-        val hydrationScore = computeHydrationScore(todayWaterMl, goals.dailyWaterGoal)
-        val sleepScore = computeSleepScore(todaySleepHours, todaySleep?.quality ?: 0, goals.dailySleepGoalHours)
-        val overallScore = if (!hasData) 0 else (nutritionScore * 0.30 + hydrationScore * 0.25 + sleepScore * 0.30 + stepsScore * 0.15).toInt()
-
-        // Build extra step insight
-        val stepsInsight = buildStepsInsight(todaySteps, goals.dailyStepsGoal)
-
-        val newCards = (base.insightCards + listOfNotNull(stepsInsight)).sortedBy {
-            when (it.severity) {
-                InsightSeverity.CRITICAL -> 0
-                InsightSeverity.WARNING -> 1
-                InsightSeverity.POSITIVE -> 2
-                InsightSeverity.INFO -> 3
-            }
-        }.take(8)
-
-        val stepAction = if (todaySteps < goals.dailyStepsGoal * 0.5 && goals.dailyStepsGoal > 0) {
-            "Take a 15-minute walk to add ~1,500 steps towards your ${goals.dailyStepsGoal} step goal"
-        } else null
-
-        val newActions = (listOfNotNull(stepAction) + base.actionPlan).distinct().take(3)
-
-        return base.copy(
-            overallScore = overallScore.coerceIn(0, 100),
-            activityScore = stepsScore.coerceIn(0, 100),
-            nutritionScore = nutritionScore.coerceIn(0, 100),
-            hydrationScore = hydrationScore.coerceIn(0, 100),
-            sleepScore = sleepScore.coerceIn(0, 100),
-            scoreLabel = scoreLabel(overallScore),
-            insightCards = newCards,
-            actionPlan = newActions
-        )
-    }
-
     // ── Score helpers ─────────────────────────────────────────────────────────
 
     private fun computeNutritionScore(calories: Int, protein: Float, fiber: Float, goals: UserGoals): Int {
@@ -428,32 +371,6 @@ object HealthIntelligenceEngine {
         val durationScore = (sleepHours / goal * 80f).toInt().coerceIn(0, 80)
         val qualityScore = ((quality.toFloat() / 5f) * 20f).toInt().coerceIn(0, 20)
         return (durationScore + qualityScore).coerceIn(0, 100)
-    }
-
-    private fun computeActivityScore(steps: Int, goal: Int): Int {
-        if (goal <= 0) return 50
-        if (steps <= 0) return 0
-        return ((steps.toFloat() / goal) * 100).toInt().coerceIn(0, 100)
-    }
-
-    private fun buildStepsInsight(steps: Int, goal: Int): InsightCard? {
-        if (goal <= 0) return null
-        val ratio = steps.toFloat() / goal
-        return when {
-            ratio >= 1f -> InsightCard(
-                title = "Step Goal Unlocked! 🏃",
-                body = "You've hit ${String.format("%,d", steps)} steps today (${(ratio * 100).toInt()}% of your ${String.format("%,d", goal)} target). Regular walking reduces cardiovascular disease risk by 30%. Excellent consistency!",
-                severity = InsightSeverity.POSITIVE,
-                emoji = "🏃"
-            )
-            ratio < 0.3f -> InsightCard(
-                title = "Activity Level Low",
-                body = "Only ${String.format("%,d", steps)} steps logged today (${(ratio * 100).toInt()}% of your ${String.format("%,d", goal)} goal). Sedentary patterns increase metabolic risk. A 20-min walk can add ~2,000 steps.",
-                severity = InsightSeverity.WARNING,
-                emoji = "👟"
-            )
-            else -> null
-        }
     }
 
     private fun scoreLabel(score: Int): String = when {

@@ -52,12 +52,11 @@ class HealthIntelligenceEngineTest {
             SleepEntry(dateMillis = today, startMillis = today, endMillis = today + 8 * 3600 * 1000L, quality = 5)
         )
 
-        val report = HealthIntelligenceEngine.buildReportWithSteps(
+        val report = HealthIntelligenceEngine.buildReport(
             foodEntries = food,
             waterEntries = water,
             sleepEntries = sleep,
-            goals = goals,
-            todaySteps = 10000
+            goals = goals
         )
 
         assertTrue(report.overallScore >= 80)

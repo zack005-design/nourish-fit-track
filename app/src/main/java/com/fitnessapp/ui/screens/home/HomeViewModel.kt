@@ -5,13 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fitnessapp.data.db.entity.SleepEntry
-import com.fitnessapp.data.db.entity.StepsEntry
 import com.fitnessapp.data.db.entity.UserGoals
 import com.fitnessapp.data.db.entity.WaterEntry
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.util.DateUtils
 import com.fitnessapp.util.HealthConnectManager
@@ -36,12 +34,11 @@ data class HomeUiState(
     val totalWaterL: Float = 0f,
     val totalSleepHours: Float = 0f,
     val sleepScore: Int = 0,
-    val stepsCount: Int = 0,
     val userGoals: UserGoals = UserGoals(),
     val logStreak: Int = 0,
     val isHealthConnectAvailable: Boolean = false,
-    val aiInsightPrimary: String = "Welcome to Nourish! Start by logging your meals, water, or steps today.",
-    val aiInsightSecondary: String = "Tap the + icon on Water or Steps to record your progress."
+    val aiInsightPrimary: String = "Welcome to Nourish! Start by logging your meals, water, or sleep today.",
+    val aiInsightSecondary: String = "Tap the + icon on Water or Sleep to record your progress."
 )
 
 private data class MacroTotals(
@@ -58,7 +55,6 @@ private data class MicroTotals(
 
 private data class ActivityTotals(
     val sleepEntries: List<SleepEntry>,
-    val stepsEntry: StepsEntry?,
     val goals: UserGoals
 )
 
@@ -67,7 +63,6 @@ class HomeViewModel(
     private val foodRepository: FoodRepository,
     private val sleepRepository: SleepRepository,
     private val waterRepository: WaterRepository,
-    private val stepsRepository: StepsRepository,
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
@@ -101,10 +96,9 @@ class HomeViewModel(
     private val activityFlow = _selectedDateMillis.flatMapLatest { date ->
         combine(
             sleepRepository.getEntriesForDate(date),
-            stepsRepository.getStepsForDate(date),
             settingsRepository.userGoals
-        ) { sleep, steps, goals ->
-            ActivityTotals(sleep, steps, goals)
+        ) { sleep, goals ->
+            ActivityTotals(sleep, goals)
         }
     }
 
@@ -128,7 +122,6 @@ class HomeViewModel(
         }
 
         val totalWaterL = waterMl / 1000f
-        val stepsCount = activity.stepsEntry?.count ?: 0
         val goals = activity.goals
 
         // Compute consecutive log streak from food entry history
@@ -148,8 +141,6 @@ class HomeViewModel(
             checkDay -= TimeUnit.DAYS.toMillis(1)
         }
 
-        val hasAnyData = calories > 0 || protein > 0f || waterMl > 0 || stepsCount > 0 || sleepEntry != null
-
         val (primaryInsight, secondaryInsight) = generateSmartAiInsights(
             calories = calories,
             protein = protein,
@@ -157,7 +148,6 @@ class HomeViewModel(
             fat = fat,
             fiber = fiber,
             totalWaterL = totalWaterL,
-            stepsCount = stepsCount,
             sleepEntry = sleepEntry,
             goals = goals
         )
@@ -171,7 +161,6 @@ class HomeViewModel(
             totalWaterL = totalWaterL,
             totalSleepHours = sleepMinutes / 60f,
             sleepScore = sleepEntry?.quality ?: 0,
-            stepsCount = stepsCount,
             userGoals = goals,
             logStreak = streak,
             aiInsightPrimary = primaryInsight,
@@ -220,18 +209,6 @@ class HomeViewModel(
         }
     }
 
-    fun addSteps(countDelta: Int) {
-        viewModelScope.launch {
-            val current = uiState.value.stepsCount
-            stepsRepository.insertOrUpdate(
-                StepsEntry(
-                    dateMillis = _selectedDateMillis.value,
-                    count = current + countDelta
-                )
-            )
-        }
-    }
-
     private fun generateSmartAiInsights(
         calories: Int,
         protein: Float,
@@ -239,50 +216,51 @@ class HomeViewModel(
         fat: Float,
         fiber: Float,
         totalWaterL: Float,
-        stepsCount: Int,
         sleepEntry: SleepEntry?,
         goals: UserGoals
     ): Pair<String, String> {
-        val hasAnyData = calories > 0 || protein > 0f || totalWaterL > 0f || stepsCount > 0 || sleepEntry != null
+        val hasAnyData = calories > 0 || protein > 0f || totalWaterL > 0f || sleepEntry != null
 
         if (!hasAnyData) {
             return Pair(
-                "Welcome to Nourish AI! Log your meals, water, or steps to activate your personalized health insights.",
-                "Tap + on Water or Steps below, or log a meal to get real-time nutrition and recovery recommendations."
+                "Welcome to Nourish AI! Log your meals, water, or sleep to activate your personalized health insights.",
+                "Tap + on Food or Water to record your progress for today."
             )
         }
 
-        val currentHour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
-        val timeGreeting = when (currentHour) {
-            in 5..11 -> "Morning Briefing"
-            in 12..16 -> "Afternoon Check"
-            in 17..21 -> "Evening Summary"
-            else -> "Night Recovery"
+        val calRatio = if (goals.dailyCalorieGoal > 0) calories.toFloat() / goals.dailyCalorieGoal else 0f
+        val protRatio = if (goals.dailyProteinGoal > 0) protein / goals.dailyProteinGoal else 0f
+        val waterGoalL = goals.dailyWaterGoal / 1000f
+        val timeHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val timeGreeting = when (timeHour) {
+            in 5..11 -> "Morning"
+            in 12..16 -> "Afternoon"
+            in 17..21 -> "Evening"
+            else -> "Night"
         }
 
-        // Cross-metric intelligent reasoning
-        val waterGoalL = goals.dailyWaterGoal / 1000f
-        val proteinTarget = goals.dailyProteinGoal
-        val calorieTarget = goals.dailyCalorieGoal
-        val stepsTarget = goals.dailyStepsGoal
-
         val primary = when {
-            protein >= proteinTarget -> "[$timeGreeting] Excellent work hitting your protein goal! (${protein.toInt()}g / ${proteinTarget.toInt()}g) Great for muscle synthesis."
-            stepsCount >= stepsTarget && totalWaterL < waterGoalL -> "[$timeGreeting] You've hit your step goal of $stepsCount steps! Boost hydration now with extra water to support muscle recovery."
-            calories >= calorieTarget -> "[$timeGreeting] You've reached your daily energy target of $calorieTarget kcal. Focus on fiber and light hydration for the rest of the day."
-            sleepEntry != null && sleepEntry.quality >= 4 -> "[$timeGreeting] High quality sleep (${sleepEntry.quality}/5) logged! Your metabolism and recovery state are primed today."
-            stepsCount >= stepsTarget -> "[$timeGreeting] Step target unlocked! $stepsCount steps logged today."
-            totalWaterL >= waterGoalL -> "[$timeGreeting] Hydration goal achieved! ${String.format("%.1f", totalWaterL)} L logged today."
-            protein > 0f -> "[$timeGreeting] You've logged ${protein.toInt()}g protein (${(protein / proteinTarget * 100).toInt()}% of goal) and $calories kcal so far."
-            else -> "[$timeGreeting] Healthy progress started! $calories kcal and ${String.format("%.1f", totalWaterL)} L water recorded."
+            calRatio >= 1.1f ->
+                "[$timeGreeting] Calorie intake is above daily target ($calories / ${goals.dailyCalorieGoal} kcal). Focus on hydration and high-fiber foods for satiety."
+            calRatio in 0.85f..1.1f ->
+                "[$timeGreeting] Excellent caloric balance! Energy intake is right on target for your body goals."
+            protRatio >= 1.0f ->
+                "[$timeGreeting] Protein goal hit! ${protein.toInt()}g logged today. Great support for muscle synthesis and recovery."
+            totalWaterL >= waterGoalL ->
+                "[$timeGreeting] Hydration goal achieved! ${String.format("%.1f", totalWaterL)} L logged today."
+            else ->
+                "[$timeGreeting] Healthy progress started! $calories kcal and ${String.format("%.1f", totalWaterL)} L water recorded."
         }
 
         val secondary = when {
-            totalWaterL < waterGoalL -> "Hydration recommendation: Drink another ${String.format("%.1f", (waterGoalL - totalWaterL).coerceAtLeast(0.2f))} L to complete your daily goal."
-            fiber < goals.dailyFiberGoal -> "Nutrient tip: Increase fiber intake (${fiber.toInt()}g / ${goals.dailyFiberGoal.toInt()}g) by adding leafy greens or seeds to your next meal."
-            stepsCount < stepsTarget -> "Activity suggestion: A quick 15-minute walk will add ~1,500 steps towards your $stepsTarget target."
-            protein < proteinTarget -> "Protein focus: Add a protein snack (greek yogurt, eggs, paneer) to reach your ${proteinTarget.toInt()}g target."
-            else -> "All core metrics are on track! Maintain this balanced nutrition and recovery schedule."
+            totalWaterL < waterGoalL ->
+                "Hydration recommendation: Drink another ${String.format("%.1f", (waterGoalL - totalWaterL).coerceAtLeast(0.2f))} L to complete your daily goal."
+            protRatio < 0.7f && calories > 1000 ->
+                "Nutrition tip: Protein is currently at ${protein.toInt()}g / ${goals.dailyProteinGoal.toInt()}g. Consider adding Greek yogurt, eggs, or chicken."
+            sleepEntry != null && sleepEntry.quality >= 4 ->
+                "Recovery status: Optimal sleep quality recorded (${sleepEntry.quality}/5). Great baseline for metabolic stability."
+            else ->
+                "Consistency tip: Keep logging daily to optimize your health metrics."
         }
 
         return Pair(primary, secondary)
@@ -292,7 +270,6 @@ class HomeViewModel(
         private val foodRepository: FoodRepository,
         private val sleepRepository: SleepRepository,
         private val waterRepository: WaterRepository,
-        private val stepsRepository: StepsRepository,
         private val settingsRepository: SettingsRepository
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
@@ -301,7 +278,6 @@ class HomeViewModel(
                 foodRepository,
                 sleepRepository,
                 waterRepository,
-                stepsRepository,
                 settingsRepository
             ) as T
         }

@@ -29,6 +29,6 @@ class HealthConnectManagerTest {
 
     @Test
     fun testHealthConnectPermissionsCount() {
-        assertEquals(8, HealthConnectManager.HEALTH_CONNECT_PERMISSIONS.size)
+        assertEquals(6, HealthConnectManager.HEALTH_CONNECT_PERMISSIONS.size)
     }
 }

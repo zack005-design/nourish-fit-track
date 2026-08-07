@@ -3,18 +3,15 @@ package com.fitnessapp.ui.screens.settings
 import com.fitnessapp.MainDispatcherRule
 import com.fitnessapp.data.db.dao.FoodEntryDao
 import com.fitnessapp.data.db.dao.SleepEntryDao
-import com.fitnessapp.data.db.dao.StepsEntryDao
 import com.fitnessapp.data.db.dao.UserGoalsDao
 import com.fitnessapp.data.db.dao.WaterEntryDao
 import com.fitnessapp.data.db.entity.FoodEntry
 import com.fitnessapp.data.db.entity.SleepEntry
-import com.fitnessapp.data.db.entity.StepsEntry
 import com.fitnessapp.data.db.entity.UserGoals
 import com.fitnessapp.data.db.entity.WaterEntry
 import com.fitnessapp.data.repository.FoodRepository
 import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -89,25 +86,15 @@ class SettingsViewModelTest {
         override fun clearAll() { list.value = emptyList() }
     }
 
-    private class FakeStepsDao : StepsEntryDao {
-        val state = MutableStateFlow<StepsEntry?>(null)
-        override fun getStepsForDateRange(startOfDay: Long, endOfDay: Long) = state
-        override fun getAllStepsEntries() = state.map { if (it == null) emptyList() else listOf(it) }
-        override fun insert(entry: StepsEntry) = 1L
-        override fun update(entry: StepsEntry) = 1
-        override fun clearAll() { state.value = null }
-    }
-
     @Test
     fun testSaveUserGoals() = runTest {
         val fakeGoalsDao = FakeUserGoalsDao()
-        val settingsRepo = SettingsRepository(fakeGoalsDao, mainDispatcherRule.testDispatcher)
+        val settingsRepo = SettingsRepository(fakeGoalsDao, ioDispatcher = mainDispatcherRule.testDispatcher)
         val foodRepo = FoodRepository(FakeFoodDao(), mainDispatcherRule.testDispatcher)
         val waterRepo = WaterRepository(FakeWaterDao(), mainDispatcherRule.testDispatcher)
         val sleepRepo = SleepRepository(FakeSleepDao(), mainDispatcherRule.testDispatcher)
-        val stepsRepo = StepsRepository(FakeStepsDao(), mainDispatcherRule.testDispatcher)
 
-        val viewModel = SettingsViewModel(settingsRepo, foodRepo, waterRepo, sleepRepo, stepsRepo)
+        val viewModel = SettingsViewModel(settingsRepo, foodRepo, waterRepo, sleepRepo)
         backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.userGoals.collect {} }
 
         var saved = false
@@ -118,8 +105,7 @@ class SettingsViewModelTest {
             fatGoal = 65f,
             fiberGoal = 35f,
             waterGoal = 3000,
-            sleepGoalHours = 8.5f,
-            stepsGoal = 12000
+            sleepGoalHours = 8.5f
         ) {
             saved = true
         }
@@ -131,6 +117,5 @@ class SettingsViewModelTest {
         assertEquals(160f, currentGoals.dailyProteinGoal, 0.01f)
         assertEquals(3000, currentGoals.dailyWaterGoal)
         assertEquals(8.5f, currentGoals.dailySleepGoalHours, 0.01f)
-        assertEquals(12000, currentGoals.dailyStepsGoal)
     }
 }
