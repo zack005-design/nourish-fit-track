@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Sensors
 import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -57,7 +56,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -93,15 +91,12 @@ import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.AccentRed
 import com.fitnessapp.ui.theme.BackgroundDark
-import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary
 import com.fitnessapp.ui.theme.TextTertiary
-import com.fitnessapp.util.DateUtils
 import com.fitnessapp.util.SensorSleepTracker
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

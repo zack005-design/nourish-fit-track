@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -73,7 +72,6 @@ import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
 import com.fitnessapp.ui.theme.AccentGreen
-import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.SurfaceCardAlt
@@ -384,7 +382,7 @@ fun AddSleepScreen(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-    val context = androidx.compose.ui.platform.LocalContext.current
+            val context = androidx.compose.ui.platform.LocalContext.current
 
             // ─── 5. SAVE PRIMARY ACTION BUTTON ────────────────────────────────────
             Button(

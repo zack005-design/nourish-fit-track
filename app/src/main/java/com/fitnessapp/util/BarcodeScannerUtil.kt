@@ -1,7 +1,6 @@
 package com.fitnessapp.util
 
 import com.fitnessapp.data.FoodItem
-import org.json.JSONObject
 
 
 /**

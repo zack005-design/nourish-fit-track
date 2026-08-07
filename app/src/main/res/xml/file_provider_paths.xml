@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<paths>
-    <external-cache-path name="ai_captures" path="captures/"/>
-    <cache-path name="ai_captures_internal" path="captures/"/>
-    <files-path name="ai_logs" path="ai_logs/"/>
-</paths>

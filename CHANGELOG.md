@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.4] - 2026-08-07
+
+- **Unused Resource & Dead Code Cleanup**: Removed 38 unused XML string declarations, deleted unreferenced `file_provider_paths.xml`, cleaned 67 unused Kotlin imports, fixed RemoteViews divider in `nourish_widget_layout.xml`, and resolved POST_NOTIFICATIONS permission lint issue.
+
 ## [1.5.3] - 2026-08-05
 
 - **Sleep Tracking Foreground Service (`SleepTrackingService`)**: Created dedicated foreground service with `PARTIAL_WAKE_LOCK` to keep sensor listeners active continuously overnight when phone is locked.

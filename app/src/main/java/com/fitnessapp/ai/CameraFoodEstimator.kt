@@ -1,8 +1,6 @@
 package com.fitnessapp.ai
 
 import android.graphics.Bitmap
-import com.fitnessapp.data.FoodItem
-import kotlin.random.Random
 
 /**
  * On-device camera food recognition and macro estimation engine.

@@ -1,6 +1,5 @@
 package com.fitnessapp.ai
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import kotlinx.coroutines.Dispatchers

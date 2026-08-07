@@ -11,7 +11,6 @@ import com.fitnessapp.data.repository.SettingsRepository
 import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
-import com.fitnessapp.util.DateUtils
 import com.fitnessapp.util.HealthConnectManager
 import org.json.JSONArray
 import org.json.JSONObject

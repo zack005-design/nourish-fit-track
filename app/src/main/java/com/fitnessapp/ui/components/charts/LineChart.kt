@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fitnessapp.ui.theme.AccentOrange
-import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextTertiary
 
 data class LineChartPoint(

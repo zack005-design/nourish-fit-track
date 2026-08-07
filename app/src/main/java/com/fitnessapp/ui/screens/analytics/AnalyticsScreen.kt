@@ -1,11 +1,5 @@
 package com.fitnessapp.ui.screens.analytics
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -46,11 +40,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,7 +52,6 @@ import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.data.repository.StepsRepository
 import com.fitnessapp.data.repository.WaterRepository
 import com.fitnessapp.ui.components.AppCard
-import com.fitnessapp.ui.components.LinearBar
 import com.fitnessapp.ui.components.RingProgress
 import com.fitnessapp.ui.components.charts.BarChart
 import com.fitnessapp.ui.components.charts.DonutChart
@@ -71,9 +61,7 @@ import com.fitnessapp.ui.theme.AccentBlue
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
-import com.fitnessapp.ui.theme.AccentRed
 import com.fitnessapp.ui.theme.BackgroundDark
-import com.fitnessapp.ui.theme.SurfaceCard
 import com.fitnessapp.ui.theme.SurfaceCardAlt
 import com.fitnessapp.ui.theme.TextPrimary
 import com.fitnessapp.ui.theme.TextSecondary

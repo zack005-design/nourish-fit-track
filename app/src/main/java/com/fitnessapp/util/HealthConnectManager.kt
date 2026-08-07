@@ -9,8 +9,6 @@ import androidx.health.connect.client.records.NutritionRecord
 import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.records.metadata.Metadata
-import androidx.health.connect.client.request.ReadRecordsRequest
-import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.health.connect.client.units.Energy
 import androidx.health.connect.client.units.Mass
 import androidx.health.connect.client.units.Volume
@@ -18,11 +16,8 @@ import com.fitnessapp.data.db.entity.FoodEntry
 import com.fitnessapp.data.db.entity.SleepEntry
 import com.fitnessapp.data.db.entity.StepsEntry
 import com.fitnessapp.data.db.entity.WaterEntry
-import com.fitnessapp.data.repository.SleepRepository
-import com.fitnessapp.data.repository.StepsRepository
 import org.json.JSONObject
 import java.time.Instant
-import java.time.ZoneOffset
 
 import androidx.health.connect.client.permission.HealthPermission
 
