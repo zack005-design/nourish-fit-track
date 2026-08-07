@@ -67,6 +67,7 @@ import com.fitnessapp.ui.components.LinearBar
 import com.fitnessapp.ui.components.RingProgress
 import com.fitnessapp.ui.components.charts.Sparkline
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -179,7 +180,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .size(8.dp)
                             .clip(CircleShape)
-                            .background(if (isHCAvailable) AccentGreen else Color(0xFF4A5568))
+                            .background(if (isHCAvailable) AccentCyan else Color(0xFF4A5568))
                     )
 
                     // Real streak badge

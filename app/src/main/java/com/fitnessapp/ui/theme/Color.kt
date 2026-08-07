@@ -2,30 +2,31 @@ package com.fitnessapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Premium Whoop / Bevel / Apple Health Minimalist Dark Stealth Tokens
-val BackgroundDark = Color(0xFF090B10)
-val SurfaceCard = Color(0xFF131722)
-val SurfaceCardAlt = Color(0xFF1B2130)
-val BorderSubtle = Color(0xFF263044)
+// Bevel Health Minimalist Stealth Dark Tokens
+val BackgroundDark = Color(0xFF08090C)   // Deep Matte Obsidian
+val SurfaceCard = Color(0xFF11131A)      // Bevel Stealth Dark Surface
+val SurfaceCardAlt = Color(0xFF171A24)   // Bevel Elevated Surface
+val BorderSubtle = Color(0xFF1E2230)     // Hairline Stealth Border
 
-// Typography Color Tokens (Apple Human Interface Guidelines)
-val TextPrimary = Color(0xFFF8FAFC)
-val TextSecondary = Color(0xFF94A3B8)
-val TextTertiary = Color(0xFF64748B)
+// Typography Color Tokens (Apple & Bevel Human Interface Guidelines)
+val TextPrimary = Color(0xFFFFFFFF)     // Pure Crisp White
+val TextSecondary = Color(0xFF94A3B8)   // Muted Slate Silver
+val TextTertiary = Color(0xFF64748B)    // Stealth Dark Slate
 
-// Whoop / Bevel / Apple Health Refined Accent Tokens
-val AccentOrange = Color(0xFFF97316)   // Energy / Calories — Refined Warm Ember
-val AccentGreen = Color(0xFF10B981)    // Whoop Recovery / Protein — Signature Electric Emerald
-val AccentBlue = Color(0xFF0EA5E9)     // Hydration / Tech Telemetry — Bevel Electric Cyan
-val AccentPurple = Color(0xFF6366F1)   // Sleep — Midnight Indigo
-val AccentYellow = Color(0xFFEAB308)   // Warm Gold
-val AccentRed = Color(0xFFEF4444)      // Critical Alert / Red
+// Bevel Monochromatic & Electric Ice Cyan Accent System (No Rainbow Clutter)
+val AccentCyan = Color(0xFF00E5FF)       // Signature Bevel Electric Ice Cyan
+val AccentBlue = Color(0xFF00E5FF)       // Bevel Electric Ice Cyan
+val AccentGreen = Color(0xFF38BDF8)      // Bevel Sky Blue / Ice Teal
+val AccentOrange = Color(0xFF0284C7)     // Bevel Deep Blue (Replaces Bright Orange)
+val AccentPurple = Color(0xFF7DD3FC)     // Bevel Soft Ice (Replaces Bright Purple)
+val AccentYellow = Color(0xFF38BDF8)     // Bevel Soft Ice Cyan
+val AccentRed = Color(0xFFF43F5E)        // Muted Rose Crimson (Only for Destructive Actions)
 
-// Brand Gradient Tokens (Whoop Electric Emerald -> Tech Cyan)
-val BrandGradientStart = Color(0xFF10B981) // Electric Emerald
-val BrandGradientEnd = Color(0xFF0EA5E9)   // Tech Cyan
+// Brand Gradient Tokens (Bevel Electric Ice Cyan -> Deep Bevel Blue)
+val BrandGradientStart = Color(0xFF00E5FF) // Electric Ice Cyan
+val BrandGradientEnd = Color(0xFF0284C7)   // Deep Bevel Blue
 
-// Backwards-compatibility aliases
+// Backwards-compatibility aliases mapped to Bevel Palette
 val DarkBackground = BackgroundDark
 val DarkSurface = SurfaceCard
 val DarkSurfaceVariant = SurfaceCardAlt

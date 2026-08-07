@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.7] - 2026-08-07
+
+- **Bevel Health Minimalist UI Redesign**: Rebranded the entire application design system (`Color.kt`, `Theme.kt`, `AppCard.kt`, `nourish_widget_layout.xml`) to a refined Bevel Health aesthetic: Deep Obsidian background (`#08090C`), stealth dark card surfaces (`#11131A`), hairline dark borders (`#1E2230`), and Bevel Electric Ice Cyan highlights (`#00E5FF`), replacing multi-color rainbow clutter.
+
 ## [1.5.6] - 2026-08-07
 
 - **Complete Hardware Step Tracking Removal**: Completely removed hardware step counter service, step entity/DAO/repository, step permissions, and step cards across UI screens as requested.

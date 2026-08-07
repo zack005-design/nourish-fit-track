@@ -63,6 +63,7 @@ import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
 import com.fitnessapp.ui.theme.AccentRed
+import com.fitnessapp.ui.theme.BorderSubtle
 import com.fitnessapp.ui.theme.AccentYellow
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCardAlt
@@ -157,7 +158,7 @@ fun FoodLogScreen(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
                     .background(SurfaceCardAlt)
-                    .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(24.dp))
+                    .border(1.dp, BorderSubtle, RoundedCornerShape(24.dp))
                     .padding(4.dp)
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {

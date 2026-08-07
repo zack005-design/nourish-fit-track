@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#131822"
+    android:background="#08090C"
     android:padding="12dp">
 
     <!-- Widget Header -->
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="NOURISH DAILY PROGRESS"
-            android:textColor="#3DD598"
+            android:textColor="#00E5FF"
             android:textSize="11sp"
             android:textStyle="bold"
             android:letterSpacing="0.08" />
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Today"
-            android:textColor="#8F9CAE"
+            android:textColor="#94A3B8"
             android:textSize="10sp" />
     </LinearLayout>
 
@@ -37,7 +37,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
-        android:background="#2C3242" />
+        android:background="#1E2230" />
 
     <!-- Metric Rows -->
     <LinearLayout
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calories"
-                android:textColor="#FF9F43"
+                android:textColor="#00E5FF"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -96,12 +96,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Water"
-                android:textColor="#00B2FF"
+                android:textColor="#38BDF8"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Steps -->
+        <!-- Protein -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                 android:id="@+id/widget_steps_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="0g"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -122,8 +122,8 @@
                 android:id="@+id/widget_steps_sub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Steps"
-                android:textColor="#3DD598"
+                android:text="Protein"
+                android:textColor="#7DD3FC"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>

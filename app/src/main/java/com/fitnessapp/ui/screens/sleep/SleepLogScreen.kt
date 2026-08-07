@@ -86,6 +86,8 @@ import com.fitnessapp.ui.components.LinearBar
 import com.fitnessapp.ui.components.RingProgress
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.BrandGradientEnd
+import com.fitnessapp.ui.theme.BrandGradientStart
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -762,7 +764,7 @@ fun SleepLogScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     SleepStageRow("Light", lightDurationText, "${uiState.lightPercentage}%", AccentBlue)
                     Spacer(modifier = Modifier.height(8.dp))
-                    SleepStageRow("Deep", deepDurationText, "${uiState.deepPercentage}%", Color(0xFF34495E))
+                    SleepStageRow("Deep", deepDurationText, "${uiState.deepPercentage}%", AccentBlue)
                 }
             }
 
@@ -1167,8 +1169,8 @@ private fun LiveSensorSleepSheet(
                         .background(
                             Brush.horizontalGradient(
                                 colors = listOf(
-                                    Color(0xFF6B2FD9),
-                                    Color(0xFF8B42F6)
+                                    BrandGradientStart,
+                                    BrandGradientEnd
                                 )
                             )
                         ),
