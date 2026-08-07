@@ -81,6 +81,7 @@ import com.fitnessapp.ui.screens.sleep.AddSleepScreen
 import com.fitnessapp.ui.screens.sleep.SleepLogScreen
 import com.fitnessapp.ui.screens.splash.SplashScreen
 import com.fitnessapp.ui.theme.AccentCyan
+import com.fitnessapp.ui.theme.AppleSystemBlue
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
@@ -193,7 +194,7 @@ fun FitnessNavGraph(
                                         .fillMaxHeight()
                                         .padding(vertical = 4.dp, horizontal = 2.dp)
                                         .clip(RoundedCornerShape(16.dp))
-                                        .background(if (selected) AccentCyan.copy(alpha = 0.15f) else Color.Transparent)
+                                        .background(if (selected) AppleSystemBlue.copy(alpha = 0.15f) else Color.Transparent)
                                         .clickable {
                                             if (currentDestination?.route != screen.route) {
                                                 haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
@@ -215,7 +216,7 @@ fun FitnessNavGraph(
                                         Icon(
                                             imageVector = if (selected) screen.selectedIcon else screen.unselectedIcon,
                                             contentDescription = screen.label,
-                                            tint = if (selected) AccentCyan else TextTertiary,
+                                            tint = if (selected) AppleSystemBlue else TextTertiary,
                                             modifier = Modifier.size(animatedIconSize)
                                         )
                                         Spacer(modifier = Modifier.height(2.dp))
@@ -223,7 +224,7 @@ fun FitnessNavGraph(
                                             text = screen.label,
                                             fontSize = 10.5.sp,
                                             fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
-                                            color = if (selected) AccentCyan else TextTertiary,
+                                            color = if (selected) AppleSystemBlue else TextTertiary,
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis
                                         )

@@ -6,30 +6,30 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val BevelDarkColorScheme = darkColorScheme(
-    primary = AccentCyan,
+private val AppleDarkColorScheme = darkColorScheme(
+    primary = AccentOrange,
     secondary = AccentGreen,
     tertiary = AccentBlue,
     background = BackgroundDark,
     surface = SurfaceCard,
     surfaceVariant = SurfaceCardAlt,
-    onPrimary = Color(0xFF001F29),
-    onSecondary = Color(0xFF001F29),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
     onBackground = TextPrimary,
     onSurface = TextPrimary
 )
 
-private val BevelLightColorScheme = lightColorScheme(
-    primary = Color(0xFF0284C7),
-    secondary = Color(0xFF0EA5E9),
-    tertiary = Color(0xFF00E5FF),
-    background = Color(0xFFF8FAFC),
+private val AppleLightColorScheme = lightColorScheme(
+    primary = Color(0xFF007AFF),
+    secondary = Color(0xFF34C759),
+    tertiary = Color(0xFF5856D6),
+    background = Color(0xFFF2F2F7),
     surface = Color(0xFFFFFFFF),
-    surfaceVariant = Color(0xFFF1F5F9),
-    onPrimary = Color(0xFFFFFFFF),
-    onSecondary = Color(0xFFFFFFFF),
-    onBackground = Color(0xFF0F172A),
-    onSurface = Color(0xFF0F172A)
+    surfaceVariant = Color(0xFFE5E5EA),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFF000000),
+    onSurface = Color(0xFF000000)
 )
 
 @Composable
@@ -37,7 +37,7 @@ fun FitnessTheme(
     darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = if (darkTheme) BevelDarkColorScheme else BevelLightColorScheme
+    val colorScheme = if (darkTheme) AppleDarkColorScheme else AppleLightColorScheme
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,

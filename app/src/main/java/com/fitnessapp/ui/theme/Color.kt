@@ -2,31 +2,32 @@ package com.fitnessapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Bevel Health Minimalist Stealth Dark Tokens
-val BackgroundDark = Color(0xFF08090C)   // Deep Matte Obsidian
-val SurfaceCard = Color(0xFF11131A)      // Bevel Stealth Dark Surface
-val SurfaceCardAlt = Color(0xFF171A24)   // Bevel Elevated Surface
-val BorderSubtle = Color(0xFF1E2230)     // Hairline Stealth Border
+// Authentic Apple Fitness & Apple Health iOS Human Interface Tokens
+val BackgroundDark = Color(0xFF000000)   // Apple Pitch OLED Black
+val SurfaceCard = Color(0xFF1C1C1E)      // Apple iOS Dark Grouped Inset Surface
+val SurfaceCardAlt = Color(0xFF2C2C2E)   // Apple iOS Secondary Dark Surface
+val BorderSubtle = Color(0xFF38383A)     // Apple Hairline Border
 
-// Typography Color Tokens (Apple & Bevel Human Interface Guidelines)
+// Apple iOS Typography Tokens
 val TextPrimary = Color(0xFFFFFFFF)     // Pure Crisp White
-val TextSecondary = Color(0xFF94A3B8)   // Muted Slate Silver
-val TextTertiary = Color(0xFF64748B)    // Stealth Dark Slate
+val TextSecondary = Color(0xFF8E8E93)   // Apple iOS System Gray
+val TextTertiary = Color(0xFF636366)    // Apple iOS System Secondary Gray
 
-// Bevel Monochromatic & Electric Ice Cyan Accent System (No Rainbow Clutter)
-val AccentCyan = Color(0xFF00E5FF)       // Signature Bevel Electric Ice Cyan
-val AccentBlue = Color(0xFF00E5FF)       // Bevel Electric Ice Cyan
-val AccentGreen = Color(0xFF38BDF8)      // Bevel Sky Blue / Ice Teal
-val AccentOrange = Color(0xFF0284C7)     // Bevel Deep Blue (Replaces Bright Orange)
-val AccentPurple = Color(0xFF7DD3FC)     // Bevel Soft Ice (Replaces Bright Purple)
-val AccentYellow = Color(0xFF38BDF8)     // Bevel Soft Ice Cyan
-val AccentRed = Color(0xFFF43F5E)        // Muted Rose Crimson (Only for Destructive Actions)
+// Apple Fitness Activity & Health Tokens (Official iOS Color Palette)
+val AccentOrange = Color(0xFFFA114F)     // Apple Move Ring / Calories (Warm Coral Red)
+val AccentGreen = Color(0xFF00E676)      // Apple Exercise Ring / Protein (Neon Green)
+val AccentBlue = Color(0xFF00C7BE)       // Apple Stand Ring / Water (Tech Cyan Blue)
+val AccentCyan = Color(0xFF00C7BE)       // Apple Stand Cyan Blue
+val AccentPurple = Color(0xFF5E5CE6)     // Apple Bedtime / Sleep (System Indigo Violet)
+val AccentYellow = Color(0xFFFFD60A)     // Apple Activity Gold
+val AccentRed = Color(0xFFFF3B30)        // Apple System Red (Destructive Actions)
+val AppleSystemBlue = Color(0xFF0A84FF)  // Apple System Blue
 
-// Brand Gradient Tokens (Bevel Electric Ice Cyan -> Deep Bevel Blue)
-val BrandGradientStart = Color(0xFF00E5FF) // Electric Ice Cyan
-val BrandGradientEnd = Color(0xFF0284C7)   // Deep Bevel Blue
+// Apple Activity Ring Gradients (Move Red -> Coral)
+val BrandGradientStart = Color(0xFFFA114F) // Apple Coral Red
+val BrandGradientEnd = Color(0xFFFF5252)   // Apple Flame Red
 
-// Backwards-compatibility aliases mapped to Bevel Palette
+// Backwards-compatibility aliases mapped to Apple Health Activity System
 val DarkBackground = BackgroundDark
 val DarkSurface = SurfaceCard
 val DarkSurfaceVariant = SurfaceCardAlt

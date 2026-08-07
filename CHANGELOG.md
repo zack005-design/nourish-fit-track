@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.0] - 2026-08-07
+
+- **Official Apple Fitness & Apple Health iOS Redesign**: Rebranded the entire application design tokens (`Color.kt`, `Theme.kt`, `AppCard.kt`, `NavGraph.kt`) to authentic Apple iOS Human Interface Guidelines: Pure Pitch OLED Black (`#000000`), iOS Grouped Inset Cards (`#1C1C1E`), Apple Move Coral Red (`#FA114F`), Apple Exercise Neon Green (`#00E676`), Apple Stand Cyan (`#00C7BE`), Apple Bedtime Indigo (`#5E5CE6`), and Apple System Blue (`#0A84FF`).
+
 ## [1.5.9] - 2026-08-07
 
 - **Full Application UI & UX Transformation**: Standardized all screens (`NavGraph.kt`, `HomeScreen.kt`, `FoodLogScreen.kt`, `AddFoodScreen.kt`, `NutritionDetailsScreen.kt`, `SleepLogScreen.kt`, `AddSleepScreen.kt`, `AnalyticsScreen.kt`, `AiScreen.kt`, `SplashScreen.kt`) with Bevel Health Electric Ice Cyan (`#00E5FF`) accents, haptic feedback, frosted glass navigation bars, and ultra-clean dark stealth surfaces.
