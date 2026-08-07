@@ -71,6 +71,7 @@ import com.fitnessapp.data.db.entity.SleepEntry
 import com.fitnessapp.data.repository.SleepRepository
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.BackgroundDark
 import com.fitnessapp.ui.theme.SurfaceCard
@@ -412,7 +413,7 @@ fun AddSleepScreen(
                     .fillMaxWidth()
                     .height(54.dp),
                 shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = AccentBlue)
+                colors = ButtonDefaults.buttonColors(containerColor = AccentCyan)
             ) {
                 Text(
                     text = if (entryId != null && entryId > 0) "Update Session" else "Save Sleep Session",

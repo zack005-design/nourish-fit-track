@@ -72,6 +72,7 @@ import com.fitnessapp.ui.components.RingProgress
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.screens.analytics.AnalyticsViewModel
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -158,13 +159,13 @@ fun AiScreen(
                                         listOf(AccentGreen.copy(alpha = 0.3f), AccentBlue.copy(alpha = 0.3f))
                                     )
                                 )
-                                .border(1.dp, AccentGreen.copy(alpha = 0.5f), CircleShape),
+                                .border(1.dp, AccentCyan.copy(alpha = 0.5f), CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
                                 imageVector = Icons.Default.AutoAwesome,
                                 contentDescription = null,
-                                tint = AccentGreen,
+                                tint = AccentCyan,
                                 modifier = Modifier.size(20.dp)
                             )
                         }

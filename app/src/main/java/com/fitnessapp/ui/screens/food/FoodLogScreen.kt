@@ -59,6 +59,7 @@ import com.fitnessapp.ui.components.LinearBar
 import com.fitnessapp.ui.components.charts.BarChart
 import com.fitnessapp.ui.components.charts.BarChartItem
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -119,7 +120,7 @@ fun FoodLogScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onAddClick,
-                containerColor = AccentGreen,
+                containerColor = AccentCyan,
                 contentColor = BackgroundDark,
                 shape = CircleShape,
                 modifier = Modifier
@@ -169,7 +170,7 @@ fun FoodLogScreen(
                                 .weight(1f)
                                 .height(36.dp)
                                 .clip(RoundedCornerShape(20.dp))
-                                .background(if (isSelected) AccentGreen.copy(alpha = 0.25f) else Color.Transparent)
+                                .background(if (isSelected) AccentCyan.copy(alpha = 0.25f) else Color.Transparent)
                                 .clickable { selectedTab = index },
                             contentAlignment = Alignment.Center
                         ) {
@@ -177,7 +178,7 @@ fun FoodLogScreen(
                                 text = title,
                                 fontSize = 13.sp,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                                color = if (isSelected) AccentGreen else TextSecondary
+                                color = if (isSelected) AccentCyan else TextSecondary
                             )
                         }
                     }

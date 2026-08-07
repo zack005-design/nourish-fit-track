@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.9] - 2026-08-07
+
+- **Full Application UI & UX Transformation**: Standardized all screens (`NavGraph.kt`, `HomeScreen.kt`, `FoodLogScreen.kt`, `AddFoodScreen.kt`, `NutritionDetailsScreen.kt`, `SleepLogScreen.kt`, `AddSleepScreen.kt`, `AnalyticsScreen.kt`, `AiScreen.kt`, `SplashScreen.kt`) with Bevel Health Electric Ice Cyan (`#00E5FF`) accents, haptic feedback, frosted glass navigation bars, and ultra-clean dark stealth surfaces.
+
 ## [1.5.8] - 2026-08-07
 
 - **Settings Screen UI & UX Overhaul**: Redesigned `SettingsScreen.kt` with top bar back navigation (`onBack`), clean grouped Bevel Health settings sections, 3-mode segmented theme switcher (`Obsidian`, `System`, `Light`), added Protein target goal adjuster, pruned duplicate export buttons, and built an interactive JSON backup import modal dialog.

@@ -56,6 +56,7 @@ import com.fitnessapp.ui.components.AppCard
 import com.fitnessapp.ui.components.LinearBar
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -159,7 +160,7 @@ fun NutritionDetailsScreen(
                         .fillMaxWidth()
                         .height(52.dp),
                     shape = RoundedCornerShape(26.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = AccentGreen)
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentCyan)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,

@@ -57,6 +57,8 @@ import com.fitnessapp.ui.components.charts.DonutChart
 import com.fitnessapp.ui.components.charts.LineChart
 import com.fitnessapp.ui.components.frostedGlass
 import com.fitnessapp.ui.theme.AccentBlue
+import com.fitnessapp.ui.theme.AccentCyan
+import com.fitnessapp.ui.theme.BorderSubtle
 import com.fitnessapp.ui.theme.AccentGreen
 import com.fitnessapp.ui.theme.AccentOrange
 import com.fitnessapp.ui.theme.AccentPurple
@@ -134,7 +136,7 @@ fun AnalyticsScreen(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
                     .background(SurfaceCardAlt.copy(alpha = 0.75f))
-                    .border(1.dp, Color(0xFF2C3242), RoundedCornerShape(24.dp))
+                    .border(1.dp, BorderSubtle, RoundedCornerShape(24.dp))
                     .padding(4.dp)
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -145,7 +147,7 @@ fun AnalyticsScreen(
                                 .weight(1f)
                                 .height(38.dp)
                                 .clip(RoundedCornerShape(20.dp))
-                                .background(if (isSelected) AccentBlue else Color.Transparent)
+                                .background(if (isSelected) AccentCyan else Color.Transparent)
                                 .clickable { viewModel.setSelectedPeriod(index) },
                             contentAlignment = Alignment.Center
                         ) {
