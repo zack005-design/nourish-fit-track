@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.5] - 2026-08-07
+
+- **Obsolete SDK Check Cleanup**: Removed redundant `Build.VERSION.SDK_INT >= Build.VERSION_CODES.O` version guards and unreachable legacy service start branches from `BootCompletedReceiver.kt` and `SleepTrackingService.kt`.
+
 ## [1.5.4] - 2026-08-07
 
 - **Unused Resource & Dead Code Cleanup**: Removed 38 unused XML string declarations, deleted unreferenced `file_provider_paths.xml`, cleaned 67 unused Kotlin imports, fixed RemoteViews divider in `nourish_widget_layout.xml`, and resolved POST_NOTIFICATIONS permission lint issue.

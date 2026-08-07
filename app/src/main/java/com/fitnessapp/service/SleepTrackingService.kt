@@ -174,17 +174,15 @@ class SleepTrackingService : Service(), SensorEventListener {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                "Sleep Tracking Service",
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "Shows persistent status while overnight sleep tracking is active"
-            }
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            "Sleep Tracking Service",
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = "Shows persistent status while overnight sleep tracking is active"
         }
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
     }
 
     companion object {
@@ -200,11 +198,7 @@ class SleepTrackingService : Service(), SensorEventListener {
             val intent = Intent(context, SleepTrackingService::class.java).apply {
                 action = ACTION_START_SLEEP_TRACKING
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(intent)
-            } else {
-                context.startService(intent)
-            }
+            context.startForegroundService(intent)
         }
 
         fun stopAndSaveService(context: Context, sleepRepository: SleepRepository, onComplete: (SleepEntry) -> Unit) {
